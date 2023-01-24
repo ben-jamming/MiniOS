@@ -4,7 +4,7 @@
 #include "shellmemory.h"
 #include "shell.h"
 
-int MAX_ARGS_SIZE = 3;
+int MAX_ARGS_SIZE = 6;
 
 int badcommand(){
 	printf("%s\n", "Unknown Command");
@@ -19,7 +19,7 @@ int badcommandFileDoesNotExist(){
 
 int help();
 int quit();
-int set(char* var, char* value);
+int set(char* var, char** value, int val);
 int print(char* var);
 int run(char* script);
 int badcommandFileDoesNotExist();
@@ -48,8 +48,8 @@ int interpreter(char* command_args[], int args_size){
 
 	} else if (strcmp(command_args[0], "set")==0) {
 		//set
-		if (args_size != 3) return badcommand();	
-		return set(command_args[1], command_args[2]);
+		if (args_size < 3 || args_size > 5 ) return badcommand();	
+		return set(command_args[1], command_args, args_size);
 	
 	} else if (strcmp(command_args[0], "print")==0) {
 		if (args_size != 2) return badcommand();
@@ -79,14 +79,26 @@ int quit(){
 	exit(0);
 }
 
-int set(char* var, char* value){
-	char *link = "=";
-	char buffer[1000];
-	strcpy(buffer, var);
-	strcat(buffer, link);
-	strcat(buffer, value);
+int set(char* var, char** value, int argsize){
+    int bufferSize = 1000;
+	char *link = " ";
+	char buffer[bufferSize];
 
-	mem_set_value(var, value);
+    //clear the buffer
+    memset(buffer, '\0', bufferSize * sizeof(buffer[0]));
+
+    //loop through the argument pointers, starting at the first 
+    for (int i=2;i<argsize;i++) {
+        strcat(buffer, value[i]); //concatonate additional arguments
+
+        //if this is not the last argument, add a space
+        if (i<(argsize-1)) {
+            strcat(buffer, link);
+        }
+    }
+
+    //store in memory
+	mem_set_value(var, buffer);
 
 	return 0;
 
