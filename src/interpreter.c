@@ -68,22 +68,22 @@ int interpreter(char* command_args[], int args_size){
 	
 	};
 	if (strcmp(command_args[0], "echo")==0){
+		if (args_size < 2) return badcommand();
 		for (int i = 1; i < args_size; i++){
-			//printf("%s ", &command_args[i][0]);
 			if (command_args[i][0] == '$'){
 				//check for $
 				char *var_name = get_all_but_first(command_args[i]);
 				//printf("%s = var name",command_args[i]);
 				char *val = mem_get_value(var_name);
-				printf("%s\n",val);
-				return 0;
+				printf("%s",val);
 			}
 			else{
-				printf("\n");
-				return  0;
+				printf("%s",command_args[i]);
 			};
 
 		};
+		printf("\n");
+		return  0;
 	}
 	else return badcommand();
 }
