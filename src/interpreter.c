@@ -4,7 +4,7 @@
 #include "shellmemory.h"
 #include "shell.h"
 
-int MAX_ARGS_SIZE = 6;
+int MAX_ARGS_SIZE = 8;
 
 int badcommand(){
 	printf("%s\n", "Unknown Command");
@@ -15,6 +15,11 @@ int badcommand(){
 int badcommandFileDoesNotExist(){
 	printf("%s\n", "Bad command: File not found");
 	return 3;
+}
+
+int badcommandTooManyTokens(){
+    printf("%s\n", "Bad command: Too many tokens");
+	return 4;
 }
 
 int help();
@@ -48,7 +53,7 @@ int interpreter(char* command_args[], int args_size){
 
 	} else if (strcmp(command_args[0], "set")==0) {
 		//set
-		if (args_size < 3 || args_size > 5 ) return badcommand();	
+		if (args_size < 3 || args_size > 7 ) return badcommandTooManyTokens();	
 		return set(command_args[1], command_args, args_size);
 	
 	} else if (strcmp(command_args[0], "print")==0) {
