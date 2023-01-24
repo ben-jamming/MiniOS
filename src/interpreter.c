@@ -24,6 +24,13 @@ int print(char* var);
 int run(char* script);
 int badcommandFileDoesNotExist();
 
+char* get_all_but_first(char* str) {
+    int str_len = strlen(str);
+    char* all_but_first = (char*)malloc(str_len);
+    strncpy(all_but_first, str + 1, str_len - 1);
+    all_but_first[str_len - 1] = '\0';
+    return all_but_first;
+}
 // Interpret commands and their arguments
 int interpreter(char* command_args[], int args_size){
 	int i;
@@ -59,7 +66,27 @@ int interpreter(char* command_args[], int args_size){
 		if (args_size != 2) return badcommand();
 		return run(command_args[1]);
 	
-	} else return badcommand();
+	};
+	if (strcmp(command_args[0], "echo")==0){
+		for (int i = 1; i < args_size; i++){
+			//printf("%s ", &command_args[i][0]);
+			if (command_args[i][0] == '$'){
+				//check for $
+				char *var_name = get_all_but_first(command_args[i]);
+				//printf("%s = var name",command_args[i]);
+				char *val = mem_get_value(var_name);
+				printf("%s\n",val);
+				return 0;
+			}
+
+			else{
+				printf("\n");
+				return  0;
+			};
+
+		};
+	}
+	else return badcommand();
 }
 
 int help(){
