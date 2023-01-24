@@ -78,7 +78,6 @@ int interpreter(char* command_args[], int args_size){
 				printf("%s\n",val);
 				return 0;
 			}
-
 			else{
 				printf("\n");
 				return  0;
