@@ -107,3 +107,13 @@ add the `upstream` remote, which refers to the repo you forked.
 You can pull from `upstream` directly to update your local copy, and then you can push to your fork.
 
 Next time you do this, you only need to run the last 3 commands. Your local Git copy will remember the `upstream` remote.
+
+
+## 5. Making and Running shell
+
+```
+cd comp310-winter23/src
+make clean
+make mysh
+./mysh
+```

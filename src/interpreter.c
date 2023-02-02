@@ -3,6 +3,7 @@
 #include <string.h> 
 #include "shellmemory.h"
 #include "shell.h"
+#include "dirent.h"
 
 int MAX_ARGS_SIZE = 8;
 
@@ -22,9 +23,15 @@ int badcommandTooManyTokens(){
 	return 4;
 }
 
+int badcommandUnableToReadDirectory(){
+    printf("%s\n", "Bad command: Unable to read directory");
+    return 5;
+}
+
 int help();
 int quit();
 int set(char* var, char** value, int val);
+int ls();
 int print(char* var);
 int run(char* script);
 int badcommandFileDoesNotExist();
@@ -71,14 +78,12 @@ int interpreter(char* command_args[], int args_size){
 		if (args_size != 2) return badcommand();
 		return run(command_args[1]);
 	
-	};
-	if (strcmp(command_args[0], "echo")==0){
+	} else if (strcmp(command_args[0], "echo")==0){
 		if (args_size < 2) return badcommand();
 		for (int i = 1; i < args_size; i++){
 			if (command_args[i][0] == '$'){
 				//check for $
 				char *var_name = get_all_but_first(command_args[i]);
-				//printf("%s = var name",command_args[i]);
 				char *val = mem_get_value(var_name);
 				printf("%s",val);
 			}
@@ -89,7 +94,12 @@ int interpreter(char* command_args[], int args_size){
 		};
 		printf("\n");
 		return  0;
-	}
+	} else if (strcmp(command_args[0], "my_ls")==0){
+        if (args_size != 1) return badcommandTooManyTokens();
+
+        ls();
+
+    }
 	else return badcommand();
 }
 
@@ -108,6 +118,94 @@ run SCRIPT.TXT		Executes the file SCRIPT.TXT\n ";
 int quit(){
 	printf("%s\n", "Bye!");
 	exit(0);
+}
+
+int strSortComp (const void * elem1, const void * elem2) 
+{
+    char** f1 = ((char**)elem1);
+    char** f2 = ((char**)elem2);
+    return strcmp(*f1,*f2);
+} 
+
+int getDirSize(char* directoryPath) {
+    //Open directory and read contents
+    DIR *directory;
+
+    directory = opendir(directoryPath);
+    //handle errors
+    if(directory == NULL){
+        return badcommandUnableToReadDirectory();
+    }
+
+    int itemCount = 0 ;
+
+    struct dirent *item =readdir(directory);//directory or file
+
+    //count the number of files , used for prepping mem allocation
+    while( item != NULL ) 
+    {   
+        itemCount++;
+        item =readdir(directory);
+    }
+    closedir(directory);
+
+    return itemCount;
+}
+
+char** getDirNames(char* directoryPath,int len) {
+        int itemCount = len;
+        
+        //make space for pointers to names
+        char** names = malloc(itemCount *  sizeof(char *));
+
+        DIR *directory;
+        directory = opendir(".");
+
+        //handle errors
+        if(directory == NULL){
+            badcommandUnableToReadDirectory();
+        }
+
+        struct dirent *item =readdir(directory);
+        //can be directory or file
+
+        //load file names into array
+        int i = 0;
+        while( item != NULL ) 
+        {   
+            names[i] = item->d_name; 
+            item =readdir(directory);
+            i++;
+        }
+        closedir(directory);
+
+        return names;
+
+}
+
+void printStrings(char** strings,int len) {
+        int i = 0;
+        while( i < len ) 
+        {   
+            printf("%s\n",strings[i]);
+            i++;
+        }
+}
+
+int ls(){
+        char* directoryPath = ".";
+
+        int itemCount = getDirSize(directoryPath);
+
+        char** names = getDirNames(directoryPath, itemCount);
+
+        qsort(names,itemCount,sizeof(char*),strSortComp);
+
+        printStrings(names, itemCount);
+
+        free(names);
+
+        return 0;
 }
 
 int set(char* var, char** value, int argsize){
