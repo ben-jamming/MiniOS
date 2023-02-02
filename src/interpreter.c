@@ -153,10 +153,6 @@ int run(char* script){
 	while(1){
 		errCode = parseInput(line);	// which calls interpreter()
 		memset(line, 0, sizeof(line));
-
-		if(feof(p)){
-			break;
-		}
 		fgets(line,999,p);
 	}
 

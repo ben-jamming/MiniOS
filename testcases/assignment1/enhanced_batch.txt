@@ -1,0 +1,3 @@
+echo Ben
+set ben 123
+echo $ben

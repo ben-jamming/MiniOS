@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
+#include <string.h>
+#include <unistd.h> 
 //#include <unistd.h>
 #include "interpreter.h"
 #include "shellmemory.h"
+
+int interpreterMode(int fd){
+    //fd = 'file descriptor'
+    //return 1 if reading from terminal (interpreter mode)
+    //return 0 otherwise (batch mode)
+    return isatty(fd);
+}
 
 int MAX_USER_INPUT = 1000;
 int parseInput(char ui[]);
@@ -23,13 +31,25 @@ int main(int argc, char *argv[]) {
 	
 	//init shell memory
 	mem_init();
-	while(1) {							
-		printf("%c ",prompt);
-        //here you should check the unistd library 
-        //so that you can find a way to not display $ in the batch mode
+	while(1) {			
+        
+        int interpreter_mode = interpreterMode(fileno(stdin));
+        			
+		if (interpreter_mode){
+            //Only display '$' if in interpreter mode
+            printf("%c ",prompt);
+        }
+        
 		fgets(userInput, MAX_USER_INPUT-1, stdin);
 		errorCode = parseInput(userInput);
 		if (errorCode == -1) exit(99);	// ignore all other errors
+
+        //End of file reached and in batch mode
+        //Open terminal file and enter interpreter mode
+        if(feof(stdin) && !interpreter_mode){
+            FILE *fp = freopen("/dev/tty", "r", stdin);
+        }
+        
 		memset(userInput, 0, sizeof(userInput));
 	}
 
@@ -59,3 +79,7 @@ int parseInput(char ui[]) {
     errorCode = interpreter(words, w);
     return errorCode;
 }
+
+
+
+
