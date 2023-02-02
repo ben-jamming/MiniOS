@@ -94,7 +94,7 @@ int interpreter(char* command_args[], int args_size){
 		};
 		printf("\n");
 		return  0;
-	} else if (strcmp(command_args[0], "ls")==0){
+	} else if (strcmp(command_args[0], "my_ls")==0){
         if (args_size != 1) return badcommandTooManyTokens();
 
         ls();
@@ -183,7 +183,7 @@ char** getDirNames(char* directoryPath,int len) {
 
 }
 
-void printStrings(char ** strings,int len) {
+void printStrings(char** strings,int len) {
         int i = 0;
         while( i < len ) 
         {   
@@ -202,6 +202,8 @@ int ls(){
         qsort(names,itemCount,sizeof(char*),strSortComp);
 
         printStrings(names, itemCount);
+
+        free(names);
 
         return 0;
 }
