@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "shellmemory.h"
 #include "shell.h"
 #include "dirent.h"
@@ -28,10 +31,17 @@ int badcommandUnableToReadDirectory(){
     return 5;
 }
 
+int badcommandMkDir(){
+    printf("%s\n", "Bad command: my_mkdir");
+    return 6;
+}
+
 int help();
 int quit();
 int set(char* var, char** value, int val);
 int ls();
+int my_mkdir(char* dirName);
+char* subVar(char* token);
 int print(char* var);
 int run(char* script);
 int badcommandFileDoesNotExist();
@@ -81,16 +91,8 @@ int interpreter(char* command_args[], int args_size){
 	} else if (strcmp(command_args[0], "echo")==0){
 		if (args_size < 2) return badcommand();
 		for (int i = 1; i < args_size; i++){
-			if (command_args[i][0] == '$'){
-				//check for $
-				char *var_name = get_all_but_first(command_args[i]);
-				char *val = mem_get_value(var_name);
-				printf("%s",val);
-			}
-			else{
-				printf("%s",command_args[i]);
-			};
-
+            char* token = command_args[i];
+            printf("%s", subVar(token));
 		};
 		printf("\n");
 		return  0;
@@ -99,8 +101,12 @@ int interpreter(char* command_args[], int args_size){
 
         ls();
 
-    }
-	else return badcommand();
+    } else if (strcmp(command_args[0], "my_mkdir")==0) {
+        if (args_size != 2) return badcommandTooManyTokens();
+
+        my_mkdir(command_args[1]);
+
+    } else return badcommand();
 }
 
 int help(){
@@ -192,6 +198,18 @@ void printStrings(char** strings,int len) {
         }
 }
 
+char* subVar(char* token) {
+        if (token[0] == '$'){
+            //check for $
+            char *var_name = get_all_but_first(token);
+            char *val = mem_get_value(var_name);
+            return val;
+        }
+        else{
+            return token;
+        };
+}
+
 int ls(){
         char* directoryPath = ".";
 
@@ -206,6 +224,19 @@ int ls(){
         free(names);
 
         return 0;
+}
+
+int my_mkdir(char* dirName) {
+
+    //replace any variables with their value
+    char* fullDirName = subVar(dirName);
+
+    //check if the variable didnt exist, make directory and check for errors
+    //if errors return bad command
+    if (fullDirName == NULL || mkdir(fullDirName, 0777) == -1 ) {
+        return badcommandMkDir();
+    }
+    return 0;
 }
 
 int set(char* var, char** value, int argsize){
