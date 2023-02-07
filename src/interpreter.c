@@ -21,6 +21,7 @@ int badcommandFileDoesNotExist(){
 	return 3;
 }
 
+
 int badcommandTooManyTokens(){
     printf("%s\n", "Bad command: Too many tokens");
 	return 4;
@@ -36,11 +37,17 @@ int badcommandMkDir(){
     return 6;
 }
 
+int badcommandCannotWriteFile(){
+	printf("%s\n", "Bad command: Cannot write file");
+	return 7;
+}
+
 int help();
 int quit();
 int set(char* var, char** value, int val);
 int ls();
 int my_mkdir(char* dirName);
+int touch(char* filepath);
 char* subVar(char* token);
 int print(char* var);
 int run(char* script);
@@ -105,6 +112,11 @@ int interpreter(char* command_args[], int args_size){
         if (args_size != 2) return badcommandTooManyTokens();
 
         my_mkdir(command_args[1]);
+
+    } else if (strcmp(command_args[0], "my_touch")==0) {
+        if (args_size != 2) return badcommandTooManyTokens();
+
+        touch(command_args[1]);
 
     } else return badcommand();
 }
@@ -224,6 +236,17 @@ int ls(){
         free(names);
 
         return 0;
+}
+
+int touch(char* filepath){
+    FILE* newFile = fopen(filepath,"w");
+
+    if (newFile == NULL) {
+        return badcommandCannotWriteFile();
+    }
+
+    fclose(newFile);
+    return 0;
 }
 
 int my_mkdir(char* dirName) {
