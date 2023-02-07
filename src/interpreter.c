@@ -36,9 +36,15 @@ int badcommandMkDir(){
     return 6;
 }
 
+int badcommandCD() {
+    printf("%s\n", "Bad command: my_cd");
+    return 7;
+}
+
 int help();
 int quit();
 int set(char* var, char** value, int val);
+int my_cd(char* dirName);
 int ls();
 int my_mkdir(char* dirName);
 char* subVar(char* token);
@@ -96,7 +102,12 @@ int interpreter(char* command_args[], int args_size){
 		};
 		printf("\n");
 		return  0;
-	} else if (strcmp(command_args[0], "my_ls")==0){
+	} else if (strcmp(command_args[0], "my_cd")==0) {
+        if (args_size != 2) return badcommandTooManyTokens();
+
+        my_cd(command_args[1]);
+
+    } else if (strcmp(command_args[0], "my_ls")==0){
         if (args_size != 1) return badcommandTooManyTokens();
 
         ls();
@@ -236,6 +247,17 @@ int my_mkdir(char* dirName) {
     if (fullDirName == NULL || mkdir(fullDirName, 0777) == -1 ) {
         return badcommandMkDir();
     }
+    return 0;
+}
+
+int my_cd(char* dirName) {
+
+    int result = chdir(dirName);
+
+    if (result != 0) {
+        return badcommandCD();
+    }
+
     return 0;
 }
 
