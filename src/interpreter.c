@@ -251,13 +251,10 @@ int my_mkdir(char* dirName) {
 }
 
 int my_cd(char* dirName) {
-
-    int result = chdir(dirName);
-
-    if (result != 0) {
+    
+    if (chdir(dirName)) {
         return badcommandCD();
     }
-
     return 0;
 }
 
