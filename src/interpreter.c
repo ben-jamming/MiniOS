@@ -37,15 +37,13 @@ int badcommandMkDir(){
     return 6;
 }
 
-<<<<<<< src/interpreter.c
 int badcommandCD() {
     printf("%s\n", "Bad command: my_cd");
     return 8;
-=======
+}
 int badcommandCannotWriteFile(){
 	printf("%s\n", "Bad command: Cannot write file");
 	return 7;
->>>>>>> src/interpreter.c
 }
 
 int help();

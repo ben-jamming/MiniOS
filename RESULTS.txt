@@ -1,0 +1,37 @@
+
+Bad Command:
+10c10
+< Unknown Command
+---
+> Bad command: Too many tokens
+------------------------
+Blank Line:
+8a9,10
+> Unknown Command
+> Unknown Command
+10a13,14
+> Unknown Command
+> Unknown Command
+------------------------
+Echo :
+------------------------
+Ls:
+9,10d8
+< .
+< ..
+------------------------
+Mkdir:
+10,11d9
+< .
+< ..
+------------------------
+Oneline:
+------------------------
+Oneline2:
+9,10d8
+< .
+< ..
+------------------------
+Prompt:
+------------------------
+Set:
