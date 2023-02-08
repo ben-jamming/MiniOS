@@ -8,7 +8,7 @@
 #include "shell.h"
 #include "dirent.h"
 
-int MAX_ARGS_SIZE = 8;
+int MAX_ARGS_SIZE = 7;
 
 int badcommand(){
 	printf("%s\n", "Unknown Command");
@@ -69,9 +69,12 @@ char* get_all_but_first(char* str) {
 int interpreter(char* command_args[], int args_size){
 	int i;
 
-	if ( args_size < 1 || args_size > MAX_ARGS_SIZE){
+	if ( args_size < 1 ){
 		return badcommand();
 	}
+    if( args_size > MAX_ARGS_SIZE ) {
+        return badcommandTooManyTokens();
+    }
 
 	for ( i=0; i<args_size; i++){ //strip spaces new line etc
 		command_args[i][strcspn(command_args[i], "\r\n")] = 0;
@@ -211,6 +214,45 @@ char** getDirNames(char* directoryPath,int len) {
 
 }
 
+int shownNamesLength(char** names,int len) {
+
+    //count non hidden names
+    int i = 0;
+    int shownNamesLen = 0;
+    while( i < len ) 
+    {   
+        char* direntName = names[i];
+        if ( direntName[0] != '.') {
+            shownNamesLen++;
+        }
+        i++;
+    }
+
+    return shownNamesLen;
+
+}
+
+char** removeHiddenNames(char** names,int len) {
+        int shownNamesLen = shownNamesLength(names, len);
+
+        char** shownNames = malloc(shownNamesLen *  sizeof(char *));
+
+        //count non hidden names
+        int i = 0;
+        int j = 0;
+        while( i < len ) 
+        {   
+            char* direntName = names[i];
+            if ( direntName[0] != '.') {
+                shownNames[j] = names[i];
+                j++;
+            }
+            i++;
+        }
+
+        return shownNames;
+}
+
 void printStrings(char** strings,int len) {
         int i = 0;
         while( i < len ) 
@@ -241,9 +283,16 @@ int ls(){
 
         qsort(names,itemCount,sizeof(char*),strSortComp);
 
-        printStrings(names, itemCount);
+        int shownNamesLen = shownNamesLength(names,itemCount);
+
+        char** shownNames = removeHiddenNames(names, itemCount);
+
+        printStrings(shownNames, shownNamesLen);
+        // printStrings(names, itemCount);
+        
 
         free(names);
+        free(shownNames);
 
         return 0;
 }

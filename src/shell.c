@@ -71,14 +71,12 @@ int parseCommands(char ui[]) {
         
         // if we reach end of line or command , execute command
         if (ui[i] == ';' || ui[i]=='\0' || ui[i]=='\n') {
-
-
-            //parse input
-            result = parseInput(&ui[j]);
-            if (result != 0 ) {
-                return result;
+            if ( ui[i]=='\n' || j != i ) {
+                result = parseInput(&ui[j]);
+                if (result != 0 ) {
+                    return result;
+                }
             }
-
             //move starter to next char
             j = i+1;
             k++;
