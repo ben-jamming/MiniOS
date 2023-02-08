@@ -68,18 +68,17 @@ int parseCommands(char ui[]) {
     int j = i; //keeps track of startering char for command
     int k = 0; //command count
     while ( k < 10 && i < (MAX_USER_INPUT) ) {
-
+        
         // if we reach end of line or command , execute command
         if (ui[i] == ';' || ui[i]=='\0' || ui[i]=='\n') {
-            //if the command is less than a character ignore it
-            if ( (i - j) > 1 ) {
 
-                //parse input
-                result = parseInput(&ui[j]);
-                if (result != 0 ) {
-                    return result;
-                }
+
+            //parse input
+            result = parseInput(&ui[j]);
+            if (result != 0 ) {
+                return result;
             }
+
             //move starter to next char
             j = i+1;
             k++;
