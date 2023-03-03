@@ -10,6 +10,128 @@
 
 int MAX_ARGS_SIZE = 7;
 
+// Define the process states
+enum process_state {
+    READY,
+    RUNNING,
+    BLOCKED,
+    TERMINATED
+};
+
+// Define the process control block
+struct PCB {
+    int pid;                  // process ID
+    int program_location;     // address of first line
+    int program_counter;      // address of current line
+    int num_lines;            // number of lines in program
+    enum process_state state; // current process state
+    int priority;             // process scheduling priority
+    struct PCB *next;         // pointer to next PCB in ready queue
+};
+
+// Define the scheduling policy
+enum scheduling_policy {
+    FCFS, // First Come First Serve
+    // TODO: add more policies as needed
+};
+
+// Define the ready queue
+struct PCB *ready_queue_head = NULL;
+struct PCB *ready_queue_tail = NULL;
+
+// Add a new PCB to the tail of the ready queue
+void add_to_ready_queue(struct PCB *pcb) {
+    pcb->next = NULL;
+    if (ready_queue_head == NULL) {
+        // If the queue is empty, set both head and tail to the new PCB
+        ready_queue_head = pcb;
+        ready_queue_tail = pcb;
+    } else {
+        // Otherwise, add the new PCB to the tail of the queue
+        ready_queue_tail->next = pcb;
+        ready_queue_tail = pcb;
+    }
+}
+
+// Remove the head PCB from the ready queue and return it
+struct PCB *remove_from_ready_queue() {
+    if (ready_queue_head == NULL) {
+        // If the queue is empty, return NULL
+        return NULL;
+    } else {
+        // Otherwise, remove the head PCB and return it
+        struct PCB *removed_pcb = ready_queue_head;
+        ready_queue_head = ready_queue_head->next;
+        if (ready_queue_head == NULL) {
+            // If the queue is now empty, set the tail to NULL as well
+            ready_queue_tail = NULL;
+        }
+        return removed_pcb;
+    }
+}
+
+// Set up the PCB for a new process
+void setup_process(struct PCB *pcb, int pid, int program_location, int num_lines) {
+    // Set the PCB properties
+    // TODO:
+    // Configure the state and priority members to be dynamic
+    pcb->pid = pid;
+    pcb->program_location = program_location;
+    pcb->program_counter = program_location;
+    pcb->num_lines = num_lines;
+    pcb->state = READY;
+    pcb->priority = 0;
+    pcb->next = NULL;
+}
+
+// Run the program stored in a given PCB
+int run_program(struct PCB *pcb) {
+    char next_addr[4];
+    // Error code
+    int errorCode = 0;
+    // Set the program counter to the address of the first line
+    int program_counter = pcb->program_counter;
+    char line[1000];
+    // Loop over each line in the program
+    while (program_counter < pcb->program_location + pcb->num_lines * sizeof(char *)) {
+        // Get the next line from memory
+        memset(line, '\0', sizeof(line));
+        line = fgets(line,999,mem_get_value(next_addr));
+        sprintf(next_addr,"%d",program_counter);
+        
+        //Interpret the line as done previously
+        printf("Parsing line: %s",line);
+        errorCode = parseInput(line);
+        
+        printf("error code from parsing input in run_program: %d",errorCode);
+        // Increment the program counter to the next line
+        program_counter += sizeof(char *);
+
+        // Clear space for next line address
+        memset(next_addr,'\0',sizeof(next_addr));
+    }
+    return errorCode;
+}
+
+// Scheduler function
+void scheduler(enum scheduling_policy policy) {
+
+    // Run processes in the ready queue until there are no more processes
+    while (ready_queue_head != NULL) {
+        // Get the next process from the ready queue
+        struct PCB *next_pcb = remove_from_ready_queue();
+
+        // Run the process
+        run_program(next_pcb);
+
+        // Clean up the process
+        mem_reset(next_pcb->program_location, next_pcb->num_lines);
+        free(next_pcb);
+    }
+}
+
+
+
 int badcommand(){
 	printf("%s\n", "Unknown Command");
 	return 1;
@@ -55,7 +177,7 @@ int my_mkdir(char* dirName);
 int touch(char* filepath);
 char* subVar(char* token);
 int print(char* var);
-int run(char* script);
+int run(char** command_args, int arg_size);
 int badcommandFileDoesNotExist();
 
 char* get_all_but_first(char* str) {
@@ -100,8 +222,12 @@ int interpreter(char* command_args[], int args_size){
 		return print(command_args[1]);
 	
 	} else if (strcmp(command_args[0], "run")==0) {
+        // TODO:
+        // change max arg size
 		if (args_size != 2) return badcommand();
-		return run(command_args[1]);
+        // Modify run input to take all command_args
+
+		return run(command_args,args_size);
 	
 	} else if (strcmp(command_args[0], "echo")==0){
 		if (args_size < 2) return badcommand();
@@ -110,6 +236,7 @@ int interpreter(char* command_args[], int args_size){
             printf("%s", subVar(token));
 		};
 		printf("\n");
+        printf("finished echoing\n");
 		return  0;
 	} else if (strcmp(command_args[0], "my_cd")==0) {
         if (args_size != 2) return badcommandTooManyTokens();
@@ -340,18 +467,14 @@ int set(char* var, char** value, int argsize){
     //loop through the argument pointers, starting at the first 
     for (int i=2;i<argsize;i++) {
         strcat(buffer, value[i]); //concatonate additional arguments
-
         //if this is not the last argument, add a space
         if (i<(argsize-1)) {
             strcat(buffer, link);
         }
     }
-
     //store in memory
 	mem_set_value(var, buffer);
-
 	return 0;
-
 }
 
 int print(char* var){
@@ -359,23 +482,56 @@ int print(char* var){
 	return 0;
 }
 
-int run(char* script){
+int run(char** command_args, int arg_size){
+
+    // TODO:
+    // Check validity of arguments passed into run
 	int errCode = 0;
-	char line[1000];
-	FILE *p = fopen(script,"rt");  // the program is in a file
+    // Copied implementation from set
+    char line[1000];
+    memset(line, '\0', 1000 * sizeof(line[0]));
+    //Loop over each program passed as argument
+    for (int arg = 1; arg < arg_size; arg++){
 
-	if(p == NULL){
-		return badcommandFileDoesNotExist();
-	}
+        FILE *p = fopen(command_args[arg],"rt");  // the program is in a file
+        printf("argument %d: %s\n",arg,command_args[arg]);
+        if(p == NULL){
+            
+            return badcommandFileDoesNotExist();
+            
+        }
+        // Get next available free space in shell memory (contiguous)
+        int location_of_pcb_in_mem = mem_find_first_free();
 
-	fgets(line,999,p);
-	while(1){
-		errCode = parseInput(line);	// which calls interpreter()
-		memset(line, 0, sizeof(line));
-		fgets(line,999,p);
-	}
+        // Create a new PCB
+        struct PCB *new_pcb = malloc(sizeof(struct PCB));
+        // Loop over each line of the program and save each into a different memory location
+        int line_num = 0;
+        // Address as a string (should be < 3 digits)
+        char str_addr[4];
+        while (fgets(line, 999, p)) {
+            // Calculate the address in memory for this line
+            int address = location_of_pcb_in_mem + line_num * sizeof(line);
+            // Store the line in memory at this address
+            sprintf(str_addr,"%d",address);
+            mem_set_value(str_addr, line);
+            // Move to the next line and reset address array and line buffer
+            line_num++;
+            memset(str_addr, '\0', sizeof(str_addr));
+            memset(line, '\0', sizeof(line));
 
-    fclose(p);
+        }   
+
+        // Configure the new PCB
+        setup_process(new_pcb, location_of_pcb_in_mem, location_of_pcb_in_mem, line_num);
+        // Add the initial process to the ready queue
+        add_to_ready_queue(new_pcb);
+        
+        fclose(p);
+        }
+
+    // Run Scheduler (currently with FCFS policy)
+    scheduler(FCFS);
 
 	return errCode;
 }
