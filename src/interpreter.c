@@ -116,33 +116,31 @@ void setup_process(struct PCB *pcb, int pid, int program_location, int num_lines
 // Run the program stored in a given PCB
 int run_program(struct PCB *pcb) {
     char next_addr[4];
-    sprintf(next_addr,"%d",pcb->program_counter);  // Initialize next_addr to program_counter
+    sprintf(next_addr, "%d", pcb->program_counter);  // Initialize next_addr to program_counter
     // Error code
     int errorCode = 0;
     // Set the program counter to the address of the first line
-    int program_counter = pcb->program_counter;
+    int program_counter = pcb->program_location;
     char line[1000];
     // Loop over each line in the program
-    while (program_counter < pcb->program_location + pcb->num_lines * sizeof(char *)) {
+    while (program_counter < pcb->num_lines) {
         // Get the next line from memory
         memset(line, '\0', sizeof(line));
-        strcpy(line,mem_get_value(next_addr));
-        sprintf(next_addr,"%d",program_counter);
-        
-        //Interpret the line as done previously
-        printf("Parsing line: %s",line);
+        sprintf(next_addr,"%d", program_counter);
+        strcpy(line, mem_get_value(next_addr));
+
+        // Interpret the line using parseInput
         errorCode = parseInput(line);
-        
-        printf("error code from parsing input in run_program: %d",errorCode);
+
         // Increment the program counter to the next line
-        program_counter += sizeof(char *);
+        program_counter ++;
 
         // Clear space for next line address
-        memset(next_addr,'\0',sizeof(next_addr));
-        sprintf(next_addr,"%d",program_counter);  // Update next_addr to next line
+        memset(next_addr, '\0', sizeof(next_addr));
     }
     return errorCode;
 }
+
 
 // Scheduler function
 void scheduler(enum scheduling_policy policy) {
@@ -151,13 +149,17 @@ void scheduler(enum scheduling_policy policy) {
     while (ready_queue_head != NULL) {
         // Get the next process from the ready queue
         struct PCB *next_pcb = remove_from_ready_queue();
-
+        printf("PCB BEING RUN IN SCHEDULER\n");
+        print_pcb_contents(next_pcb);
         // Run the process
         run_program(next_pcb);
 
         // Clean up the process
+        // TODO:
+        // Implement mem_set and change ready_queue accordingly when a pcb is removed
         mem_reset(next_pcb->program_location, next_pcb->num_lines);
         free(next_pcb);
+        print_pcb_contents(ready_queue_head);
     }
 }
 
@@ -267,7 +269,6 @@ int interpreter(char* command_args[], int args_size){
             printf("%s", subVar(token));
 		};
 		printf("\n");
-        printf("finished echoing\n");
 		return  0;
 	} else if (strcmp(command_args[0], "my_cd")==0) {
         if (args_size != 2) return badcommandTooManyTokens();
@@ -569,7 +570,8 @@ int run(char** command_args, int arg_size){
         }
     print_ready_queue(ready_queue_head);
     // Run Scheduler (currently with FCFS policy)
-    //scheduler(FCFS);
+    printf("----------------FINISHED LOADING PROGRAMS: RUNNING SCHEDULER----------------\n");
+    scheduler(FCFS);
 
 	return errCode;
 }

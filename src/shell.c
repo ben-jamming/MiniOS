@@ -87,7 +87,7 @@ int parseCommands(char ui[]) {
 }
 
 int parseInput(char ui[]) {
-    printf("First user input: %s",ui);
+    //printf("First user input: %s",ui);
     char tmp[200];
     char *words[100];                            
     int a = 0;
@@ -107,7 +107,7 @@ int parseInput(char ui[]) {
         if(ui[a] == '\0' || ui[a] == ';') break;
         a++; 
     }
-    printf("finished parsing. Result: %s\n",*words);
+    //printf("finished parsing. Result: %s\n",*words);
     errorCode = interpreter(words, w);
     
     return errorCode;
