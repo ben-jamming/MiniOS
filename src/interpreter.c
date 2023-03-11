@@ -39,6 +39,35 @@ enum scheduling_policy {
 struct PCB *ready_queue_head = NULL;
 struct PCB *ready_queue_tail = NULL;
 
+// Helper function to display contents of PCB
+void print_pcb_contents(struct PCB *pcb){
+    printf("PID of this PCB: %d\n",pcb->pid);
+    printf("Address of the first line of program stored in this PCB: %d\n",pcb->program_location);
+    printf("Address of current line (program counter) of this PCB: %d\n",pcb->program_counter);
+    printf("Total number of lines in this PCB: %d\n", pcb->num_lines);
+    printf("Process state of this PCB: %d\n",pcb->state);
+    printf("Priority of this PCB: %d\n",pcb->priority);
+    if(pcb->next == NULL){
+        // Head of the queue
+        printf("This PCB is at the tail of the queue\n");
+    }
+    else{
+        printf("PID of next PCB: %d\n",pcb->next->pid);
+    }
+
+}
+
+// Helper function to print ready_queue
+void print_ready_queue(struct PCB *current_pcb) {
+    printf("Ready Queue: ");
+    while (current_pcb != NULL) {
+        printf("%d -> ", current_pcb->pid);
+        current_pcb = current_pcb->next;
+    }
+    printf("NULL\n");
+}
+
+
 // Add a new PCB to the tail of the ready queue
 void add_to_ready_queue(struct PCB *pcb) {
     pcb->next = NULL;
@@ -87,6 +116,7 @@ void setup_process(struct PCB *pcb, int pid, int program_location, int num_lines
 // Run the program stored in a given PCB
 int run_program(struct PCB *pcb) {
     char next_addr[4];
+    sprintf(next_addr,"%d",pcb->program_counter);  // Initialize next_addr to program_counter
     // Error code
     int errorCode = 0;
     // Set the program counter to the address of the first line
@@ -96,7 +126,7 @@ int run_program(struct PCB *pcb) {
     while (program_counter < pcb->program_location + pcb->num_lines * sizeof(char *)) {
         // Get the next line from memory
         memset(line, '\0', sizeof(line));
-        line = fgets(line,999,mem_get_value(next_addr));
+        strcpy(line,mem_get_value(next_addr));
         sprintf(next_addr,"%d",program_counter);
         
         //Interpret the line as done previously
@@ -109,6 +139,7 @@ int run_program(struct PCB *pcb) {
 
         // Clear space for next line address
         memset(next_addr,'\0',sizeof(next_addr));
+        sprintf(next_addr,"%d",program_counter);  // Update next_addr to next line
     }
     return errorCode;
 }
@@ -224,7 +255,7 @@ int interpreter(char* command_args[], int args_size){
 	} else if (strcmp(command_args[0], "run")==0) {
         // TODO:
         // change max arg size
-		if (args_size != 2) return badcommand();
+		if (args_size > 4) return badcommand();
         // Modify run input to take all command_args
 
 		return run(command_args,args_size);
@@ -489,6 +520,8 @@ int run(char** command_args, int arg_size){
 	int errCode = 0;
     // Copied implementation from set
     char line[1000];
+    // Initialize start address var
+    int pcb_start_addr;
     memset(line, '\0', 1000 * sizeof(line[0]));
     //Loop over each program passed as argument
     for (int arg = 1; arg < arg_size; arg++){
@@ -500,38 +533,43 @@ int run(char** command_args, int arg_size){
             return badcommandFileDoesNotExist();
             
         }
-        // Get next available free space in shell memory (contiguous)
-        int location_of_pcb_in_mem = mem_find_first_free();
 
         // Create a new PCB
         struct PCB *new_pcb = malloc(sizeof(struct PCB));
+        // Find space in memory to store program contents
+        pcb_start_addr = mem_find_first_free();
         // Loop over each line of the program and save each into a different memory location
         int line_num = 0;
         // Address as a string (should be < 3 digits)
         char str_addr[4];
         while (fgets(line, 999, p)) {
             // Calculate the address in memory for this line
-            int address = location_of_pcb_in_mem + line_num * sizeof(line);
+            int address = pcb_start_addr+line_num;
+            printf("Address of memory slot for line number %d is: %d\n",line_num,address);
             // Store the line in memory at this address
             sprintf(str_addr,"%d",address);
+            printf("line to be stored at %d is: %s\n",address, line);
             mem_set_value(str_addr, line);
+            //printf("For comparison, the value retrieved from %s is: %s\n",str_addr,mem_get_value(str_addr));
             // Move to the next line and reset address array and line buffer
             line_num++;
             memset(str_addr, '\0', sizeof(str_addr));
             memset(line, '\0', sizeof(line));
+            
+        }
 
-        }   
-
+        printf("----------Done loading the lines of this file---------\n");
         // Configure the new PCB
-        setup_process(new_pcb, location_of_pcb_in_mem, location_of_pcb_in_mem, line_num);
+        setup_process(new_pcb, pcb_start_addr, pcb_start_addr, line_num);
+        print_pcb_contents(new_pcb);
         // Add the initial process to the ready queue
         add_to_ready_queue(new_pcb);
         
         fclose(p);
         }
-
+    print_ready_queue(ready_queue_head);
     // Run Scheduler (currently with FCFS policy)
-    scheduler(FCFS);
+    //scheduler(FCFS);
 
 	return errCode;
 }
