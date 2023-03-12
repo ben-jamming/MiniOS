@@ -18,6 +18,9 @@ enum process_state {
     TERMINATED
 };
 
+// Define set of policies
+const char* policies[] = {"FCFS","SJF","RR","AGING"};
+
 // Define the process control block
 struct PCB {
     int pid;                  // process ID
@@ -169,6 +172,8 @@ void scheduler(enum scheduling_policy policy) {
 
 
 
+
+
 int badcommand(){
 	printf("%s\n", "Unknown Command");
 	return 1;
@@ -203,6 +208,11 @@ int badcommandCD() {
 int badcommandCannotWriteFile(){
 	printf("%s\n", "Bad command: Cannot write file");
 	return 7;
+}
+
+int badcommandExecPolicies(){
+    printf("%s\n"," Invalid policy: exec");
+    return 9;
 }
 
 int help();
@@ -295,8 +305,8 @@ int interpreter(char* command_args[], int args_size){
 
     } 
     else if (strcmp(command_args[0], "exec")==0){
-        if (args_size < 5) return badcommandTooManyTokens();
-
+        if (args_size > 5 || args_size < 3) return badcommandTooManyTokens();
+        
         exec(command_args,args_size);
     }
     else return badcommand();
@@ -584,8 +594,29 @@ int run(char** command_args, int arg_size){
 
 	return errCode;
 }
+int validate_policy(char policy_choice[]){
+    int errCode = 0;
+    int length = sizeof(policies)/sizeof(policies[0]);
+    // Check if policy is valid
+    for (int p = 0; p < length; p++){
+        // Give the green light if policy is valid
+        if (strcmp(policy_choice, policies[p]) == 0){
+            return errCode;
+        }
+    }
+    // Exit and return error if policy is invalid
+    errCode = badcommandExecPolicies();
+    return errCode;
+}
 
 int exec(char** command_args, int arg_size){
-    int errCode = 0;
+    // Check if policy is valid
+    int errCode = validate_policy(command_args[arg_size-1]);
+    if (errCode != 0){ return errCode;}
+    // If valid, save policy
+    char policy[7];
+    memcpy(policy,command_args[arg_size-1], sizeof(command_args[arg_size-1]));
+
+    printf("Policy selected is: %s\n",policy);
     return errCode;
 }
