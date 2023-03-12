@@ -91,6 +91,9 @@ struct PCB *remove_from_ready_queue() {
         // Otherwise, remove the head PCB and return it
         struct PCB *removed_pcb = ready_queue_head;
         ready_queue_head = ready_queue_head->next;
+        printf("PCB being removed is %d\n", removed_pcb->pid);
+        printf("Next head of the queue is %d\n",ready_queue_head->pid);
+        print_ready_queue(ready_queue_head);
         if (ready_queue_head == NULL) {
             // If the queue is now empty, set the tail to NULL as well
             ready_queue_tail = NULL;
@@ -153,12 +156,11 @@ void scheduler(enum scheduling_policy policy) {
         print_pcb_contents(next_pcb);
         // Run the process
         run_program(next_pcb);
-
+        printf("finished running the program");
         // Clean up the process
         // TODO:
-        // Implement mem_set and change ready_queue accordingly when a pcb is removed
-        mem_reset(next_pcb->program_location, next_pcb->num_lines);
-        free(next_pcb);
+        // change ready_queue accordingly when a pcb is removed
+        //free(next_pcb);
         print_pcb_contents(ready_queue_head);
     }
 }
