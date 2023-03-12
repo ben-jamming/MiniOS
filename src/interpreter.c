@@ -91,9 +91,9 @@ struct PCB *remove_from_ready_queue() {
         // Otherwise, remove the head PCB and return it
         struct PCB *removed_pcb = ready_queue_head;
         ready_queue_head = ready_queue_head->next;
-        printf("PCB being removed is %d\n", removed_pcb->pid);
-        printf("Next head of the queue is %d\n",ready_queue_head->pid);
-        print_ready_queue(ready_queue_head);
+        //if(removed_pcb != NULL){printf("PCB being removed is %d\n", removed_pcb->pid);}
+        //printf("Next head of the queue is %d\n",ready_queue_head->pid);
+        //print_ready_queue(ready_queue_head);
         if (ready_queue_head == NULL) {
             // If the queue is now empty, set the tail to NULL as well
             ready_queue_tail = NULL;
@@ -126,12 +126,12 @@ int run_program(struct PCB *pcb) {
     int program_counter = pcb->program_location;
     char line[1000];
     // Loop over each line in the program
-    while (program_counter < pcb->num_lines) {
+    while (program_counter < pcb->num_lines+pcb->program_location) {
         // Get the next line from memory
         memset(line, '\0', sizeof(line));
         sprintf(next_addr,"%d", program_counter);
         strcpy(line, mem_get_value(next_addr));
-
+        //printf("The value retrieved from %s is: %s\n",next_addr,line);
         // Interpret the line using parseInput
         errorCode = parseInput(line);
 
@@ -141,6 +141,9 @@ int run_program(struct PCB *pcb) {
         // Clear space for next line address
         memset(next_addr, '\0', sizeof(next_addr));
     }
+    // Free shell memory occupied by PCB
+    mem_reset(pcb->program_location, pcb->num_lines);
+    
     return errorCode;
 }
 
@@ -152,16 +155,15 @@ void scheduler(enum scheduling_policy policy) {
     while (ready_queue_head != NULL) {
         // Get the next process from the ready queue
         struct PCB *next_pcb = remove_from_ready_queue();
-        printf("PCB BEING RUN IN SCHEDULER\n");
-        print_pcb_contents(next_pcb);
+        //printf("PCB BEING RUN IN SCHEDULER IS: %d\n",next_pcb->pid);
+        //print_pcb_contents(next_pcb);
         // Run the process
         run_program(next_pcb);
-        printf("finished running the program");
         // Clean up the process
         // TODO:
         // change ready_queue accordingly when a pcb is removed
-        //free(next_pcb);
-        print_pcb_contents(ready_queue_head);
+        free(next_pcb);
+        //print_pcb_contents(ready_queue_head);
     }
 }
 
@@ -530,7 +532,7 @@ int run(char** command_args, int arg_size){
     for (int arg = 1; arg < arg_size; arg++){
 
         FILE *p = fopen(command_args[arg],"rt");  // the program is in a file
-        printf("argument %d: %s\n",arg,command_args[arg]);
+        //printf("argument %d: %s\n",arg,command_args[arg]);
         if(p == NULL){
             
             return badcommandFileDoesNotExist();
@@ -548,10 +550,10 @@ int run(char** command_args, int arg_size){
         while (fgets(line, 999, p)) {
             // Calculate the address in memory for this line
             int address = pcb_start_addr+line_num;
-            printf("Address of memory slot for line number %d is: %d\n",line_num,address);
+            //printf("Address of memory slot for line number %d is: %d\n",line_num,address);
             // Store the line in memory at this address
             sprintf(str_addr,"%d",address);
-            printf("line to be stored at %d is: %s\n",address, line);
+            //printf("line to be stored at %d is: %s\n",address, line);
             mem_set_value(str_addr, line);
             //printf("For comparison, the value retrieved from %s is: %s\n",str_addr,mem_get_value(str_addr));
             // Move to the next line and reset address array and line buffer
@@ -561,18 +563,18 @@ int run(char** command_args, int arg_size){
             
         }
 
-        printf("----------Done loading the lines of this file---------\n");
+        //printf("----------Done loading the lines of this file---------\n");
         // Configure the new PCB
         setup_process(new_pcb, pcb_start_addr, pcb_start_addr, line_num);
-        print_pcb_contents(new_pcb);
+        //print_pcb_contents(new_pcb);
         // Add the initial process to the ready queue
         add_to_ready_queue(new_pcb);
         
         fclose(p);
         }
-    print_ready_queue(ready_queue_head);
+    //print_ready_queue(ready_queue_head);
     // Run Scheduler (currently with FCFS policy)
-    printf("----------------FINISHED LOADING PROGRAMS: RUNNING SCHEDULER----------------\n");
+    //printf("----------------FINISHED LOADING PROGRAMS: RUNNING SCHEDULER----------------\n");
     scheduler(FCFS);
 
 	return errCode;
