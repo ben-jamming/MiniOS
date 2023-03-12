@@ -82,3 +82,26 @@ char *mem_get_value(char *var_in) {
 	return NULL;
 
 }
+
+// Get the next available free slot in shellmemory
+int mem_find_first_free() {
+    int i;
+
+    for (i=0; i<1000; i++) {
+        if (strcmp(shellmemory[i].var, "none") == 0) {
+            return i;
+        }
+    }
+
+    return -1;  // indicate no free spot found
+}
+
+// Reset the memory used by a given PCB
+void mem_reset(int start, int length) {
+    int i;
+    for (i = start; i < start + length; i++) {
+        shellmemory[i].var = "none";
+        shellmemory[i].value = "none";
+    }
+}
+
