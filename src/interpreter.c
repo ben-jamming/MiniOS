@@ -57,6 +57,7 @@ char* subVar(char* token);
 int print(char* var);
 int run(char* script);
 int badcommandFileDoesNotExist();
+int exec(char** command_args, int arg_size);
 
 char* get_all_but_first(char* str) {
     int str_len = strlen(str);
@@ -100,8 +101,10 @@ int interpreter(char* command_args[], int args_size){
 		return print(command_args[1]);
 	
 	} else if (strcmp(command_args[0], "run")==0) {
-		if (args_size != 2) return badcommand();
-		return run(command_args[1]);
+
+		if (args_size > 2) return badcommand();
+
+		return run(command_args,args_size);
 	
 	} else if (strcmp(command_args[0], "echo")==0){
 		if (args_size < 2) return badcommand();
@@ -131,7 +134,13 @@ int interpreter(char* command_args[], int args_size){
 
         touch(command_args[1]);
 
-    } else return badcommand();
+    } 
+    else if (strcmp(command_args[0], "exec")==0){
+        if (args_size < 5) return badcommandTooManyTokens();
+
+        exec(command_args,args_size);
+    }
+    else return badcommand();
 }
 
 int help(){
@@ -378,4 +387,9 @@ int run(char* script){
     fclose(p);
 
 	return errCode;
+}
+
+int exec(char** command_args, int arg_size){
+    int errCode = 0;
+    return errCode;
 }
