@@ -33,11 +33,22 @@ struct PCB {
 };
 
 // Define the scheduling policy
-enum scheduling_policy {
-    FCFS, // First Come First Serve
-    // TODO: add more policies as needed
+typedef enum {
+    FCFS, 
+    SJF,
+    RR,
+    AGING
+} Policy;
+// Define a mapping from strings to enum values
+const struct {
+    const char *string;
+    Policy policy;
+} policy_map[] = {
+    {"FCFS", FCFS},
+    {"SJF", SJF},
+    {"RR", RR},
+    {"AGING", AGING}
 };
-
 // Define the ready queue
 struct PCB *ready_queue_head = NULL;
 struct PCB *ready_queue_tail = NULL;
@@ -145,6 +156,7 @@ int run_program(struct PCB *pcb) {
         memset(next_addr, '\0', sizeof(next_addr));
     }
     // Free shell memory occupied by PCB
+    
     mem_reset(pcb->program_location, pcb->num_lines);
     
     return errorCode;
@@ -152,23 +164,68 @@ int run_program(struct PCB *pcb) {
 
 
 // Scheduler function
-void scheduler(enum scheduling_policy policy) {
+void scheduler(Policy policy) {
 
     // Run processes in the ready queue until there are no more processes
     while (ready_queue_head != NULL) {
-        // Get the next process from the ready queue
-        struct PCB *next_pcb = remove_from_ready_queue();
-        //printf("PCB BEING RUN IN SCHEDULER IS: %d\n",next_pcb->pid);
-        //print_pcb_contents(next_pcb);
+        // Get the next process from the ready queue based on the scheduling policy
+        struct PCB *next_pcb;
+        switch(policy){
+            case FCFS:
+                // FCFS policy: remove the head of the queue
+                next_pcb = remove_from_ready_queue();
+                break;
+            case SJF:
+                // SJF policy: remove the process with the shortest estimated job length
+                // Initialize variables to keep track of the PCB with the shortest job length and its estimated length
+                int shortest_job_length = ready_queue_head->num_lines;
+                struct PCB *shortest_job_pcb = ready_queue_head;
+                // Loop over the remaining PCBs in the ready queue
+                struct PCB *current_pcb = ready_queue_head->next;
+                while(current_pcb != NULL){
+                    // Calculate the estimated job length for the current PCB
+                    int current_job_length = current_pcb->num_lines;
+                    // If the current PCB has a shorter job length than the current shortest job length, update the variables
+                    if(current_job_length < shortest_job_length){
+                        shortest_job_length = current_job_length;
+                        shortest_job_pcb = current_pcb;
+                    }
+                    // Move on to the next PCB in the queue
+                    current_pcb = current_pcb->next;
+                }
+                // Remove the PCB with the shortest job length from the ready queue
+                next_pcb = shortest_job_pcb;
+                remove_from_ready_queue(next_pcb);
+                break;
+            case RR:
+                // RR policy: remove the head of the queue and add it to the tail after a fixed number of instructions
+                next_pcb = remove_from_ready_queue();
+                // Run the process for a fixed number of instructions (in this case, 2) or until it terminates
+                int num_instructions = 0;
+                while(num_instructions < 2 && next_pcb->state != TERMINATED){
+                    run_program(next_pcb);
+                    num_instructions ++;
+                }
+                // If the process has not terminated, add it back to the tail of the ready queue
+                if(next_pcb->state != TERMINATED){
+                    add_to_ready_queue(next_pcb);
+                }
+                break;
+            case AGING:
+                // TODO: implement aging policy
+                next_pcb = remove_from_ready_queue();
+                break;
+            default:
+                printf("Invalid scheduling policy\n");
+                return;
+        }
         // Run the process
         run_program(next_pcb);
         // Clean up the process
-        // TODO:
-        // change ready_queue accordingly when a pcb is removed
         free(next_pcb);
-        //print_pcb_contents(ready_queue_head);
     }
 }
+
 
 
 
@@ -604,7 +661,7 @@ int run(char** command_args, int arg_size){
     //print_ready_queue(ready_queue_head);
     // Run Scheduler (currently with FCFS policy)
     //printf("----------------FINISHED LOADING PROGRAMS: RUNNING SCHEDULER----------------\n");
-    scheduler(FCFS);
+    
 
 	return errCode;
 }
@@ -622,14 +679,23 @@ int validate_policy(char policy_choice[]){
     errCode = badcommandExecPolicies();
     return errCode;
 }
-
+// Look up an enum value from a string
+Policy get_policy(const char *string) {
+    for (int i = 0; i < sizeof(policy_map) / sizeof(policy_map[0]); i++) {
+        if (strcmp(string, policy_map[i].string) == 0) {
+            return policy_map[i].policy;
+        }
+    }
+    // Return a default value or raise an error if the string is not found
+    return FCFS;
+}
 int exec(char** command_args, int arg_size){
     // Check if policy is valid
     int errCode = validate_policy(command_args[arg_size-1]);
     if (errCode != 0){ return errCode;}
     // If valid, save policy
-    char policy[7];
-    memcpy(policy,command_args[arg_size-1], sizeof(command_args[arg_size-1]));
+    char* policy_str = command_args[arg_size-1];
+    //memcpy(policy_str,command_args[arg_size-1], sizeof(command_args[arg_size-1]));
     // create a new array with all but first and last elements
     char** new_command_args = malloc((arg_size - 1) * sizeof(char*));
     for (int i = 0; i < arg_size - 1; i++) {
@@ -646,6 +712,8 @@ int exec(char** command_args, int arg_size){
         }
     }
     run(new_command_args,arg_size-1);
+    Policy policy = get_policy(policy_str);
+    scheduler(policy);
     free(new_command_args);
     return errCode;
 }
