@@ -26,7 +26,7 @@ struct PCB {
     int program_counter;      // address of current line
     int num_lines;            // number of lines in program
     enum process_state state; // current process state
-    int priority;             // process scheduling priority
+    int job_length_score;             // process scheduling priority
     struct PCB *next;         // pointer to next PCB in ready queue
 };
 
@@ -58,7 +58,7 @@ void print_pcb_contents(struct PCB *pcb){
     printf("Address of current line (program counter) of this PCB: %d\n",pcb->program_counter);
     printf("Total number of lines in this PCB: %d\n", pcb->num_lines);
     printf("Process state of this PCB: %d\n",pcb->state);
-    printf("Priority of this PCB: %d\n",pcb->priority);
+    printf("Job Length Score of this PCB: %d\n",pcb->job_length_score);
     if(pcb->next == NULL){
         // Head of the queue
         printf("This PCB is at the tail of the queue\n");
@@ -156,7 +156,7 @@ void setup_process(struct PCB *pcb, int pid, int program_location, int num_lines
     pcb->program_counter = program_location;
     pcb->num_lines = num_lines;
     pcb->state = READY;
-    pcb->priority = 0;
+    pcb->job_length_score = num_lines;
     pcb->next = NULL;
 }
 
@@ -225,7 +225,6 @@ void scheduler(Policy policy) {
             case SJF:
                 //print_ready_queue(ready_queue_head);
                 next_pcb = remove_shortest_pcb_from_ready_queue();
-
                 run_program(next_pcb, policy);
                 mem_reset(next_pcb->program_location, next_pcb->num_lines);
                 free(next_pcb);
