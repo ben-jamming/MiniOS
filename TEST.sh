@@ -26,8 +26,8 @@ for file in ../testcases/assignment2/*; do
             echo "Error in test file execution of: $file"
             exit 1
         fi
-        echo "Actual output of $file" >> ../RESULTS.txt
-        cat ../out.txt >> ../RESULTS.txt
+        #echo "Actual output of $file" >> ../RESULTS.txt
+        #cat ../out.txt >> ../RESULTS.txt
         # Check if the corresponding result files exist
         if [[ -f "${base}_result.txt" ]]; then
             echo "difference between expected output of $file and actual in ${base}_result.txt:" >> ../RESULTS.txt
