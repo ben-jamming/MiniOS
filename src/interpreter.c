@@ -18,6 +18,9 @@ enum process_state {
     TERMINATED
 };
 
+// Define set of policies
+const char* policies[] = {"FCFS","SJF","RR","AGING"};
+
 // Define the process control block
 struct PCB {
     int pid;                  // process ID
@@ -169,6 +172,8 @@ void scheduler(enum scheduling_policy policy) {
 
 
 
+
+
 int badcommand(){
 	printf("%s\n", "Unknown Command");
 	return 1;
@@ -203,6 +208,21 @@ int badcommandCD() {
 int badcommandCannotWriteFile(){
 	printf("%s\n", "Bad command: Cannot write file");
 	return 7;
+}
+
+int badcommandExecPolicies(){
+    printf("%s\n"," Invalid policy: exec");
+    return 9;
+}
+
+int badCommandDuplicateScripts(){
+    printf("%s\n","Bad command: same file name");
+    return 10;
+}
+
+int badCommandNotEnoughMemory(){
+    printf("%s\n","Error: Insufficient space in shell memory");
+    return 11;
 }
 
 int help();
@@ -295,8 +315,8 @@ int interpreter(char* command_args[], int args_size){
 
     } 
     else if (strcmp(command_args[0], "exec")==0){
-        if (args_size < 5) return badcommandTooManyTokens();
-
+        if (args_size > 5 || args_size < 3) return badcommandTooManyTokens();
+        
         exec(command_args,args_size);
     }
     else return badcommand();
@@ -518,6 +538,7 @@ int set(char* var, char** value, int argsize){
 	return 0;
 }
 
+
 int print(char* var){
 	printf("%s\n", mem_get_value(var)); 
 	return 0;
@@ -538,6 +559,7 @@ int run(char** command_args, int arg_size){
 
         FILE *p = fopen(command_args[arg],"rt");  // the program is in a file
         //printf("argument %d: %s\n",arg,command_args[arg]);
+        
         if(p == NULL){
             
             return badcommandFileDoesNotExist();
@@ -548,6 +570,8 @@ int run(char** command_args, int arg_size){
         struct PCB *new_pcb = malloc(sizeof(struct PCB));
         // Find space in memory to store program contents
         pcb_start_addr = mem_find_first_free();
+        // Throw error if space there's insufficient space
+        if (pcb_start_addr == -1){return badCommandNotEnoughMemory();}
         // Loop over each line of the program and save each into a different memory location
         int line_num = 0;
         // Address as a string (should be < 3 digits)
@@ -584,8 +608,44 @@ int run(char** command_args, int arg_size){
 
 	return errCode;
 }
+int validate_policy(char policy_choice[]){
+    int errCode = 0;
+    int length = sizeof(policies)/sizeof(policies[0]);
+    // Check if policy is valid
+    for (int p = 0; p < length; p++){
+        // Give the green light if policy is valid
+        if (strcmp(policy_choice, policies[p]) == 0){
+            return errCode;
+        }
+    }
+    // Exit and return error if policy is invalid
+    errCode = badcommandExecPolicies();
+    return errCode;
+}
 
 int exec(char** command_args, int arg_size){
-    int errCode = 0;
+    // Check if policy is valid
+    int errCode = validate_policy(command_args[arg_size-1]);
+    if (errCode != 0){ return errCode;}
+    // If valid, save policy
+    char policy[7];
+    memcpy(policy,command_args[arg_size-1], sizeof(command_args[arg_size-1]));
+    // create a new array with all but first and last elements
+    char** new_command_args = malloc((arg_size - 1) * sizeof(char*));
+    for (int i = 0; i < arg_size - 1; i++) {
+        new_command_args[i] = command_args[i];
+    }
+    // Check if any of the elements in new_command_args are identical
+    for (int i = 0; i < arg_size - 2; i++) {
+        for (int j = i+1; j < arg_size - 1; j++) {
+            if (strcmp(new_command_args[i], new_command_args[j]) == 0) {
+                // Found identical processes
+                free(new_command_args);
+                return badCommandDuplicateScripts();
+            }
+        }
+    }
+    run(new_command_args,arg_size-1);
+    free(new_command_args);
     return errCode;
 }

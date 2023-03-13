@@ -1,0 +1,1217 @@
+
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_AGING2.txt
+Shell version 1.2 Created January 2023
+
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f2 3 lines
+f2 3 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f2 3 lines
+f2 3 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+Bye!
+difference between expected output of ../testcases/assignment2/T_AGING2.txt and actual in ../testcases/assignment2/T_AGING2_result.txt:
+2a3,4
+> f2 3 lines
+> f2 3 lines
+4a7
+> f3 7 lines
+7,9d9
+< f2 3 lines
+< f2 3 lines
+< f3 7 lines
+18a19
+> f3 7 lines
+26d26
+< f3 7 lines
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_AGING3.txt
+Shell version 1.2 Created January 2023
+
+fA
+fA
+fA
+1
+2
+good luck
+fA
+fA
+fA
+1
+2
+good luck
+Bye!
+difference between expected output of ../testcases/assignment2/T_AGING3.txt and actual in ../testcases/assignment2/T_AGING3_result.txt:
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_AGING4.txt
+Shell version 1.2 Created January 2023
+
+AGING
+file1
+file1
+file1
+file2
+file2
+file2
+file3
+file3
+file3
+SJF
+file1
+file1
+file1
+file2
+file2
+file2
+file3
+file3
+file3
+Bye!
+difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result.txt:
+5,8d4
+< file1
+< file1
+< file2
+< file2
+11a8,11
+> file2
+> file2
+> file1
+> file1
+difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result2.txt:\n
+4a5,7
+> file2
+> file3
+> file3
+9,11d11
+< file2
+< file3
+< file3
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_AGING.txt
+Shell version 1.2 Created January 2023
+
+P1L1
+P1L2
+P1L3
+P1L4
+P1L5
+P1L6
+OOP2L1OO
+OOP2L2OO
+OOP2L3OO
+OOP2L4OO
+OOP2L5OO
+OOP2L6OO
+OOP2L7OO
+OOOOP3L1OOOO
+OOOOP3L2OOOO
+OOOOP3L3OOOO
+OOOOP3L4OOOO
+OOOOP3L5OOOO
+OOOOP3L6OOOO
+Bye!
+difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result.txt:
+3a4,5
+> OOOOP3L1OOOO
+> OOOOP3L2OOOO
+4a7,8
+> OOP2L1OO
+> OOP2L2OO
+5a10,11
+> OOOOP3L3OOOO
+> OOOOP3L4OOOO
+9,10d14
+< OOP2L1OO
+< OOP2L2OO
+16,19d19
+< OOOOP3L1OOOO
+< OOOOP3L2OOOO
+< OOOOP3L3OOOO
+< OOOOP3L4OOOO
+difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result2.txt:\n
+3a4,6
+> OOOOP3L1OOOO
+> OOOOP3L2OOOO
+> OOP2L1OO
+5a9,11
+> OOOOP3L3OOOO
+> OOP2L2OO
+> OOP2L3OO
+9,11c15,17
+< OOP2L1OO
+< OOP2L2OO
+< OOP2L3OO
+---
+> OOOOP3L4OOOO
+> OOOOP3L5OOOO
+> OOOOP3L6OOOO
+16,21d21
+< OOOOP3L1OOOO
+< OOOOP3L2OOOO
+< OOOOP3L3OOOO
+< OOOOP3L4OOOO
+< OOOOP3L5OOOO
+< OOOOP3L6OOOO
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_background.txt
+Shell version 1.2 Created January 2023
+
+ Invalid policy: exec
+shell
+shell
+quit
+Bye!
+difference between expected output of ../testcases/assignment2/T_background.txt and actual in ../testcases/assignment2/T_background_result.txt:
+3d2
+<  Invalid policy: exec
+5a5
+> short_program
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_FCFS2.txt
+Shell version 1.2 Created January 2023
+
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f2 3 lines
+f2 3 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f2 3 lines
+f2 3 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+Bye!
+difference between expected output of ../testcases/assignment2/T_FCFS2.txt and actual in ../testcases/assignment2/T_FCFS2_result.txt:
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_FCFS3.txt
+Shell version 1.2 Created January 2023
+
+fA
+fA
+fA
+fA
+fA
+fA
+1
+2
+good luck
+Bye!
+difference between expected output of ../testcases/assignment2/T_FCFS3.txt and actual in ../testcases/assignment2/T_FCFS3_result.txt:
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_FCFS.txt
+Shell version 1.2 Created January 2023
+
+P1L1
+P1L2
+P1L3
+P1L4
+P1L5
+P1L6
+OOP2L1OO
+OOP2L2OO
+OOP2L3OO
+OOP2L4OO
+OOP2L5OO
+OOP2L6OO
+OOP2L7OO
+OOOOP3L1OOOO
+OOOOP3L2OOOO
+OOOOP3L3OOOO
+OOOOP3L4OOOO
+OOOOP3L5OOOO
+OOOOP3L6OOOO
+Bye!
+difference between expected output of ../testcases/assignment2/T_FCFS.txt and actual in ../testcases/assignment2/T_FCFS_result.txt:
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_FileNameTest.txt
+Shell version 1.2 Created January 2023
+
+Bad command: same file name
+Bad command: same file name
+Bye!
+difference between expected output of ../testcases/assignment2/T_FileNameTest.txt and actual in ../testcases/assignment2/T_FileNameTest_result.txt:
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_MT1.txt
+Shell version 1.2 Created January 2023
+
+Bad command: Too many tokens
+Bye!
+difference between expected output of ../testcases/assignment2/T_MT1.txt and actual in ../testcases/assignment2/T_MT1_result.txt:
+3c3,44
+< Bad command: Too many tokens
+---
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+4a46,333
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> X
+> X
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+\ No newline at end of file
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_MT2.txt
+Shell version 1.2 Created January 2023
+
+Bad command: Too many tokens
+Bye!
+difference between expected output of ../testcases/assignment2/T_MT2.txt and actual in ../testcases/assignment2/T_MT2_result.txt:
+3d2
+< Bad command: Too many tokens
+4a4,213
+> $ X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+\ No newline at end of file
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_MT3.txt
+Shell version 1.2 Created January 2023
+
+Bad command: Too many tokens
+ Invalid policy: exec
+Bye!
+difference between expected output of ../testcases/assignment2/T_MT3.txt and actual in ../testcases/assignment2/T_MT3_result.txt:
+3,4c3,30
+< Bad command: Too many tokens
+<  Invalid policy: exec
+---
+> $ ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+5a32,333
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> ZZZ
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> YY
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+> X
+\ No newline at end of file
+------------------------------------------------------------------------
+Actual output of ../testcases/assignment2/T_RR2.txt
+Shell version 1.2 Created January 2023
+
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f2 3 lines
+f2 3 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f1 5 lines
+f2 3 lines
+f2 3 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+f3 7 lines
+Bye!
+difference between expected output of ../testcases/assignment2/T_RR2.txt and actual in ../testcases/assignment2/T_RR2_result.txt:
+4c4,5
+< f1 5 lines
+---
+> f2 3 lines
+> f3 7 lines
+8,9d8
+< f2 3 lines
+< f3 7 lines
+11a11
+> f1 5 lines
+16c16,17
+< f1 5 lines
+---
+> f2 3 lines
+> f3 7 lines
+20,21d20
+< f2 3 lines
+< f3 7 lines
+23a23
+> f1 5 lines
+------------------------------------------------------------------------

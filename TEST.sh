@@ -2,118 +2,47 @@
 cd src
 make clean
 make
-cd ..
-
-echo '' > RESULTS.txt
-echo '' > DIRECT_RESULTS.txt
-
-echo "Bad Command:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/badcommand.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at Bad Command"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/badcommand_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-echo "------------------------" >> RESULTS.txt
-
-echo "Blank Line:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/blankline.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at Blank Line"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/blankline_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-echo "------------------------" >> RESULTS.txt
-
-echo "Echo :" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/echo.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at Echo"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/echo_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-echo "------------------------" >> RESULTS.txt
-
-echo "Ls:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/ls.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at ls"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/ls_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-rm -r toto
-echo "------------------------" >> RESULTS.txt
-
-echo "Mkdir:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/mkdir.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at mkdir"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/mkdir_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-rm -r test
-echo "------------------------" >> RESULTS.txt
-
-echo "Oneline:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/oneline.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at one-line"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/oneline_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-echo "------------------------" >> RESULTS.txt
-
-echo "Oneline2:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/oneline2.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at one-line2"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/oneline2_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-rm -r testdir
-echo "------------------------" >> RESULTS.txt
-
-echo "Prompt:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/prompt.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at prompt"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/prompt_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-echo "------------------------" >> RESULTS.txt 
-
-echo "Set:" >> RESULTS.txt
-timeout 10s src/mysh < testcases/assignment1/set.txt > out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution at set"
-exit 1
-fi
-diff -w out.txt testcases/assignment1/set_result.txt >> RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-echo "------------------------" >> RESULTS.txt
-
-echo "Run:" >> RESULTS.txt
-cd src
-timeout 10s ./mysh < ../testcases/assignment1/run.txt > ../out.txt
-if [ $? -ne 0 ]; then
-echo "Error in test file execution ar run"
-exit 1
-fi
-diff -w ../out.txt ../testcases/assignment1/run_result.txt >> ../RESULTS.txt
-cat out.txt >> DIRECT_RESULTS.txt
-cd ..
-echo "------------------------" >> RESULTS.txt
 
 
-cat RESULTS.txt
-rm out.txt
+echo '' > ../RESULTS.txt
+echo '' > ../out.txt
+
+# Loop through all files in the directory
+for file in ../testcases/assignment2/*; do
+    # Check if file is a regular file and doesn't end with "result.txt" or "result2.txt"
+    if [[ -f "$file" && "$file" != *"result.txt" && "$file" != *"result2.txt" && "$file" ]]; then
+        echo "------------------------------------------------------------------------" >> ../RESULTS.txt
+        # Extract the base name of the file by removing the extension
+        base="${file%.*}"
+        # Execute mysh script with file as input and write result of execution to out.txt
+        if [[ -f "$file" && "$file" != "testcases/assignment2/T_background.txt" ]]; then
+            echo ${file}
+            timeout 10s ./mysh < ${file} > ../out.txt
+        fi
+        #Throw an error
+        if [ $? -ne 0 ]; then
+            echo "Error in test file execution of: $file"
+            exit 1
+        fi
+        echo "Actual output of $file" >> ../RESULTS.txt
+        cat ../out.txt >> ../RESULTS.txt
+        # Check if the corresponding result files exist
+        if [[ -f "${base}_result.txt" ]]; then
+            echo "difference between expected output of $file and actual in ${base}_result.txt:" >> ../RESULTS.txt
+            #Write the difference between out.txt and file_result.txt to RESULTS.txt
+            diff -w ../out.txt "${base}_result.txt" >> ../RESULTS.txt
+        fi
+
+        if [[ -f "${base}_result2.txt" ]]; then
+            echo "difference between expected output of $file and actual in ${base}_result2.txt:\n" >> ../RESULTS.txt
+            diff -w ../out.txt "${base}_result2.txt" >> ../RESULTS.txt
+        fi
+        
+    fi
+done
+
+#cat RESULTS.txt
+rm ../out.txt
 exit
+
 
