@@ -215,6 +215,16 @@ int badcommandExecPolicies(){
     return 9;
 }
 
+int badCommandDuplicateScripts(){
+    printf("%s\n","Bad command: same file name");
+    return 10;
+}
+
+int badCommandNotEnoughMemory(){
+    printf("%s\n","Error: Insufficient space in shell memory");
+    return 11;
+}
+
 int help();
 int quit();
 int set(char* var, char** value, int val);
@@ -528,6 +538,7 @@ int set(char* var, char** value, int argsize){
 	return 0;
 }
 
+
 int print(char* var){
 	printf("%s\n", mem_get_value(var)); 
 	return 0;
@@ -548,6 +559,7 @@ int run(char** command_args, int arg_size){
 
         FILE *p = fopen(command_args[arg],"rt");  // the program is in a file
         //printf("argument %d: %s\n",arg,command_args[arg]);
+        
         if(p == NULL){
             
             return badcommandFileDoesNotExist();
@@ -558,6 +570,8 @@ int run(char** command_args, int arg_size){
         struct PCB *new_pcb = malloc(sizeof(struct PCB));
         // Find space in memory to store program contents
         pcb_start_addr = mem_find_first_free();
+        // Throw error if space there's insufficient space
+        if (pcb_start_addr == -1){return badCommandNotEnoughMemory();}
         // Loop over each line of the program and save each into a different memory location
         int line_num = 0;
         // Address as a string (should be < 3 digits)
@@ -616,7 +630,22 @@ int exec(char** command_args, int arg_size){
     // If valid, save policy
     char policy[7];
     memcpy(policy,command_args[arg_size-1], sizeof(command_args[arg_size-1]));
-
-    printf("Policy selected is: %s\n",policy);
+    // create a new array with all but first and last elements
+    char** new_command_args = malloc((arg_size - 1) * sizeof(char*));
+    for (int i = 0; i < arg_size - 1; i++) {
+        new_command_args[i] = command_args[i];
+    }
+    // Check if any of the elements in new_command_args are identical
+    for (int i = 0; i < arg_size - 2; i++) {
+        for (int j = i+1; j < arg_size - 1; j++) {
+            if (strcmp(new_command_args[i], new_command_args[j]) == 0) {
+                // Found identical processes
+                free(new_command_args);
+                return badCommandDuplicateScripts();
+            }
+        }
+    }
+    run(new_command_args,arg_size-1);
+    free(new_command_args);
     return errCode;
 }

@@ -19,8 +19,8 @@ int parseCommands(char ui[]);
 
 // Start of everything
 int main(int argc, char *argv[]) {
-	printf("%s\n", "Shell version 1.2 Created January 2023");
-	help();
+	printf("%s\n", "Shell version 1.2 Created January 2023\n");
+	//help();
 
 	char prompt = '$';  				// Shell prompt
 	char userInput[MAX_USER_INPUT];		// user's input stored here
