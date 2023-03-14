@@ -79,8 +79,10 @@ void print_ready_queue(struct PCB *current_pcb) {
     printf("NULL\n");
 }
 void sort_ready_queue() {
-    printf("Ready queue prior to sort");
-    print_ready_queue(ready_queue_head);
+    //printf("Ready queue prior to sort");
+    //print_ready_queue(ready_queue_head);
+    //printf("Current schedule: ");
+    //print_ready_queue(ready_queue_head);
     if (ready_queue_head == NULL || ready_queue_head->next == NULL) {
         // If the queue has 0 or 1 element, it is already sorted
         return;
@@ -94,13 +96,9 @@ void sort_ready_queue() {
         if (current_pcb->job_length_score < ready_queue_head->job_length_score) {
             current_pcb->next = ready_queue_head;
             ready_queue_head = current_pcb;
-        } else if (current_pcb->job_length_score == ready_queue_head->job_length_score) {
-            // If there is a tie, insert the process closer to the head of the queue
-            current_pcb->next = ready_queue_head->next;
-            ready_queue_head->next = current_pcb;
         } else {
             struct PCB *prev_pcb = ready_queue_head;
-            while (prev_pcb->next != NULL && prev_pcb->next->job_length_score < current_pcb->job_length_score) {
+            while (prev_pcb->next != NULL && prev_pcb->next->job_length_score <= current_pcb->job_length_score) {
                 prev_pcb = prev_pcb->next;
             }
             current_pcb->next = prev_pcb->next;
@@ -114,8 +112,8 @@ void sort_ready_queue() {
         tail = tail->next;
     }
     ready_queue_tail = tail;
-    printf("Ready queue after sort");
-    print_ready_queue(ready_queue_head);
+    //printf("Ready queue after sort");
+    //print_ready_queue(ready_queue_head);
 }
 
 // Add a new PCB to the head of the ready queue
@@ -232,29 +230,26 @@ int run_program(struct PCB *pcb, Policy policy) {
         // Get the next line from memory
         memset(line, '\0', sizeof(line));
         sprintf(next_addr,"%d", pcb->program_counter);
+        //printf("%s\n",mem_get_value(next_addr));
         strcpy(line, mem_get_value(next_addr));
         //printf("The value retrieved from %s is: %s\n",next_addr,line);
         // Interpret the line using parseInput
+        //print_pcb_contents(pcb);
+        //printf("%s\n",line);
         errorCode = parseInput(line);
+        //printf("ERROR CODE %d\n",errorCode);
+        //printf("FINISHED EXECUTING\n");
         
         // Increment the program counter to the next line
         pcb->program_counter ++;
         lines_executed ++;
         // Clear space for next line address
         memset(next_addr, '\0', sizeof(next_addr));
-
+        
         // Aging mechanism, might have trouble with position in while loop
-        if (policy == AGING && pcb->next != NULL){
+        if (policy == AGING){
             // Age processes after each line is run
-            struct PCB *current_pcb = ready_queue_head->next;
-            //print_ready_queue(ready_queue_head);
-            while(current_pcb != NULL){
-                // Age all of the processes by 1 unless they're already at 0
-                if(current_pcb->job_length_score > 0){
-                    current_pcb->job_length_score--;
-                }
-                current_pcb = current_pcb->next;
-            }
+            //print_ready_queue(pcb);
             break;
         }
         
@@ -267,7 +262,7 @@ int run_program(struct PCB *pcb, Policy policy) {
     //print_pcb_contents(pcb);
     //printf("pcb state is %d\n",pcb->state);
     //printf("The statement I'm depending on is %d\n",pcb->program_counter == pcb->num_lines+pcb->program_location);
-    
+    //printf("Program counter is %d and program is equal to %d\n",pcb->program_counter,pcb==NULL);
     if (pcb->program_counter == pcb->num_lines+pcb->program_location){
         //printf("Made it past the free pcb if statement\n");
         pcb->state = TERMINATED;
@@ -319,28 +314,43 @@ void scheduler(Policy policy) {
             case AGING:
                 // Retrieve smallest PCB from head of queue
                 sort_ready_queue();
-                next_pcb = remove_from_ready_queue();
-                run_program(next_pcb, policy);
-                if (next_pcb->state == TERMINATED){
+                //next_pcb = remove_from_ready_queue();
+                run_program(ready_queue_head, policy);
+                next_pcb = ready_queue_head;
+                // Decrement ages
+                if (next_pcb->next != NULL){
+                    struct PCB *current_pcb = next_pcb->next;
+                    //print_ready_queue(ready_queue_head);
+                    while(current_pcb != NULL){
+                        // Age all of the processes by 1 unless they're already at 0
+                        if(current_pcb->job_length_score > 0){
+                            current_pcb->job_length_score--;
+                        }
+                        current_pcb = current_pcb->next;
+                    }
+                }
+                
+                if (ready_queue_head->state == TERMINATED){
+                    //print_ready_queue(ready_queue_head);
+                    next_pcb = remove_from_ready_queue();
                     mem_reset(next_pcb->program_location, next_pcb->num_lines);
                     free(next_pcb);
                 }
-                else{
+                //add_to_head_of_queue(next_pcb);
+                // else{
                     
-                    printf("Queue BEFORE adding back the last process: ");
-                    print_ready_queue(ready_queue_head);
-                    // Add back to head of ready queue
-                    add_to_head_of_queue(next_pcb);
-                    printf("Queue AFTER adding back the last process: ");
-                    print_ready_queue(ready_queue_head);
-                    run_program(next_pcb, policy);
+                //     // printf("Queue BEFORE adding back the last process: ");
+                //     // print_ready_queue(ready_queue_head);
+                //     // Add back to head of ready queue
+                //     printf("Before adding back: ");
+                //     print_ready_queue(ready_queue_head);
+                //     add_to_head_of_queue(next_pcb);
+                //     printf("After adding back: ");
+                //     print_ready_queue(ready_queue_head);
+                //     // printf("Queue AFTER adding back the last process: ");
+                //     // print_ready_queue(ready_queue_head)
                     
-                    if (next_pcb->state == TERMINATED){
-                        mem_reset(next_pcb->program_location, next_pcb->num_lines);
-                        free(next_pcb);
-                    }
-                    
-                }
+                // }
                 break;
             default:
                 printf("Invalid scheduling policy\n");
