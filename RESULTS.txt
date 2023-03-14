@@ -1,105 +1,72 @@
 
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment2/T_AGING2.txt and actual in ../testcases/assignment2/T_AGING2_result.txt:
-2a3,4
-> f2 3 lines
-> f2 3 lines
-4a7
+22,26c22,26
+< (null)
+< (null)
+< (null)
+< (null)
+< (null)
+---
 > f3 7 lines
-7,9d9
-< f2 3 lines
-< f2 3 lines
-< f3 7 lines
-18a19
 > f3 7 lines
-26d26
-< f3 7 lines
+> f3 7 lines
+> f3 7 lines
+> f3 7 lines
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment2/T_AGING3.txt and actual in ../testcases/assignment2/T_AGING3_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result.txt:
-5,8d4
-< file1
-< file1
-< file2
-< file2
-11a8,11
-> file2
-> file2
-> file1
-> file1
 difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result2.txt:\n
-4a5,7
-> file2
-> file3
-> file3
-9,11d11
+8,9d7
 < file2
-< file3
-< file3
+< file2
+11a10,11
+> file2
+> file2
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result.txt:
-3a4,5
-> OOOOP3L1OOOO
-> OOOOP3L2OOOO
-4a7,8
-> OOP2L1OO
-> OOP2L2OO
-5a10,11
-> OOOOP3L3OOOO
-> OOOOP3L4OOOO
-9,10d14
-< OOP2L1OO
-< OOP2L2OO
-16,19d19
-< OOOOP3L1OOOO
-< OOOOP3L2OOOO
-< OOOOP3L3OOOO
-< OOOOP3L4OOOO
 difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result2.txt:\n
-3a4,6
-> OOOOP3L1OOOO
-> OOOOP3L2OOOO
-> OOP2L1OO
-5a9,11
-> OOOOP3L3OOOO
+6d5
+< P1L2
+8c7
+< OOP2L2OO
+---
+> P1L2
+11c10,11
+< OOOOP3L4OOOO
+---
 > OOP2L2OO
 > OOP2L3OO
-9,11c15,17
-< OOP2L1OO
-< OOP2L2OO
+15c15,17
 < OOP2L3OO
 ---
 > OOOOP3L4OOOO
 > OOOOP3L5OOOO
 > OOOOP3L6OOOO
-16,21d21
-< OOOOP3L1OOOO
-< OOOOP3L2OOOO
-< OOOOP3L3OOOO
-< OOOOP3L4OOOO
+20,21d21
 < OOOOP3L5OOOO
 < OOOOP3L6OOOO
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment2/T_background.txt and actual in ../testcases/assignment2/T_background_result.txt:
 3,21c3,6
 < P1L1
+< OOOOP3L1OOOO
+< OOOOP3L2OOOO
 < P1L2
+< OOP2L1OO
+< OOP2L2OO
 < P1L3
+< OOOOP3L3OOOO
+< OOOOP3L4OOOO
 < P1L4
 < P1L5
 < P1L6
-< OOP2L1OO
-< OOP2L2OO
 < OOP2L3OO
 < OOP2L4OO
 < OOP2L5OO
 < OOP2L6OO
 < OOP2L7OO
-< OOOOP3L1OOOO
-< OOOOP3L2OOOO
-< OOOOP3L3OOOO
-< OOOOP3L4OOOO
 < OOOOP3L5OOOO
 < OOOOP3L6OOOO
 ---
