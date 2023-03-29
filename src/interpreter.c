@@ -8,6 +8,7 @@
 #include "shell.h"
 #include "kernel.h"
 #include "ready_queue.h"
+#include "backingstore.h"
 
 int MAX_ARGS_SIZE = 7;
 
@@ -58,6 +59,11 @@ int badcommand_ready_queue_full(){
 
 int badcommand_same_file_name(){
 	printf("%s\n", "Bad command: same file name");
+	return 1;
+}
+
+int badcommand_cant_create_file(){
+	printf("%s\n", "Bad command: Unable to create backingstore file");
 	return 1;
 }
 
@@ -112,6 +118,7 @@ int interpreter(char* command_args[], int args_size){
 	} else if (strcmp(command_args[0], "quit")==0) {
 		//quit
 		if (args_size != 1) return badcommand();
+		remove_backing_store();
 		return quit();
 
 	} else if (strcmp(command_args[0], "set")==0) {

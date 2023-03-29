@@ -5,8 +5,10 @@
 #include "interpreter.h"
 #include "shellmemory.h"
 #include "pcb.h"
+#include "backingstore.h"
 #include "kernel.h"
 #include "shell.h"
+#include "sys/stat.h"
 
 int MAX_USER_INPUT = 1000;
 int parseInput(char ui[]);
@@ -17,6 +19,9 @@ int main(int argc, char *argv[]) {
 	char prompt = '$';  				// Shell prompt
 	char userInput[MAX_USER_INPUT];		// user's input stored here
 	int errorCode = 0;					// zero means no error, default
+
+    // Create backingsotre memory
+    errorCode = init_backing_store();
 
 	//init user input
 	for (int i=0; i<MAX_USER_INPUT; i++)
