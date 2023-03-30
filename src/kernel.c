@@ -30,20 +30,21 @@ void unlock_queue(){
 int process_initialize(char *filename){
     FILE* fp;
     int error_code = 0;
-    int* start = (int*)malloc(sizeof(int));
-    int* end = (int*)malloc(sizeof(int));
+    // int* start = (int*)malloc(sizeof(int));
+    // int* end = (int*)malloc(sizeof(int));
+    int fileSize = 0;
     
     fp = fopen(filename, "rt");
     if(fp == NULL){
         error_code = 11; // 11 is the error code for file does not exist
         return error_code;
     }
-    error_code = load_file(fp, start, end, filename);
+    // error_code = load_file(fp, start, end, filename);
     if(error_code != 0){
         fclose(fp);
         return error_code;
     }
-    PCB* newPCB = makePCB(*start,*end);
+    PCB* newPCB = makePCB(filename,fileSize);
     QueueNode *node = malloc(sizeof(QueueNode));
     node->pcb = newPCB;
     lock_queue();
@@ -56,14 +57,17 @@ int process_initialize(char *filename){
 int shell_process_initialize(){
     //Note that "You can assume that the # option will only be used in batch mode."
     //So we know that the input is a file, we can directly load the file into ram
-    int* start = (int*)malloc(sizeof(int));
-    int* end = (int*)malloc(sizeof(int));
+    // int* start = (int*)malloc(sizeof(int));
+    // int* end = (int*)malloc(sizeof(int));
     int error_code = 0;
-    error_code = load_file(stdin, start, end, "_SHELL");
+    // error_code = load_file(stdin, start, end, "_SHELL");
     if(error_code != 0){
         return error_code;
     }
-    PCB* newPCB = makePCB(*start,*end);
+    //TODO: fix shell
+    char* shellFileName = NULL;
+    int shellFileSize = 0;
+    PCB* newPCB = makePCB(shellFileName,shellFileSize);
     newPCB->priority = true;
     QueueNode *node = malloc(sizeof(QueueNode));
     node->pcb = newPCB;
