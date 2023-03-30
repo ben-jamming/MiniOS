@@ -18,8 +18,11 @@ typedef struct
     int start;
     int end;
     int job_length_score;
+    int* pageTable;
+    int fileSize;
+    char* fileName;
 }PCB;
 
 int generatePID();
-PCB * makePCB(int start, int end);
+PCB * makePCB(char* fileName, int fileSize);
 #endif
