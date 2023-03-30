@@ -203,6 +203,3 @@ void mem_free_lines_between(int start, int end){
 }
 
 // Partition shell memory into frame store and variable store
-void partition_shell_memory(){
-
-}
