@@ -2,8 +2,16 @@
 #include<string.h>
 #include<stdio.h>
 #include<stdbool.h>
+#include"pcb.h"
 
 #define SHELL_MEM_LENGTH 1000
+
+void evictFrame(PCB* pcb, int frameNum);
+void assignFrame(PCB* pcb, int pageNum);
+void loadPage(PCB* pcb, int pageNum);
+int getLRUFrame();
+int getNextLine(PCB* pcb);
+int getVictimFrame();
 
 
 struct memory_struct{
@@ -193,3 +201,5 @@ void mem_free_lines_between(int start, int end){
 		shellmemory[i].value = "none";
 	}
 }
+
+// Partition shell memory into frame store and variable store
