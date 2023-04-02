@@ -26,25 +26,50 @@ void lock_queue(){
 void unlock_queue(){
     if(multi_threading) pthread_mutex_unlock(&queue_lock);
 }
+int count_lines(char *filename) {
+    FILE *file = fopen(filename, "r");
+    int lines = 0;
+    int ch;
+
+    if (file) {
+        while ((ch = getc(file)) != EOF) {
+            if (ch == '\n') {
+                lines++;
+            }
+        }
+        fclose(file);
+    }
+
+    return lines;
+}
+
 
 int process_initialize(char *filename){
     FILE* fp;
     int error_code = 0;
-    int* start = (int*)malloc(sizeof(int));
-    int* end = (int*)malloc(sizeof(int));
-    
+
     fp = fopen(filename, "rt");
     if(fp == NULL){
         error_code = 11; // 11 is the error code for file does not exist
         return error_code;
     }
-    error_code = load_file(fp, start, end, filename);
-    if(error_code != 0){
-        fclose(fp);
-        return error_code;
-    }
-    PCB* newPCB = makePCB(*start,*end);
+    //int* start = (int*)malloc(sizeof(int));
+    //int* end = (int*)malloc(sizeof(int));
+    // Get the file length (number of lines)
+    int file_length = count_lines(filename);
+    // Intialize a new PCB
+    PCB* newPCB = makePCB(*filename,file_length);
     QueueNode *node = malloc(sizeof(QueueNode));
+    // Load the first two pages of the file into memory
+    loadPage(newPCB, 0);
+    loadPage(newPCB, 1);
+
+    // error_code = load_file(fp, start, end, filename);
+    // if(error_code != 0){
+    //     fclose(fp);
+    //     return error_code;
+    // }
+    
     node->pcb = newPCB;
     lock_queue();
     ready_queue_add_to_tail(node);
@@ -75,10 +100,26 @@ int shell_process_initialize(){
 }
 
 bool execute_process(QueueNode *node, int quanta){
+    int *line_address = NULL;
     char *line = NULL;
     PCB *pcb = node->pcb;
-    for(int i=0; i<quanta; i++){
-        line = mem_get_value_at_line(pcb->PC++);
+    int i = 0;
+    while (i < quanta){
+        line_address = getNextLine(pcb);
+        // TODO: make line address a pointer to the line in memory
+        if (line_address == NULL){
+            // Make a call to get victim frame
+            int victim_frame = getVictimFrame();
+            // Evict the victim frame
+            printf("Page fault! Victim page contents:\n");
+            for(int i=0; i<3; i++){
+                printf("%s", mem_get_value_at_line(victim_frame*3+i));
+            }
+            printf("End of victim page contents.\n");
+            evictFrame(pcb,victim_frame);
+            break;
+        }
+
         in_background = true;
         if(pcb->priority) {
             pcb->priority = false;
@@ -91,6 +132,7 @@ bool execute_process(QueueNode *node, int quanta){
         }
         parseInput(line);
         in_background = false;
+        i++;
     }
     return false;
 }
