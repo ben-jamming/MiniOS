@@ -102,45 +102,32 @@ int shell_process_initialize(){
 }
 
 bool execute_process(QueueNode *node, int quanta){
-    int frameNum = -1;
     char *line = NULL;
     PCB *pcb = node->pcb;
     int i = 0;
     while (i < quanta){
-        // Check if the page is in the frame store
-        frameNum = getNextLine(pcb);
-        // If the page is not in the frame store, evict LRU frame and load in the new page
-        if (frameNum == -1){
-            // Make a call to get victim frame
-            int victim_frame = getVictimFrame();
-            // Evict the victim frame
-            printf("Page fault! Victim page contents:\n");
-            for(int i=0; i<3; i++){
-                printf("%s", mem_get_value_at_line(victim_frame*3+i));
-            }
-            printf("End of victim page contents.\n");
-            evictFrame(pcb,victim_frame);
-            break;
-        }
-        // If the page is in the frame store, get the line from shell memory
-        else{
-            line = mem_get_value_at_line(frameNum + pcb->PC%3);
-        }
-
-        in_background = true;
-        if(pcb->priority) {
-            pcb->priority = false;
-        }
-        if(pcb->PC>pcb->fileSize){
-            parseInput(line);
-            terminate_process(node);
-            in_background = false;
-            return true;
-        }
-        
+    // Check if the page is in the frame store
+    // 
+    line = getNextLine(pcb);
+    if (pageFault(line, pcb)){break;}
+    // If the page is in the frame store, get the line from shell memory
+    in_background = true;
+    if(pcb->priority) {
+        pcb->priority = false;
+    }
+    if(pcb->PC>pcb->fileSize){
         parseInput(line);
+        terminate_process(node);
         in_background = false;
-        i++;
+        return true;
+    }
+    
+    parseInput(line);
+    in_background = false;
+    // Increment the program counter
+    pcb->PC++;
+    i++;
+
     }
     return false;
 }
