@@ -57,7 +57,7 @@ int process_initialize(char *filename){
     fclose(fp);
     int file_size = count_lines(filename);
     //error_code = load_file(fp, start, end, filename);
-    PCB* newPCB = makePCB(filename,file_size);
+    PCB* newPCB = makePCB(filename,file_size,3);
     QueueNode *node = malloc(sizeof(QueueNode));
     // Load the first two pages of the file into memory
     loadPage(newPCB, 0);
@@ -90,7 +90,7 @@ int shell_process_initialize(){
     //TODO: fix shell
     char* shellFileName = NULL;
     int shellFileSize = 0;
-    PCB* newPCB = makePCB(shellFileName,shellFileSize);
+    PCB* newPCB = makePCB(shellFileName,shellFileSize,3);
     newPCB->priority = true;
     QueueNode *node = malloc(sizeof(QueueNode));
     node->pcb = newPCB;

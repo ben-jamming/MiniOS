@@ -12,9 +12,9 @@ int generatePID(){
 }
 
 //In this implementation, Pid is the same as file ID 
-PCB* makePCB(char* fileName, int fileSize){
+PCB* makePCB(char* fileName, int fileSize, int pageSize){
     PCB * newPCB = malloc(sizeof(PCB));
-    int pageSize = 3;
+    newPCB->pageSize = pageSize;
     // Nnumber of pages is the ceiling of the file size divided by the page size
     // This is because each page can hold 3 lines of code
     int pageTableSize = (int) ceil((double)fileSize / (double) pageSize);

@@ -14,6 +14,7 @@
 typedef struct
 {
     bool priority;
+    int pageSize;
     int pid;
     int PC;
     int job_length_score;
@@ -23,6 +24,6 @@ typedef struct
 }PCB;
 
 int generatePID();
-PCB * makePCB(char* fileName, int fileSize);
+PCB * makePCB(char* fileName, int fileSize, int pageSize);
 void printPCB(PCB *pcb);
 #endif

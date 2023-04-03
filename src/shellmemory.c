@@ -221,13 +221,13 @@ int getLRUFrame(){
 }
 char *getNextLine(PCB* pcb){
 	int frameNum = -1;
-	int pageNum = pcb->PC/3;
+	int pageNum = pcb->PC/pcb->pageSize;
 	// get the frame number of the current page
 	// TODO: check if the page is in the frame store
 	// For now, assume that the page is in the frame store
 	frameNum = pcb->pageTable[pageNum];
 	// get the next line of the program from the page store
-	char *line = mem_get_value_at_line(frameNum + pcb->PC%3);
+	char *line = mem_get_value_at_line(frameNum + pcb->PC % pcb->pageSize);
 	return line;
 }
 int getVictimFrame(){
@@ -242,8 +242,8 @@ bool pageFault(char *line, PCB* pcb){
 		int victim_frame = getVictimFrame();
 		// Evict the victim frame
 		printf("Page fault! Victim page contents:\n");
-		for(int i=0; i<3; i++){
-			printf("%s", mem_get_value_at_line(victim_frame*3+i));
+		for(int i=0; i<pcb->pageSize; i++){
+			printf("%s", mem_get_value_at_line(victim_frame*pcb->pageSize+i));
 		}
 		printf("End of victim page contents.\n");
 		evictFrame(pcb,victim_frame);
