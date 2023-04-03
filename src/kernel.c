@@ -28,7 +28,7 @@ void unlock_queue(){
 }
 int count_lines(char *filename) {
     FILE *file = fopen(filename, "r");
-    int lines = 0;
+    int lines = 1;
     int ch;
 
     if (file) {
@@ -47,24 +47,27 @@ int count_lines(char *filename) {
 int process_initialize(char *filename){
     FILE* fp;
     int error_code = 0;
-    int* start = (int*)malloc(sizeof(int));
-    int* end = (int*)malloc(sizeof(int));
-    
+    //int* start = (int*)malloc(sizeof(int));
+    //int* end = (int*)malloc(sizeof(int));
     fp = fopen(filename, "rt");
     if(fp == NULL){
         error_code = 11; // 11 is the error code for file does not exist
         return error_code;
     }
-    error_code = load_file(fp, start, end, filename);
-    if(error_code != 0){
-        fclose(fp);
-        return error_code;
-    }
-    PCB* newPCB = makePCB(*start,*end);
+    fclose(fp);
+    int file_size = count_lines(filename);
+    //error_code = load_file(fp, start, end, filename);
+    PCB* newPCB = makePCB(filename,file_size);
     QueueNode *node = malloc(sizeof(QueueNode));
     // Load the first two pages of the file into memory
     loadPage(newPCB, 0);
     loadPage(newPCB, 1);
+    node->pcb = newPCB;
+    lock_queue();
+    ready_queue_add_to_tail(node);
+    unlock_queue();
+    return error_code;
+
 
     // error_code = load_file(fp, start, end, filename);
     // if(error_code != 0){
@@ -72,12 +75,6 @@ int process_initialize(char *filename){
     //     return error_code;
     // }
     
-    node->pcb = newPCB;
-    lock_queue();
-    ready_queue_add_to_tail(node);
-    unlock_queue();
-    fclose(fp);
-    return error_code;
 }
 
 int shell_process_initialize(){
@@ -105,14 +102,15 @@ int shell_process_initialize(){
 }
 
 bool execute_process(QueueNode *node, int quanta){
-    int *line_address = NULL;
+    int frameNum = -1;
     char *line = NULL;
     PCB *pcb = node->pcb;
     int i = 0;
     while (i < quanta){
-        line_address = getNextLine(pcb);
-        // TODO: make line address a pointer to the line in memory
-        if (line_address == NULL){
+        // Check if the page is in the frame store
+        frameNum = getNextLine(pcb);
+        // If the page is not in the frame store, evict LRU frame and load in the new page
+        if (frameNum == -1){
             // Make a call to get victim frame
             int victim_frame = getVictimFrame();
             // Evict the victim frame
@@ -124,23 +122,29 @@ bool execute_process(QueueNode *node, int quanta){
             evictFrame(pcb,victim_frame);
             break;
         }
+        // If the page is in the frame store, get the line from shell memory
+        else{
+            line = mem_get_value_at_line(frameNum + pcb->PC%3);
+        }
 
         in_background = true;
         if(pcb->priority) {
             pcb->priority = false;
         }
-        if(pcb->PC>pcb->end){
+        if(pcb->PC>pcb->fileSize){
             parseInput(line);
             terminate_process(node);
             in_background = false;
             return true;
         }
+        
         parseInput(line);
         in_background = false;
         i++;
     }
     return false;
 }
+
 
 void *scheduler_FCFS(){
     QueueNode *cur;

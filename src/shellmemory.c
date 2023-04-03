@@ -10,7 +10,7 @@ void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
 void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
-int *getNextLine(PCB* pcb);
+int getNextLine(PCB* pcb);
 int getVictimFrame();
 
 
@@ -205,5 +205,25 @@ void mem_free_lines_between(int start, int end){
 // Partition shell memory into frame store and variable store
 
 void evictFrame(PCB* pcb, int frameNum){
-	
+	// evict the frame from the frame store
+}
+
+void assignFrame(PCB* pcb, int pageNum){
+	// assign a frame to the page
+}
+void loadPage(PCB* pcb, int pageNum){
+	// load the page into the frame store
+	printf("Loading page %d into frame %d\n", pageNum, pcb->pageTable[pageNum]);
+}
+int getLRUFrame(){
+	// get the least recently used frame
+	return 0;
+}
+int getNextLine(PCB* pcb){
+	// get the next line of the program from the page store
+	return 0;
+}
+int getVictimFrame(){
+	// get the victim frame to evict
+	return 0;
 }

@@ -1,6 +1,7 @@
 #ifndef PCB_H
 #define PCB_H
 #include <stdbool.h>
+#include <math.h>
 /*
  * Struct:  PCB 
  * --------------------
@@ -15,14 +16,13 @@ typedef struct
     bool priority;
     int pid;
     int PC;
-    int start;
-    int end;
     int job_length_score;
-    int* pageTable;
+    int *pageTable;
     int fileSize;
     char* fileName;
 }PCB;
 
 int generatePID();
 PCB * makePCB(char* fileName, int fileSize);
+void printPCB(PCB *pcb);
 #endif
