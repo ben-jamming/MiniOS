@@ -10,7 +10,7 @@ void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
 void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
-int getNextLine(PCB* pcb);
+char *getNextLine(PCB* pcb);
 int getVictimFrame();
 
 
@@ -203,3 +203,52 @@ void mem_free_lines_between(int start, int end){
 }
 
 // Partition shell memory into frame store and variable store
+
+void evictFrame(PCB* pcb, int frameNum){
+	// evict the frame from the frame store
+}
+
+void assignFrame(PCB* pcb, int pageNum){
+	// assign a frame to the page
+}
+void loadPage(PCB* pcb, int pageNum){
+	// load the page into the frame store
+	printf("Loading page %d into frame %d\n", pageNum, pcb->pageTable[pageNum]);
+}
+int getLRUFrame(){
+	// get the least recently used frame
+	return 0;
+}
+char *getNextLine(PCB* pcb){
+	int frameNum = -1;
+	int pageNum = pcb->PC/pcb->pageSize;
+	// get the frame number of the current page
+	// TODO: check if the page is in the frame store
+	// For now, assume that the page is in the frame store
+	frameNum = pcb->pageTable[pageNum];
+	// get the next line of the program from the page store
+	char *line = mem_get_value_at_line(frameNum + pcb->PC % pcb->pageSize);
+	return line;
+}
+int getVictimFrame(){
+	// get the victim frame to evict
+	return 0;
+}
+
+bool pageFault(char *line, PCB* pcb){
+	// check if there is a page fault at the current line
+	if(line == NULL){
+		// Make a call to get victim frame
+		int victim_frame = getVictimFrame();
+		// Evict the victim frame
+		printf("Page fault! Victim page contents:\n");
+		for(int i=0; i<pcb->pageSize; i++){
+			printf("%s", mem_get_value_at_line(victim_frame*pcb->pageSize+i));
+		}
+		printf("End of victim page contents.\n");
+		evictFrame(pcb,victim_frame);
+		return true;
+	}
+
+	return false;
+}

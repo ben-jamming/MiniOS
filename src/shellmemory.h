@@ -12,6 +12,7 @@ void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
 void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
-int getNextLine(PCB* pcb);
+char *getNextLine(PCB* pcb);
 int getVictimFrame();
+bool pageFault(char *line, PCB* pcb);
 #endif

@@ -26,32 +26,55 @@ void lock_queue(){
 void unlock_queue(){
     if(multi_threading) pthread_mutex_unlock(&queue_lock);
 }
+int count_lines(char *filename) {
+    FILE *file = fopen(filename, "r");
+    int lines = 1;
+    int ch;
+
+    if (file) {
+        while ((ch = getc(file)) != EOF) {
+            if (ch == '\n') {
+                lines++;
+            }
+        }
+        fclose(file);
+    }
+
+    return lines;
+}
+
 
 int process_initialize(char *filename){
     FILE* fp;
     int error_code = 0;
-    // int* start = (int*)malloc(sizeof(int));
-    // int* end = (int*)malloc(sizeof(int));
-    int fileSize = 0;
-    
+    //int* start = (int*)malloc(sizeof(int));
+    //int* end = (int*)malloc(sizeof(int));
     fp = fopen(filename, "rt");
     if(fp == NULL){
         error_code = 11; // 11 is the error code for file does not exist
         return error_code;
     }
-    // error_code = load_file(fp, start, end, filename);
-    if(error_code != 0){
-        fclose(fp);
-        return error_code;
-    }
-    PCB* newPCB = makePCB(filename,fileSize);
+    fclose(fp);
+    int file_size = count_lines(filename);
+    //error_code = load_file(fp, start, end, filename);
+    PCB* newPCB = makePCB(filename,file_size,3);
     QueueNode *node = malloc(sizeof(QueueNode));
+    // Load the first two pages of the file into memory
+    loadPage(newPCB, 0);
+    loadPage(newPCB, 1);
     node->pcb = newPCB;
     lock_queue();
     ready_queue_add_to_tail(node);
     unlock_queue();
-    fclose(fp);
     return error_code;
+
+
+    // error_code = load_file(fp, start, end, filename);
+    // if(error_code != 0){
+    //     fclose(fp);
+    //     return error_code;
+    // }
+    
 }
 
 int shell_process_initialize(){
@@ -67,7 +90,7 @@ int shell_process_initialize(){
     //TODO: fix shell
     char* shellFileName = NULL;
     int shellFileSize = 0;
-    PCB* newPCB = makePCB(shellFileName,shellFileSize);
+    PCB* newPCB = makePCB(shellFileName,shellFileSize,3);
     newPCB->priority = true;
     QueueNode *node = malloc(sizeof(QueueNode));
     node->pcb = newPCB;
@@ -81,23 +104,34 @@ int shell_process_initialize(){
 bool execute_process(QueueNode *node, int quanta){
     char *line = NULL;
     PCB *pcb = node->pcb;
-    for(int i=0; i<quanta; i++){
-        line = mem_get_value_at_line(pcb->PC++);
-        in_background = true;
-        if(pcb->priority) {
-            pcb->priority = false;
-        }
-        if(pcb->PC>pcb->end){
-            parseInput(line);
-            terminate_process(node);
-            in_background = false;
-            return true;
-        }
+    int i = 0;
+    while (i < quanta){
+    // Check if the page is in the frame store
+    // 
+    line = getNextLine(pcb);
+    if (pageFault(line, pcb)){break;}
+    // If the page is in the frame store, get the line from shell memory
+    in_background = true;
+    if(pcb->priority) {
+        pcb->priority = false;
+    }
+    if(pcb->PC>pcb->fileSize){
         parseInput(line);
+        terminate_process(node);
         in_background = false;
+        return true;
+    }
+    
+    parseInput(line);
+    in_background = false;
+    // Increment the program counter
+    pcb->PC++;
+    i++;
+
     }
     return false;
 }
+
 
 void *scheduler_FCFS(){
     QueueNode *cur;
