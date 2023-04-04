@@ -26,6 +26,10 @@ PCB* makePCB(char* fileName, int fileSize, int pageSize){
     newPCB->fileSize = fileSize;
     newPCB->job_length_score = 1+fileSize;
     newPCB->pageTable = malloc(pageTableSize * sizeof(int));
+    // Initialize page table to -1
+    for(int i = 0; i < pageTableSize; i++) {
+        newPCB->pageTable[i] = -1;
+    }
     newPCB->priority = false;
     return newPCB;
 }
@@ -39,7 +43,7 @@ void printPCB(PCB *pcb) {
     printf("Priority: %s\n", pcb->priority ? "true" : "false");
     printf("Page Table:\n");
     for(int i = 0; i < (int) sizeof(pcb->pageTable)/sizeof(pcb->pageTable[0]); i++) {
-        printf("    %d\n", pcb->pageTable[i]);
+        printf("    %d -> [%d]\n", i, pcb->pageTable[i]);
     }
     printf("Done printing page table.");
     printf("\n");

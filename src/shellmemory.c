@@ -57,7 +57,7 @@ void mem_init(){
 // Set key value pair
 void mem_set_value(char *var_in, char *value_in) {
 	int i;
-	for (i=0; i<1000; i++){
+	for (i=SHELL_MEM_LENGTH - VAR_STORE_SIZE; i<1000; i++){
 		if (strcmp(shellmemory[i].var, var_in) == 0){
 			shellmemory[i].value = strdup(value_in);
 			return;
@@ -65,7 +65,7 @@ void mem_set_value(char *var_in, char *value_in) {
 	}
 
 	//Value does not exist, need to find a free spot.
-	for (i=0; i<1000; i++){
+	for (i=SHELL_MEM_LENGTH - VAR_STORE_SIZE; i<1000; i++){
 		if (strcmp(shellmemory[i].var, "none") == 0){
 			shellmemory[i].var = strdup(var_in);
 			shellmemory[i].value = strdup(value_in);
@@ -251,4 +251,11 @@ bool pageFault(char *line, PCB* pcb){
 	}
 
 	return false;
+}
+
+void init_frame_store(){
+	// initialize the frame store
+	for (int i=0; i<FRAME_STORE_SIZE; i++){
+		frame_store[i] = -1;
+	}
 }
