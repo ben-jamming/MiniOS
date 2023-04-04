@@ -20,7 +20,7 @@ struct memory_struct{
 };
 
 struct memory_struct shellmemory[SHELL_MEM_LENGTH];
-int frameTable[FRAME_STORE_SIZE];
+int frameStore[FRAME_STORE_SIZE];
 
 // Helper functions
 int match(char *model, char *var) {
@@ -257,6 +257,6 @@ bool pageFault(char *line, PCB* pcb){
 void init_frame_store(){
 	// initialize the frame store
 	for (int i=0; i<FRAME_STORE_SIZE; i++){
-		frame_store[i] = -1;
+		frameStore[i] = -1;
 	}
 }
