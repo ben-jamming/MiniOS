@@ -20,7 +20,16 @@ struct memory_struct{
 };
 
 struct memory_struct shellmemory[SHELL_MEM_LENGTH];
-int frameStore[FRAME_STORE_SIZE];
+PCB **frameStore;
+
+// Initialize frame store
+void initFrameStore(){
+	frameStore = malloc(FRAME_STORE_SIZE * sizeof(PCB *));
+	int i;
+	for(i=0;i<FRAME_STORE_SIZE;i++){
+		frameStore[i] = NULL;
+	}
+}
 
 // Helper functions
 int match(char *model, char *var) {
@@ -212,10 +221,18 @@ void evictFrame(PCB* pcb, int frameNum){
 void assignFrame(PCB* pcb, int pageNum){
 	// assign a frame to the page
 }
+
+// Load a page from the backing store into the frame store
+//@param pcb: the PCB of the process
+//@param pageNum: the page number to load
 void loadPage(PCB* pcb, int pageNum){
-	// load the page into the frame store
+	// Assign a frame to load the page into and add it to the page table
+	assignFrame(pcb, pageNum);
+	// Load the frame from the backing store
+	// TODO: load the page from the backing store
 	printf("Loading page %d into frame %d\n", pageNum, pcb->pageTable[pageNum]);
 }
+
 int getLRUFrame(){
 	// get the least recently used frame
 	return 0;
@@ -252,11 +269,4 @@ bool pageFault(char *line, PCB* pcb){
 	}
 
 	return false;
-}
-
-void init_frame_store(){
-	// initialize the frame store
-	for (int i=0; i<FRAME_STORE_SIZE; i++){
-		frameStore[i] = -1;
-	}
 }

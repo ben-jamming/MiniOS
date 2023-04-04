@@ -118,7 +118,7 @@ int interpreter(char* command_args[], int args_size){
 	} else if (strcmp(command_args[0], "quit")==0) {
 		//quit
 		if (args_size != 1) return badcommand();
-		remove_backing_store();
+		removeBackingStore();
 		return quit();
 
 	} else if (strcmp(command_args[0], "set")==0) {
