@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 	int errorCode = 0;					// zero means no error, default
 
     // Create backingsotre memory
-    errorCode = init_backing_store();
+    errorCode = initBackingStore();
 
 	//init user input
 	for (int i=0; i<MAX_USER_INPUT; i++)

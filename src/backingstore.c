@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
+#include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "interpreter.h"
 #include "shellmemory.h"
 #include "pcb.h"
@@ -9,46 +11,43 @@
 #include "shell.h"
 #include "backingstore.h"
 
-// Initialize backingstore file
-int init_backing_store() {
-    // Create backingstore file
-    const char *filename = "backingstore.txt";
-    FILE *fp;
-    int exist;
+// Delete backingstore folder upon quit
+int removeBackingStore(){
+    const char *foldername = "backingstore";
     int errCode = 0;
-
-    // Check if file exists already
-    if ((fp = fopen(filename, "r")) != NULL) {
-        exist = 1;
-        fclose(fp);
+    if (rmdir(foldername) != 0) {
+        printf("Error deleting folder!\n");
+        errCode = 1;
     } else {
-        exist = 0;
+        printf("Folder deleted successfully.\n");
     }
-
-    // If file exists, delete it
-    if (exist) {
-        remove(filename);
-    }
-
-    // Create an empty file
-    fp = fopen(filename, "w");
-    if (fp == NULL) {
-        printf("Error creating file!\n");
-        errCode = 1;
-    }
-    fclose(fp);
-    printf("File created successfully.\n");
     return errCode;
 }
 
-// Delete backingstore file upon quit
-int remove_backing_store(){
-    const char *filename = "backingstore.txt";
+// Initialize backingstore folder
+int initBackingStore() {
+    // Create backingstore folder
+    const char *foldername = "backingstore";
     int errCode = 0;
-    if (remove(filename) != 0) {
-        printf("Error deleting file!\n");
+
+    // Check if folder exists already
+    struct stat st = {0};
+    if (stat(foldername, &st) != -1) {
+        removeBackingStore();
+    } 
+    // If folder doesn't exist, create it
+    if (mkdir(foldername, 0700) == -1) {
+        printf("Error creating folder!\n");
         errCode = 1;
+    } else {
+        printf("Folder created successfully.\n");
     }
-    printf("File deleted successfully.\n");
+
     return errCode;
 }
+
+
+
+
+
+

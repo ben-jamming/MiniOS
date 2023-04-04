@@ -20,6 +20,16 @@ struct memory_struct{
 };
 
 struct memory_struct shellmemory[SHELL_MEM_LENGTH];
+PCB **frameStore;
+
+// Initialize frame store
+void initFrameStore(){
+	frameStore = malloc(FRAME_STORE_SIZE * sizeof(PCB *));
+	int i;
+	for(i=0;i<FRAME_STORE_SIZE;i++){
+		frameStore[i] = NULL;
+	}
+}
 
 // Helper functions
 int match(char *model, char *var) {
@@ -57,7 +67,7 @@ void mem_init(){
 // Set key value pair
 void mem_set_value(char *var_in, char *value_in) {
 	int i;
-	for (i=0; i<1000; i++){
+	for (i=SHELL_MEM_LENGTH - VAR_STORE_SIZE; i<1000; i++){
 		if (strcmp(shellmemory[i].var, var_in) == 0){
 			shellmemory[i].value = strdup(value_in);
 			return;
@@ -65,7 +75,7 @@ void mem_set_value(char *var_in, char *value_in) {
 	}
 
 	//Value does not exist, need to find a free spot.
-	for (i=0; i<1000; i++){
+	for (i=SHELL_MEM_LENGTH - VAR_STORE_SIZE; i<1000; i++){
 		if (strcmp(shellmemory[i].var, "none") == 0){
 			shellmemory[i].var = strdup(var_in);
 			shellmemory[i].value = strdup(value_in);
@@ -211,10 +221,18 @@ void evictFrame(PCB* pcb, int frameNum){
 void assignFrame(PCB* pcb, int pageNum){
 	// assign a frame to the page
 }
+
+// Load a page from the backing store into the frame store
+//@param pcb: the PCB of the process
+//@param pageNum: the page number to load
 void loadPage(PCB* pcb, int pageNum){
-	// load the page into the frame store
+	// Assign a frame to load the page into and add it to the page table
+	assignFrame(pcb, pageNum);
+	// Load the frame from the backing store
+	// TODO: load the page from the backing store
 	printf("Loading page %d into frame %d\n", pageNum, pcb->pageTable[pageNum]);
 }
+
 int getLRUFrame(){
 	// get the least recently used frame
 	return 0;
