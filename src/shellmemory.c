@@ -20,6 +20,7 @@ struct memory_struct{
 };
 
 struct memory_struct shellmemory[SHELL_MEM_LENGTH];
+int frameTable[FRAME_STORE_SIZE];
 
 // Helper functions
 int match(char *model, char *var) {
