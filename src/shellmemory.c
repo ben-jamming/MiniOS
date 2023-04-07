@@ -12,6 +12,8 @@ void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
+int getFreeFrame();
+void initFrameStore();
 
 
 struct memory_struct{
@@ -218,8 +220,58 @@ void evictFrame(PCB* pcb, int frameNum){
 	// evict the frame from the frame store
 }
 
+int getFreeFrame() {
+  int freeFrame = -1;
+  //TODO: CHANGE FRAME_STORE_SIZE to NUM_FRAMES (NUM_FRAMES=FRAME_STORE_SIZE/ frame size)
+  for (int i=0; i<FRAME_STORE_SIZE; i++) {
+    PCB* framePCB = frameStore[i];
+    if (framePCB = NULL) {
+      freeFrame = i;
+    }
+  }
+  return freeFrame;
+}
+
 void assignFrame(PCB* pcb, int pageNum){
 	// assign a frame to the page
+  if (pcb == NULL) {
+    printf("Null pcb, cannot assign frame\n");
+    return;
+  }
+
+  if (pcb->pageTable == NULL) {
+    printf("Null pageTable, cannot assign frame\n");
+    return;
+  }
+
+  if (pcb->pageTableSize <= pageNum) {
+    printf("Page number too big for page table\n");
+    return;
+  }
+
+  //get a free frame
+  int freeFrame = getFreeFrame();
+  
+  //if a free frame is found then assign the frame the the page table in the pcb
+  if (freeFrame != -1) {
+    //assign the frame
+    pcb->pageTable[pageNum] = freeFrame;
+    return;
+  }
+  
+  //if no free frame is found then get the victim frame
+  int victimFrame = getVictimFrame();
+
+  // get the pcb of the victimframe
+  PCB* victimProcess = frameStore[victimFrame];
+
+  //evict the frame (remove the frame number from page table)
+  if (victimProcess != NULL) {
+    evictFrame(victimProcess, victimFrame);
+  }
+
+  //assign the frame to the pcb
+  pcb->pageTable[pageNum] = victimFrame;
 }
 
 // Load a page from the backing store into the frame store

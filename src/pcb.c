@@ -26,6 +26,7 @@ PCB* makePCB(char* fileName, int fileSize, int pageSize){
     newPCB->fileSize = fileSize;
     newPCB->job_length_score = 1+fileSize;
     newPCB->pageTable = malloc(pageTableSize * sizeof(int));
+    newPCB->pageTableSize = pageTableSize;
     // Initialize page table to -1
     for(int i = 0; i < pageTableSize; i++) {
         newPCB->pageTable[i] = -1;
