@@ -2,6 +2,7 @@
 #define SHELLMEMORY_H
 #include "pcb.h"
 void mem_init();
+void initFrameStore();
 char *mem_get_value(char *var);
 void mem_set_value(char *var, char *value);
 int load_file(FILE* fp, int* pStart, int* pEnd, char* fileID);
@@ -14,5 +15,6 @@ void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
+int getFreeFrame();
 bool pageFault(char *line, PCB* pcb);
 #endif

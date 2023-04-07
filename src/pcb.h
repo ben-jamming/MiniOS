@@ -19,6 +19,7 @@ typedef struct
     int PC;
     int job_length_score;
     int *pageTable;
+    int pageTableSize;
     int fileSize;
     char* fileName;
 }PCB;
