@@ -9,6 +9,7 @@
 void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
 void loadPage(PCB* pcb, int pageNum);
+void freePageTableFrames(PCB* pcb);
 int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
@@ -113,6 +114,40 @@ void printShellMemory(){
 		}
     }
 	printf("\n\t%d lines in total, %d lines in use, %d lines free\n\n", SHELL_MEM_LENGTH, SHELL_MEM_LENGTH-count_empty, count_empty);
+}
+
+void freePageTableFrames(PCB* pcb) {
+  //check to see that the pcb is not null
+    if (pcb == NULL) {
+    printf("Null pcb, cannot free frames\n");
+    return;
+  }
+
+  //check to see that the tage table is not null
+  if (pcb->pageTable == NULL) {
+    printf("Null pageTable, cannot free frames\n");
+    return;
+  }
+
+  //check the frame store is not null
+  if (frameStore == NULL) {
+    printf("Null frameStore, cannot free frames\n");
+    return;
+  }
+
+  //if so loop over the page table
+  int pageTableSize = pcb->pageTableSize;
+  int* pageTable = pcb->pageTable;
+  for (int i = 0; i < pageTableSize; i++) {
+    int frameNum = pageTable[i];
+    //for every non null entry, go to that frame in the frame store
+    if (frameNum != -1) {
+      frameStore[frameNum] = NULL;
+    }
+    //then set that frame store entry to null and set the page table entries to null
+    pageTable[i] = -1;
+  }
+
 }
 
 
