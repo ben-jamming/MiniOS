@@ -7,6 +7,7 @@ FrameNode frame_tracker_t; //tail of lru list
 int* frame_tracker_map; //array of the frame nodes, indexed by frame number
 int num_of_frames;
 
+FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next);
 void insertFrameNode(int frameNum);
 void createFrameTracker(int numOfFrames);
 void moveToFront(int frameNum);
@@ -22,6 +23,13 @@ void insertFrameNode(int frameNum) {
 void createFrameTracker(int numOfFrames) {
   //this creates all the nodes for the frame list
   //also create the map
+}
+
+FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next) {
+  FrameNode* node = malloc(sizeof(FrameNode));
+  node->next = next;
+  node->prev = prev;
+  node->frameNum = frameNum;
 }
 
 void moveToFront(int frameNum) {
