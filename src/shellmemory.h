@@ -16,6 +16,7 @@ void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
+int getRandomFrame();
 int getFreeFrame();
 bool pageFault(char *line, PCB* pcb);
 #endif
