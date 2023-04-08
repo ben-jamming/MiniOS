@@ -1,1109 +1,229 @@
 
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING2.txt and actual in ../testcases/assignment2/T_AGING2_result.txt:
-22,26c22,26
-< (null)
-< (null)
-< (null)
-< (null)
-< (null)
----
-> f3 7 lines
-> f3 7 lines
-> f3 7 lines
-> f3 7 lines
-> f3 7 lines
+difference between expected output of ../testcases/assignment3/T_tc10.txt and actual in ../testcases/assignment3/T_tc10_result.txt:
+2a3
+> Frame Store Size = 6; Variable Store Size = 10
+8a10,27
+> Page fault! Victim page contents:
+> 
+> echo P8L1
+> echo P8L2
+> echo P8L3
+> 
+> End of victim page contents.
+> P8L7
+> P8L8
+> P8L9
+> Page fault! Victim page contents:
+> 
+> echo P8L4
+> echo P8L5
+> echo P8L6
+> 
+> End of victim page contents.
+> P8L10
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING3.txt and actual in ../testcases/assignment2/T_AGING3_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc1.txt and actual in ../testcases/assignment3/T_tc1_result.txt:
+2a3
+> Frame Store Size = 18; Variable Store Size = 10
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result.txt:
-difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result2.txt:\n
-8,9d7
-< file2
-< file2
-11a10,11
-> file2
-> file2
+difference between expected output of ../testcases/assignment3/T_tc2.txt and actual in ../testcases/assignment3/T_tc2_result.txt:
+2a3
+> Frame Store Size = 18; Variable Store Size = 10
+8d8
+< c
+11a12
+> c
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result.txt:
-difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result2.txt:\n
+difference between expected output of ../testcases/assignment3/T_tc3.txt and actual in ../testcases/assignment3/T_tc3_result.txt:
+2a3
+> Frame Store Size = 21; Variable Store Size = 10
+20a22,28
+> Page fault! Victim page contents:
+> 
+> echo P7L1
+> echo P7L2
+> echo P7L3
+> 
+> End of victim page contents.
+------------------------------------------------------------------------
+difference between expected output of ../testcases/assignment3/T_tc4.txt and actual in ../testcases/assignment3/T_tc4_result.txt:
+2a3
+> Frame Store Size = 18; Variable Store Size = 10
+4d4
+< PTenLineTwoSet
 6d5
-< P1L2
-8c7
-< OOP2L2OO
+< PEightLineTwoSet
+9d7
+< P10L3
+11c9
+< P11L3
 ---
-> P1L2
-11c10,11
-< OOOOP3L4OOOO
+> P10L3
+12a11
+> P11L3
+14a14
+> PTenLineTwoSet
+16c16
+< PTenLineSixSet
 ---
-> OOP2L2OO
-> OOP2L3OO
-15c15,17
-< OOP2L3OO
+> PEightLineTwoSet
+18d17
+< P11L6
+21c20,42
+< P10L7
 ---
-> OOOOP3L4OOOO
-> OOOOP3L5OOOO
-> OOOOP3L6OOOO
-20,21d21
-< OOOOP3L5OOOO
-< OOOOP3L6OOOO
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_background.txt and actual in ../testcases/assignment2/T_background_result.txt:
-3,21c3,6
-< P1L1
-< OOOOP3L1OOOO
-< OOOOP3L2OOOO
-< P1L2
-< OOP2L1OO
-< OOP2L2OO
-< P1L3
-< OOOOP3L3OOOO
-< OOOOP3L4OOOO
-< P1L4
-< P1L5
-< P1L6
-< OOP2L3OO
-< OOP2L4OO
-< OOP2L5OO
-< OOP2L6OO
-< OOP2L7OO
-< OOOOP3L5OOOO
-< OOOOP3L6OOOO
+> Page fault! Victim page contents:
+> 
+> echo P10L1
+> set a PTenLineTwoSet
+>  print a
+> 
+> End of victim page contents.
+> Page fault! Victim page contents:
+> 
+> echo P11L1
+> set w PEightLineTwoSet
+>  print w
+> 
+> End of victim page contents.
+> Page fault! Victim page contents:
+> 
+> echo P12L1
+> echo P12L2
+> echo P12L3
+> 
+> End of victim page contents.
+> PTenLineSixSet
+> P11L6
+23d43
+< P11L8
+26c46,54
+< P11L9
 ---
-> shell
-> shell
-> short_program
-> quit
+> P10L7
+> P11L8
+> Page fault! Victim page contents:
+> 
+> echo P10L3
+> echo $a
+> echo P10L5
+> 
+> End of victim page contents.
+27a56,63
+> Page fault! Victim page contents:
+> 
+> echo P11L3
+> echo $w
+> echo P11L5
+> 
+> End of victim page contents.
+> P11L9
+31a68,74
+> Page fault! Victim page contents:
+> 
+> echo P12L4
+> echo P12L5
+> echo P12L6
+> 
+> End of victim page contents.
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FCFS2.txt and actual in ../testcases/assignment2/T_FCFS2_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc5.txt and actual in ../testcases/assignment3/T_tc5_result.txt:
+2a3
+> Frame Store Size = 6; Variable Store Size = 10
+8a10,18
+> Page fault! Victim page contents:
+> 
+> echo P8L1
+> echo P8L2
+> echo P8L3
+> 
+> End of victim page contents.
+> P8L7
+> P8L8
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FCFS3.txt and actual in ../testcases/assignment2/T_FCFS3_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc6.txt and actual in ../testcases/assignment3/T_tc6_result.txt:
+2a3
+> Frame Store Size = 18; Variable Store Size = 10
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FCFS.txt and actual in ../testcases/assignment2/T_FCFS_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc7.txt and actual in ../testcases/assignment3/T_tc7_result.txt:
+2a3
+> Frame Store Size = 18; Variable Store Size = 10
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FileNameTest.txt and actual in ../testcases/assignment2/T_FileNameTest_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc8.txt and actual in ../testcases/assignment3/T_tc8_result.txt:
+2a3
+> Frame Store Size = 21; Variable Store Size = 10
+22a24,30
+> Page fault! Victim page contents:
+> 
+> echo P7L1
+> echo P7L2
+> echo P7L3
+> 
+> End of victim page contents.
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_MT1.txt and actual in ../testcases/assignment2/T_MT1_result.txt:
-3c3,44
-< Bad command: Too many tokens
----
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-4a46,333
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-\ No newline at end of file
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_MT2.txt and actual in ../testcases/assignment2/T_MT2_result.txt:
-3d2
-< Bad command: Too many tokens
-4a4,213
-> $ X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-\ No newline at end of file
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_MT3.txt and actual in ../testcases/assignment2/T_MT3_result.txt:
-3,4c3,30
-< Bad command: Too many tokens
-<  Invalid policy: exec
----
-> $ ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-5a32,333
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-\ No newline at end of file
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR2.txt and actual in ../testcases/assignment2/T_RR2_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR30.txt and actual in ../testcases/assignment2/T_RR30_result.txt:
-3,26c3,94
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f1 5 lines
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f3 7 lines
-< f1 5 lines
-< f3 7 lines
-< f3 7 lines
-< f3 7 lines
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f1 5 lines
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f3 7 lines
-< f1 5 lines
-< f3 7 lines
-< f3 7 lines
-< f3 7 lines
----
-> shell
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> quit
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR3.txt and actual in ../testcases/assignment2/T_RR3_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR4.txt and actual in ../testcases/assignment2/T_RR4_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR.txt and actual in ../testcases/assignment2/T_RR_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_SJF2.txt and actual in ../testcases/assignment2/T_SJF2_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_SJF3.txt and actual in ../testcases/assignment2/T_SJF3_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_SJF.txt and actual in ../testcases/assignment2/T_SJF_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc9.txt and actual in ../testcases/assignment3/T_tc9_result.txt:
+2a3
+> Frame Store Size = 18; Variable Store Size = 10
+20a22,42
+> Page fault! Victim page contents:
+> 
+> echo P10L1
+> echo P10L2
+> echo P10L3
+> 
+> End of victim page contents.
+> Page fault! Victim page contents:
+> 
+> echo P11L1
+> echo P11L2
+> echo P11L3
+> 
+> End of victim page contents.
+> Page fault! Victim page contents:
+> 
+> echo P12L1
+> echo P12L2
+> echo P12L3
+> 
+> End of victim page contents.
+27a50,56
+> Page fault! Victim page contents:
+> 
+> echo P10L4
+> echo P10L5
+> echo P10L6
+> 
+> End of victim page contents.
+28a58,64
+> Page fault! Victim page contents:
+> 
+> echo P11L4
+> echo P11L5
+> echo P11L6
+> 
+> End of victim page contents.
+29a66,72
+> Page fault! Victim page contents:
+> 
+> echo P12L4
+> echo P12L5
+> echo P12L6
+> 
+> End of victim page contents.
+35a79,85
+> Page fault! Victim page contents:
+> 
+> echo P10L7
+> echo P10L8
+> echo P10L9
+> 
+> End of victim page contents.
+36a87,93
+> Page fault! Victim page contents:
+> 
+> echo P11L7
+> echo P11L8
+> echo P11L9
+> 
+> End of victim page contents.
