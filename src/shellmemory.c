@@ -218,6 +218,36 @@ void mem_free_lines_between(int start, int end){
 
 void evictFrame(PCB* pcb, int frameNum){
 	// evict the frame from the frame store
+
+  //check the pcb is null
+  if (pcb == NULL) {
+    printf("Error: The pcb is NULL, cannot evict frame");
+    return;
+  }
+  //check the pcb table is null
+  if (pcb->pageTable == NULL) {
+    printf("Error: PCB page table is null, cannot evict frame");
+    return;
+  }
+
+  //get the pcbs page table
+  int* pageTable = pcb->pageTable;
+  //get the size of the page table
+  int tableSize = pcb->pageTableSize;
+  //loop over the page table entries
+  for (int i=0;i<tableSize; i++) {
+    //check the entry to see if it matches the frame number
+    if (pageTable[i] == frameNum) {
+      //if it does set that frame to -1 
+      //evict frame
+      pageTable[i] == -1;
+      //break the loop
+      return;
+    }
+  }
+  //if frame number not found say so
+  printf("Error: FrameNumber not found in page Table");
+  return;
 }
 
 int getFreeFrame() {
@@ -300,6 +330,7 @@ char *getNextLine(PCB* pcb){
 	char *line = mem_get_value_at_line(frameNum + pcb->PC % pcb->pageSize);
 	return line;
 }
+
 int getVictimFrame(){
 	// get the victim frame to evict
 	return 0;
@@ -316,7 +347,6 @@ bool pageFault(char *line, PCB* pcb){
 			printf("%s", mem_get_value_at_line(victim_frame*pcb->pageSize+i));
 		}
 		printf("End of victim page contents.\n");
-		evictFrame(pcb,victim_frame);
 		return true;
 	}
 
