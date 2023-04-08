@@ -1,7 +1,7 @@
 #!/bin/bash
 cd src
 make clean
-make
+make -B mysh framesize=18 varmemsize=10
 
 
 echo '' > ../RESULTS.txt

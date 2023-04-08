@@ -19,7 +19,7 @@ int removeBackingStore(){
         printf("Error deleting folder!\n");
         errCode = 1;
     } else {
-        printf("Folder deleted successfully.\n");
+        // printf("Folder deleted successfully.\n");
     }
     return errCode;
 }
@@ -40,7 +40,7 @@ int initBackingStore() {
         printf("Error creating folder!\n");
         errCode = 1;
     } else {
-        printf("Folder created successfully.\n");
+        // printf("Folder created successfully.\n");
     }
 
     return errCode;

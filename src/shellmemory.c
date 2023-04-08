@@ -389,9 +389,11 @@ void printEvictedFrame(int victim_frame){
 
 		// Evict the victim frame
 		printf("Page fault! Victim page contents:\n");
+    printf("\n");
 		for(int i=0; i<PAGE_SIZE; i++){
 			printf("	%s\n", mem_get_value_at_line(victim_frame*PAGE_SIZE+i));
 		}
+    printf("\n");
 		printf("End of victim page contents.\n");
 
 	return ;
