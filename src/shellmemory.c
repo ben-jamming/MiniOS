@@ -13,6 +13,7 @@ void freePageTableFrames(PCB* pcb);
 int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
+int getRandomFrame();
 int getFreeFrame();
 void initFrameStore();
 
@@ -366,9 +367,22 @@ char *getNextLine(PCB* pcb){
 	return line;
 }
 
+int getRandomFrame() {
+  //get a random frame out of the set of frames
+  int min = 0;
+  //TODO: this will haved to be changed to framestore/page size
+  int max = FRAME_STORE_SIZE;
+  
+  int randFrame = rand() % (max - min + 1) + min;
+  printf("randFrame:%d", randFrame);
+  return randFrame;
+}
+
 int getVictimFrame(){
 	// get the victim frame to evict
-	return 0;
+  //TODO: add LRU policy
+  //for now we will return a random number 
+	return getRandomFrame();
 }
 
 bool pageFault(char *line, PCB* pcb){

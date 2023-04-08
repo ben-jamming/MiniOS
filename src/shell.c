@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h> 
 #include <unistd.h>
+#include <time.h>
 #include "interpreter.h"
 #include "shellmemory.h"
 #include "pcb.h"
@@ -14,6 +15,7 @@ int MAX_USER_INPUT = 1000;
 int parseInput(char ui[]);
 
 int main(int argc, char *argv[]) {
+  srand(time(NULL));
 	printf("%s\n", "Shell version 1.2 Created January 2023\n");
 
 	char prompt = '$';  				// Shell prompt
