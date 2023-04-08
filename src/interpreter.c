@@ -314,23 +314,26 @@ int exec(char *fname1, char *fname2, char *fname3, char* policy, bool background
 	int error_code = 0;
 	//if(background) error_code = shell_process_initialize();
 	if(fname1 != NULL){
-        error_code = process_initialize(fname1);
+    error_code = process_initialize(fname1);
 		if(error_code != 0){
 			return handleError(error_code);
 		}
+  }
+
+  if(fname2 != NULL){
+    error_code = process_initialize(fname2);
+    if(error_code != 0){
+      return handleError(error_code);
     }
-    if(fname2 != NULL){
-        error_code = process_initialize(fname2);
-		if(error_code != 0){
-			return handleError(error_code);
-		}
+  }
+
+  if(fname3 != NULL){
+    error_code = process_initialize(fname3);
+    if(error_code != 0){
+      return handleError(error_code);
     }
-    if(fname3 != NULL){
-        error_code = process_initialize(fname3);
-		if(error_code != 0){
-			return handleError(error_code);
-		}
-    } 
+  }
+  
 	error_code = schedule_by_policy(policy, mt);
 	if(error_code==15){
 		return handleError(error_code);
