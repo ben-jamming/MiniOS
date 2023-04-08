@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include "lrucache.h"
 
-FrameNode frame_tracker_h; //head of lru list
-FrameNode frame_tracker_t; //tail of lru list
-int* frame_tracker_map; //array of the frame nodes, indexed by frame number
+FrameNode* frame_tracker_h = NULL; //head of lru list
+FrameNode* frame_tracker_t = NULL; //tail of lru list
+FrameNode** frame_tracker_map; //array of the frame nodes, indexed by frame number
 int num_of_frames;
 
 FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next);
@@ -21,8 +21,14 @@ void insertFrameNode(int frameNum) {
 }
 
 void createFrameTracker(int numOfFrames) {
-  //this creates all the nodes for the frame list
+  frame_tracker_map = malloc(numOfFrames * sizeof(FrameNode*));
+  num_of_frames = num_of_frames;
   //also create the map
+  //this creates all the nodes for the frame list
+  for (int i = 0; i < num_of_frames; i++) {
+    frame_tracker_map[i] = createFrameNode(i, NULL, NULL); 
+    insertFrameNode(frame_tracker_map[i]);
+  }
 }
 
 FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next) {
