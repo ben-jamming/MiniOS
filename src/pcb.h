@@ -14,7 +14,6 @@
 typedef struct
 {
     bool priority;
-    int pageSize;
     int pid;
     int PC;
     int job_length_score;

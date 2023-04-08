@@ -57,11 +57,19 @@ int process_initialize(char *filename){
     fclose(fp);
     int file_size = count_lines(filename);
     //error_code = load_file(fp, start, end, filename);
-    PCB* newPCB = makePCB(filename,file_size,3);
+    PCB* newPCB = makePCB(filename, file_size, PAGE_SIZE);
     QueueNode *node = malloc(sizeof(QueueNode));
+
     // Load the first two pages of the file into memory
-    loadPage(newPCB, 0);
-    loadPage(newPCB, 1);
+    int numStartPages = 2;
+    for (int i =0; i < numStartPages; i++) {
+      if (i < newPCB->pageTableSize) {
+        assignFrame(newPCB, i);
+        loadPage(newPCB, i);
+      }
+    }
+    // Check the pages were loaded
+    //printf("Page 0: %d, Page 1: %d", newPCB->pageTable[0], newPCB->pageTable[1]);
     node->pcb = newPCB;
     lock_queue();
     ready_queue_add_to_tail(node);
@@ -90,7 +98,7 @@ int shell_process_initialize(){
     //TODO: fix shell
     char* shellFileName = NULL;
     int shellFileSize = 0;
-    PCB* newPCB = makePCB(shellFileName,shellFileSize,3);
+    PCB* newPCB = makePCB(shellFileName,shellFileSize, PAGE_SIZE);
     newPCB->priority = true;
     QueueNode *node = malloc(sizeof(QueueNode));
     node->pcb = newPCB;
@@ -106,27 +114,46 @@ bool execute_process(QueueNode *node, int quanta){
     PCB *pcb = node->pcb;
     int i = 0;
     while (i < quanta){
-    // Check if the page is in the frame store
-    // 
-    line = getNextLine(pcb);
-    if (pageFault(line, pcb)){break;}
-    // If the page is in the frame store, get the line from shell memory
-    in_background = true;
-    if(pcb->priority) {
-        pcb->priority = false;
-    }
-    if(pcb->PC>pcb->fileSize){
-        parseInput(line);
-        terminate_process(node);
-        in_background = false;
-        return true;
-    }
-    
-    parseInput(line);
-    in_background = false;
-    // Increment the program counter
-    pcb->PC++;
-    i++;
+      // Check if the page is in the frame store
+      //try to get next line
+
+      in_background = true;
+      if(pcb->priority) {
+          pcb->priority = false;
+      }
+      if(pcb->PC>=pcb->fileSize){
+          // parseInput(line);
+          terminate_process(node);
+          in_background = false;
+          return true;
+      }
+
+      line = getNextLine(pcb);
+
+
+      //check for page fault
+      if (line == NULL) {
+        //assign frame
+        int PC = pcb->PC;
+        int pageNum = PC / PAGE_SIZE ;
+        assignFrame(pcb, pageNum);
+        //load frame
+        loadPage(pcb, pageNum);
+        //break loop
+        break;
+
+      }
+
+
+      
+      parseInput(line);
+      in_background = false;
+
+      // If the page is in the frame store, get the line from shell memory
+
+      // Increment the program counter
+      pcb->PC++;
+      i++;
 
     }
     return false;

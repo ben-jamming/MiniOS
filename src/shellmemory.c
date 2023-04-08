@@ -3,8 +3,12 @@
 #include<stdio.h>
 #include<stdbool.h>
 #include"pcb.h"
+#include <stddef.h>
+
 
 #define SHELL_MEM_LENGTH 1000
+#define PAGE_SIZE 3
+#define FRAME_COUNT FRAME_STORE_SIZE/PAGE_SIZE
 
 void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
@@ -15,6 +19,7 @@ char *getNextLine(PCB* pcb);
 int getVictimFrame();
 int getRandomFrame();
 int getFreeFrame();
+void printEvictedFrame(int frameNum);
 void initFrameStore();
 
 
@@ -28,9 +33,9 @@ PCB **frameStore;
 
 // Initialize frame store
 void initFrameStore(){
-	frameStore = malloc(FRAME_STORE_SIZE * sizeof(PCB *));
+	frameStore = malloc((FRAME_COUNT) * sizeof(PCB *));
 	int i;
-	for(i=0;i<FRAME_STORE_SIZE;i++){
+	for(i=0;i<FRAME_COUNT;i++){
 		frameStore[i] = NULL;
 	}
 }
@@ -152,86 +157,6 @@ void freePageTableFrames(PCB* pcb) {
 }
 
 
-/*
- * Function:  addFileToMem 
- * 	Added in A2
- * --------------------
- * Load the source code of the file fp into the shell memory:
- * 		Loading format - var stores fileID, value stores a line
- *		Note that the first 100 lines are for set command, the rests are for run and exec command
- *
- *  pStart: This function will store the first line of the loaded file 
- * 			in shell memory in here
- *	pEnd: This function will store the last line of the loaded file 
- 			in shell memory in here
- *  fileID: Input that need to provide when calling the function, 
- 			stores the ID of the file
- * 
- * returns: error code, 21: no space left
- */
-int load_file(FILE* fp, int* pStart, int* pEnd, char* filename)
-{
-	char *line;
-    size_t i;
-    int error_code = 0;
-	bool hasSpaceLeft = false;
-	bool flag = true;
-	i=101;
-	size_t candidate;
-	while(flag){
-		flag = false;
-		for (i; i < SHELL_MEM_LENGTH; i++){
-			if(strcmp(shellmemory[i].var,"none") == 0){
-				*pStart = (int)i;
-				hasSpaceLeft = true;
-				break;
-			}
-		}
-		candidate = i;
-		for(i; i < SHELL_MEM_LENGTH; i++){
-			if(strcmp(shellmemory[i].var,"none") != 0){
-				flag = true;
-				break;
-			}
-		}
-	}
-	i = candidate;
-	//shell memory is full
-	if(hasSpaceLeft == 0){
-		error_code = 21;
-		return error_code;
-	}
-    
-    for (size_t j = i; j < SHELL_MEM_LENGTH; j++){
-        if(feof(fp))
-        {
-            *pEnd = (int)j-1;
-            break;
-        }else{
-			line = calloc(1, SHELL_MEM_LENGTH);
-            fgets(line, 999, fp);
-			shellmemory[j].var = strdup(filename);
-            shellmemory[j].value = strndup(line, strlen(line));
-			free(line);
-        }
-    }
-
-	//no space left to load the entire file into shell memory
-	if(!feof(fp)){
-		error_code = 21;
-		//clean up the file in memory
-		for(int j = 1; i <= SHELL_MEM_LENGTH; i ++){
-			shellmemory[j].var = "none";
-			shellmemory[j].value = "none";
-    	}
-		return error_code;
-	}
-	//printShellMemory();
-    return error_code;
-}
-
-
-
 char * mem_get_value_at_line(int index){
 	if(index<0 || index > SHELL_MEM_LENGTH) return NULL; 
 	return shellmemory[index].value;
@@ -277,6 +202,7 @@ void evictFrame(PCB* pcb, int frameNum){
       //if it does set that frame to -1 
       //evict frame
       pageTable[i] == -1;
+      printEvictedFrame(frameNum);
       //break the loop
       return;
     }
@@ -288,11 +214,11 @@ void evictFrame(PCB* pcb, int frameNum){
 
 int getFreeFrame() {
   int freeFrame = -1;
-  //TODO: CHANGE FRAME_STORE_SIZE to NUM_FRAMES (NUM_FRAMES=FRAME_STORE_SIZE/ frame size)
-  for (int i=0; i<FRAME_STORE_SIZE; i++) {
+  for (int i=0; i < FRAME_COUNT; i++) {
     PCB* framePCB = frameStore[i];
-    if (framePCB = NULL) {
+    if (framePCB == NULL) {
       freeFrame = i;
+      break;
     }
   }
   return freeFrame;
@@ -317,19 +243,22 @@ void assignFrame(PCB* pcb, int pageNum){
 
   //get a free frame
   int freeFrame = getFreeFrame();
-  
+
   //if a free frame is found then assign the frame the the page table in the pcb
   if (freeFrame != -1) {
     //assign the frame
     pcb->pageTable[pageNum] = freeFrame;
+    frameStore[freeFrame] = pcb;
     return;
   }
+
   
   //if no free frame is found then get the victim frame
   int victimFrame = getVictimFrame();
 
   // get the pcb of the victimframe
   PCB* victimProcess = frameStore[victimFrame];
+
 
   //evict the frame (remove the frame number from page table)
   if (victimProcess != NULL) {
@@ -338,32 +267,101 @@ void assignFrame(PCB* pcb, int pageNum){
 
   //assign the frame to the pcb
   pcb->pageTable[pageNum] = victimFrame;
+  frameStore[victimFrame] = pcb;
+}
+
+void loadLinesFromFile(FILE* file,
+        char* fileName,
+        int frameNum,
+        int pageNum) {
+  
+  int frameStart = frameNum * PAGE_SIZE;
+  int pageStart = pageNum * PAGE_SIZE;
+  int pageFinish = pageStart + PAGE_SIZE;
+
+  //initialize buffer for holding current line and 
+  int lineLength = 1000;
+  char lineBuffer[lineLength];
+  int currentLine = 0;
+  while (fgets(lineBuffer, lineLength, file)
+        && currentLine < pageFinish) {
+
+    //check if we are at a line on the page
+    if (currentLine >= pageStart) {
+      //get the address that the line will be store in
+      int pageLine = currentLine % PAGE_SIZE;//page line == frame line
+      int lineAddress = frameStart + pageLine;
+      shellmemory[lineAddress].var = strdup(fileName);
+      shellmemory[lineAddress].value = strdup(lineBuffer);
+    }
+    currentLine++;
+  } 
 }
 
 // Load a page from the backing store into the frame store
 //@param pcb: the PCB of the process
 //@param pageNum: the page number to load
 void loadPage(PCB* pcb, int pageNum){
-	// Assign a frame to load the page into and add it to the page table
-	assignFrame(pcb, pageNum);
-	// Load the frame from the backing store
-	// TODO: load the page from the backing store
-	printf("Loading page %d into frame %d\n", pageNum, pcb->pageTable[pageNum]);
+
+    //set get program block variables
+    int* pageTable = pcb->pageTable;
+    int pageTableSize = pcb->pageTableSize;
+
+    //checl that the page is inside the page table
+    if (pageNum >= pageTableSize) {
+      printf("Error: Page is out of bounds of page table\n");
+      return;
+    }
+
+    //get the frame from the page
+    int frameNum = pageTable[pageNum];
+
+    //check to see that the page has a frame assigned
+    if (frameNum == -1) {
+      printf("Error: Page does not have an assigned Frame\n");
+      return;
+    }
+
+    char* fileName = pcb->fileName;
+    FILE *file = fopen(pcb->fileName, "r");
+
+    if (file == NULL) {
+      printf("Error: Could not open file:\n");
+      return;
+    }
+
+    loadLinesFromFile(file, fileName, frameNum, pageNum);
+
+    fclose(file);
+
+
 }
 
 int getLRUFrame(){
 	// get the least recently used frame
 	return 0;
 }
-char *getNextLine(PCB* pcb){
+char* getNextLine(PCB* pcb){
+
+
+  int * pageTable = pcb->pageTable;
 	int frameNum = -1;
-	int pageNum = pcb->PC/pcb->pageSize;
+  int PC = pcb->PC;
+	int pageNum = PC / PAGE_SIZE;
+  int pageLine = PC % PAGE_SIZE;
+
 	// get the frame number of the current page
-	// TODO: check if the page is in the frame store
-	// For now, assume that the page is in the frame store
-	frameNum = pcb->pageTable[pageNum];
+	frameNum = pageTable[pageNum];
+
+  //check that the page has an assigned frame
+  if (frameNum == -1) {
+    return NULL;
+  }
+
+  int lineAddress = frameNum * PAGE_SIZE + pageLine;
+
 	// get the next line of the program from the page store
-	char *line = mem_get_value_at_line(frameNum + pcb->PC % pcb->pageSize);
+	char *line = mem_get_value_at_line(lineAddress);
 	return line;
 }
 
@@ -371,10 +369,10 @@ int getRandomFrame() {
   //get a random frame out of the set of frames
   int min = 0;
   //TODO: this will haved to be changed to framestore/page size
-  int max = FRAME_STORE_SIZE;
+  int max = FRAME_COUNT;
   
   int randFrame = rand() % (max - min + 1) + min;
-  printf("randFrame:%d", randFrame);
+  // printf("randFrame:%d\n", randFrame);
   return randFrame;
 }
 
@@ -385,19 +383,29 @@ int getVictimFrame(){
 	return getRandomFrame();
 }
 
-bool pageFault(char *line, PCB* pcb){
+void printEvictedFrame(int victim_frame){
 	// check if there is a page fault at the current line
-	if(line == NULL){
-		// Make a call to get victim frame
-		int victim_frame = getVictimFrame();
+
+
 		// Evict the victim frame
 		printf("Page fault! Victim page contents:\n");
-		for(int i=0; i<pcb->pageSize; i++){
-			printf("%s", mem_get_value_at_line(victim_frame*pcb->pageSize+i));
+		for(int i=0; i<PAGE_SIZE; i++){
+			printf("	%s\n", mem_get_value_at_line(victim_frame*PAGE_SIZE+i));
 		}
 		printf("End of victim page contents.\n");
-		return true;
-	}
 
-	return false;
+	return ;
 }
+
+void printFrame(int frameNum){
+  int frameStart = frameNum * PAGE_SIZE;
+  int frameFinish = frameStart + PAGE_SIZE;
+  printf("Frame: %d\n", frameNum);
+  printf("%s",shellmemory[frameStart].var);
+  printf("\n");
+  for (int i = frameStart; i < frameFinish; i++) {
+    printf("%s",shellmemory[i].value);
+  }
+  printf("\n");
+}
+
