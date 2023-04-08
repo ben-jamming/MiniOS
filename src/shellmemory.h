@@ -11,6 +11,7 @@ void mem_free_lines_between(int start, int end);
 void printShellMemory();
 void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
+void freePageTableFrames(PCB* pcb);
 void loadPage(PCB* pcb, int pageNum);
 int getLRUFrame();
 char *getNextLine(PCB* pcb);
