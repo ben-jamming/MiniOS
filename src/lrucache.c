@@ -116,3 +116,32 @@ void freeCache() {
     free(frame_tracker_map[i]);
   }
 }
+// Various Helper Functions for Debugging
+
+void debug_create_frame_node(int frameNum, FrameNode* prev, FrameNode* next) {
+    printf("createFrameNode called with frameNum: %d, prev: %p, next: %p\n", frameNum, prev, next);
+}
+
+void debug_insert_frame_node(FrameNode* newNode) {
+    printf("insertFrameNode called with newNode: %p\n", newNode);
+}
+
+void debug_insert_frame(int frameNum) {
+    printf("insertFrame called with frameNum: %d\n", frameNum);
+}
+
+void debug_move_to_front(int frameNum) {
+    printf("moveToFront called with frameNum: %d\n", frameNum);
+}
+
+void debug_remove_frame(int frameNum) {
+    printf("removeFrame called with frameNum: %d\n", frameNum);
+}
+
+void debug_free_cache() {
+    printf("freeCache called\n");
+}
+
+void debug_print_lru_cache() {
+    printf("printLRUcache called\n");
+}
