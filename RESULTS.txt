@@ -1,236 +1,67 @@
 
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc10.txt and actual in ../testcases/assignment3/T_tc10_result.txt:
-11d10
-< 	echo P8L1
-12a12
-> echo P8L1
-14d13
-< 
-17a17,27
-> P8L7
-> P8L8
-> P8L9
-> Page fault! Victim page contents:
-> 
-> echo P8L4
-> echo P8L5
-> echo P8L6
-> 
-> End of victim page contents.
-> P8L10
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc1.txt and actual in ../testcases/assignment3/T_tc1_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc2.txt and actual in ../testcases/assignment3/T_tc2_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc3.txt and actual in ../testcases/assignment3/T_tc3_result.txt:
-23d22
-< 	echo P9L4
-25c24,26
-< 	echo P9L5
----
-> echo P7L1
-> echo P7L2
-> echo P7L3
-27d27
-< 	echo P9L6
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc4.txt and actual in ../testcases/assignment3/T_tc4_result.txt:
 20,21d19
 < PTenLineSixSet
 < P11L6
-23,25d20
-< 	echo P12L1
-< 
-< 	echo P12L2
-27c22,24
-< 	echo P12L3
----
-> echo P10L1
+24a23
 > set a PTenLineTwoSet
->  print a
-31,33d27
-< 	echo P10L1
-< 
-< 	 print a
-35c29,31
+26d24
 < 	echo P10L3
----
-> echo P11L1
+31a30
 > set w PEightLineTwoSet
->  print w
-39d34
-< 	echo P11L7
-41,43c36,38
-< 	echo P11L8
-< 
-< 	echo P11L9
----
-> echo P12L1
-> echo P12L2
-> echo P12L3
-46,47c41,43
-< P10L7
-< P11L8
----
+33d31
+< 	echo P11L3
+42a41,42
 > PTenLineSixSet
 > P11L6
-> P11L7
-51c47
+44d43
+< P11L8
+48c47
 < P11L9
 ---
 > P11L8
-53,55d48
-< 	echo P12L7
-< 
-< 	echo P12L8
-57c50,52
-< 	echo P12L9
+51,53c50,52
+< 	echo P12L4
+< 	echo P12L5
+< 	echo P12L6
 ---
 > echo P10L3
 > echo $a
 > echo P10L5
-62d56
+59,61c58,60
 < 	echo $a
-64,66c58,60
 < 	echo P10L5
-< 
 < 	set a PTenLineSixSet; echo $a
 ---
 > echo P11L3
 > echo $w
 > echo P11L5
-68a63
+63a63
 > P11L9
-74,75d68
-< 	echo P10L7
-< 	echo P11L8
-77c70,72
-< 	echo P11L9
+70,72c70,72
+< 	echo $w
+< 	echo P11L5
+< 	echo P11L6
 ---
 > echo P12L4
 > echo P12L5
 > echo P12L6
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc5.txt and actual in ../testcases/assignment3/T_tc5_result.txt:
-11d10
-< 	echo P8L4
-13,15c12,14
-< 	echo P8L5
-< 
-< 	echo P8L6
----
-> echo P8L1
-> echo P8L2
-> echo P8L3
-17a17,18
-> P8L7
-> P8L8
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc6.txt and actual in ../testcases/assignment3/T_tc6_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc7.txt and actual in ../testcases/assignment3/T_tc7_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc8.txt and actual in ../testcases/assignment3/T_tc8_result.txt:
-25d24
-< 	echo P7L4
-27,28c26,29
-< 	echo P7L5
-< 	none
----
-> echo P7L1
-> echo P7L2
-> echo P7L3
-> 
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc9.txt and actual in ../testcases/assignment3/T_tc9_result.txt:
-23,25d22
-< 	echo P10L4
-< 
-< 	echo P10L5
-27c24,26
-< 	echo P10L6
----
-> echo P10L1
-> echo P10L2
-> echo P10L3
-31,33d29
-< 	echo P12L1
-< 
-< 	echo P12L2
-35c31,33
-< 	echo P12L3
----
-> echo P11L1
-> echo P11L2
-> echo P11L3
-39d36
-< 	echo P10L7
-41,43c38,40
-< 	echo P10L8
-< 
-< 	echo P10L9
----
-> echo P12L1
-> echo P12L2
-> echo P12L3
-46,47c43,44
-< P12L7
-< P12L8
----
-> P10L7
-> P10L8
-52c49
-< P12L9
----
-> P10L9
-54,56d50
-< 	echo P10L1
-< 
-< 	echo P10L2
-58c52,54
-< 	echo P10L3
----
-> echo P10L4
-> echo P10L5
-> echo P10L6
-63,65d58
-< 	echo P11L1
-< 
-< 	echo P11L2
-67c60,62
-< 	echo P11L3
----
-> echo P11L4
-> echo P11L5
-> echo P11L6
-72,74d66
-< 	echo P12L7
-< 
-< 	echo P12L8
-76c68,70
-< 	echo P12L9
----
-> echo P12L4
-> echo P12L5
-> echo P12L6
-86,87d79
-< 	echo P10L10
-< 	echo P10L2
-89c81,83
-< 	echo P10L3
----
-> echo P10L7
-> echo P10L8
-> echo P10L9
-94d87
-< 	echo P12L4
-96,98c89,91
-< 	echo P12L5
-< 
-< 	echo P12L6
----
-> echo P11L7
-> echo P11L8
-> echo P11L9
