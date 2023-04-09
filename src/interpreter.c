@@ -295,7 +295,7 @@ int run(char* script){
 		return handleError(errCode);
 	}
 	//run with FCFS
-	schedule_by_policy("FCFS", false);
+	schedule_by_policy("RR", false);
 	return errCode;
 }
 

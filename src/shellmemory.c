@@ -5,7 +5,7 @@
 #include"pcb.h"
 #include <stddef.h>
 #include "lrucache.h"
-
+#include <stdio.h>
 
 #define SHELL_MEM_LENGTH 1000
 #define PAGE_SIZE 3
@@ -22,6 +22,9 @@ int getFreeFrame();
 void printEvictedFrame(int frameNum);
 void initFrameStore();
 int getLeastRecentFrame();
+// Decorators
+
+
 
 
 struct memory_struct{
@@ -206,6 +209,7 @@ void evictFrame(PCB* pcb, int frameNum){
       //evict frame
       pageTable[i] == -1;
       printEvictedFrame(frameNum);
+      
       //break the loop
       return;
     }
