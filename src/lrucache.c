@@ -13,6 +13,7 @@ void insertFrameNode(int frameNum);
 void createFrameTracker(int numOfFrames);
 void moveToFront(int frameNum);
 void remove(int frameNum);
+void freeCache();
 
 void insertFrameNode(int frameNum) {
   //adds inserts the frame node into the head
@@ -73,6 +74,13 @@ void remove(int frameNum) {
 }
 
 int getLRUFrame() {
-  //this returns the frame number of the head
-  return frame_tracker_t->prev->frameNum;
+  //this returns the frame number of the tail - 1
+
+}
+
+void freeCache() {
+  for (int i = 0; i < num_of_frames; i++ ) {
+    remove(i);
+    free(frame_tracker_map[i]);
+  }
 }
