@@ -17,6 +17,7 @@ void createFrameTracker(int numOfFrames);
 void moveToFront(int frameNum);
 void removeFrame(int frameNum);
 void freeCache();
+void printLRUcache();
 
 void insertFrame(int frameNum) {
   //adds inserts the frame node into the head
@@ -30,6 +31,17 @@ void insertFrame(int frameNum) {
   //set head.prev to node
   firstNode->prev = node;
   frame_tracker_h->next = node;
+}
+
+void printLRUcache(){
+  printf("got here\n");
+  FrameNode* cur = frame_tracker_h->next;
+  printf("[ ");
+  while (cur != frame_tracker_t) {
+    printf(" %d,",cur->frameNum);
+    cur= cur->next;
+  }
+  printf(" ]\n");
 }
 
 void insertFrameNode(FrameNode* newNode) {
@@ -47,17 +59,17 @@ void insertFrameNode(FrameNode* newNode) {
 }
 
 void createFrameTracker(int numOfFrames) {
-  frame_tracker_h = createFrameNode(-1, NULL, frame_tracker_t);
+  frame_tracker_h = createFrameNode(-1, NULL, NULL);
   frame_tracker_t = createFrameNode(-2, frame_tracker_h, NULL);
+  frame_tracker_h->next = frame_tracker_t;
 
   frame_tracker_map = malloc(numOfFrames * sizeof(FrameNode*));
-  num_of_frames = num_of_frames;
+  num_of_frames = numOfFrames;
   //also create the map
   //this creates all the nodes for the frame list
   for (int i = 0; i < num_of_frames; i++) {
     frame_tracker_map[i] = createFrameNode(i, NULL, NULL); 
     // Insert a new frame node
-    
     insertFrameNode(frame_tracker_map[i]);
   }
 }
@@ -67,6 +79,7 @@ FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next) {
   node->next = next;
   node->prev = prev;
   node->frameNum = frameNum;
+  return node;
 }
 
 void moveToFront(int frameNum) {

@@ -15,7 +15,6 @@ void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
 void freePageTableFrames(PCB* pcb);
 void loadPage(PCB* pcb, int pageNum);
-int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
 int getRandomFrame();
@@ -23,4 +22,5 @@ int getFreeFrame();
 void printEvictedFrame(int frameNum);
 void printFrame(int frameNum);
 void replaceLineInShellMemory(PCB *pcb, char* line);
+int getLeastRecentFrame();
 #endif

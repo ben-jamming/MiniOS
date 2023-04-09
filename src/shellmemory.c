@@ -15,13 +15,13 @@ void evictFrame(PCB* pcb, int frameNum);
 void assignFrame(PCB* pcb, int pageNum);
 void loadPage(PCB* pcb, int pageNum);
 void freePageTableFrames(PCB* pcb);
-int getLRUFrame();
 char *getNextLine(PCB* pcb);
 int getVictimFrame();
 int getRandomFrame();
 int getFreeFrame();
 void printEvictedFrame(int frameNum);
 void initFrameStore();
+int getLeastRecentFrame();
 
 
 struct memory_struct{
@@ -39,6 +39,8 @@ void initFrameStore(){
 	for(i=0;i<FRAME_COUNT;i++){
 		frameStore[i] = NULL;
 	}
+
+  createFrameTracker(FRAME_COUNT);
 }
 
 // Helper functions
@@ -364,6 +366,7 @@ char* getNextLine(PCB* pcb){
 	// get the frame number of the current page
 	frameNum = pageTable[pageNum];
 
+
   //check that the page has an assigned frame
   if (frameNum == -1) {
     return NULL;
@@ -372,6 +375,10 @@ char* getNextLine(PCB* pcb){
   int lineAddress = frameNum * PAGE_SIZE + pageLine;
 
 	// get the next line of the program from the page store
+  if (frameNum >= FRAME_COUNT) {
+    printf("Frame out of bounds");
+  }
+  moveToFront(frameNum);
 	char *line = mem_get_value_at_line(lineAddress);
 	return line;
 }
@@ -387,11 +394,16 @@ int getRandomFrame() {
   return randFrame;
 }
 
+int getLeastRecentFrame() {
+  return getLRUFrame();
+}
+
 int getVictimFrame(){
 	// get the victim frame to evict
   //TODO: add LRU policy
   //for now we will return a random number 
-	return getRandomFrame();
+	// return getRandomFrame();
+  return getLeastRecentFrame();
 }
 
 void printEvictedFrame(int victim_frame){
