@@ -122,8 +122,11 @@ int shell_process_initialize()
 
 bool execute_process(QueueNode *node, int quanta)
 {
+    
+    
     char *line = NULL;
     PCB *pcb = node->pcb;
+    printf("Executing process %s: line %d of %d\n", pcb->fileName, pcb->PC, pcb->pageTableSize*3);
     int i = 0;
     while (i < quanta)
     {
@@ -158,44 +161,48 @@ bool execute_process(QueueNode *node, int quanta)
             break;
         }
         
+        
+
+        
         // Check if there's more than one command in the line
         // Each command is seperated by a semicolon
-        for (int j = 0; j < strlen(line); j++)
-        {
-            if (line[j] == ';')
-            {
-                // If there is, split the line into two commands
-                // Execute the first command
-                // Then execute the second command
-                char *line1 = malloc(j + 1);
-                char *line2 = malloc(strlen(line) - j);
-                strncpy(line1, line, j);
-                strncpy(line2, line + j + 1, strlen(line) - j);
-                i++;
-                //printf("Executing command %d in line1 %s, a subset of %s", i, line1, line);
-                parseInput(line1);
+        // for (int j = 0; j < strlen(line); j++)
+        // {
+        //     if (line[j] == ';')
+        //     {
+        //         // If there is, split the line into two commands
+        //         // Execute the first command
+        //         // Then execute the second command
+        //         char *line1 = malloc(j + 1);
+        //         char *line2 = malloc(strlen(line) - j);
+        //         strncpy(line1, line, j);
+        //         strncpy(line2, line + j + 1, strlen(line) - j);
+        //         i++;
+        //         //printf("Executing command %d in line1 %s, a subset of %s", i, line1, line);
+        //         parseInput(line1);
                 
-                if (i < quanta)
-                {
-                    i++;
-                    //printf("Executing command %d in line2 %s, a subset of %s", i, line2, line);
-                    parseInput(line2);
+        //         if (i < quanta)
+        //         {
+        //             i++;
+        //             //printf("Executing command %d in line2 %s, a subset of %s", i, line2, line);
+        //             parseInput(line2);
                     
-                    pcb->PC++;
-                    in_background = false;
-                    return false;
+        //             pcb->PC++;
+        //             in_background = false;
+        //             return false;
 
-                }
-                else{
-                    // TODO: replace line with line2 in shell memory
-                    replaceLineInShellMemory(pcb, line2);
-                    in_background = false;
-                    return false;
-                }
+        //         }
+        //         else{
+        //             // TODO: replace line with line2 in shell memory
+        //             replaceLineInShellMemory(pcb, line2);
+        //             in_background = false;
+        //             return false;
+        //         }
             
-            }
-        }
+        //     }
+        // }
         //printf("Executing %s\n", line);
+        printf("    Executing command %d: %s\n", i, line);
         parseInput(line);
         in_background = false;
 

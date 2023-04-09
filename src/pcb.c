@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "pcb.h"
 #include <math.h>
+#include "backingstore.h"
 
 int pid_counter = 1;
 
@@ -16,12 +17,12 @@ PCB* makePCB(char* fileName, int fileSize, int pageSize){
     PCB * newPCB = malloc(sizeof(PCB));
     // Nnumber of pages is the ceiling of the file size divided by the page size
     // This is because each page can hold 3 lines of code
+
     int pageTableSize = (int) ceil((double)fileSize / (double) pageSize);
     newPCB->pid = generatePID();
     newPCB->PC = 0;
     // newPCB->start  = start;
     // newPCB->end = end;
-    newPCB->fileName = fileName;
     newPCB->fileSize = fileSize;
     newPCB->job_length_score = 1+fileSize;
     newPCB->pageTable = malloc(pageTableSize * sizeof(int));
@@ -31,6 +32,11 @@ PCB* makePCB(char* fileName, int fileSize, int pageSize){
         newPCB->pageTable[i] = -1;
     }
     newPCB->priority = false;
+    // Load the file into the backing store
+    writeToBackstore(newPCB->pid, fileName);
+
+    // Set the file name to the file path
+    newPCB->fileName = fileName;
     return newPCB;
 }
 

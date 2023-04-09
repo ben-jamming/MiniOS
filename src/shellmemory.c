@@ -342,15 +342,18 @@ void loadPage(PCB* pcb, int pageNum){
       return;
     }
 
-    char* fileName = pcb->fileName;
-    FILE *file = fopen(pcb->fileName, "r");
+    // Add a file path to the file name: "backingstore/" + fileName
+    char filePath[100];
+    sprintf(filePath, "./backingstore/%s_%d", pcb->fileName, pcb->pid);
+    //printf("file name is %s\n", filePath);
+    FILE *file = fopen(filePath, "r");
 
     if (file == NULL) {
       printf("Error: Could not open file:\n");
       return;
     }
-
-    loadLinesFromFile(file, fileName, frameNum, pageNum);
+    
+    loadLinesFromFile(file, filePath, frameNum, pageNum);
 
     fclose(file);
 
@@ -437,4 +440,3 @@ void printFrame(int frameNum){
   }
   printf("\n");
 }
-
