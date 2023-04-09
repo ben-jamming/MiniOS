@@ -4,6 +4,7 @@
 #include<stdbool.h>
 #include"pcb.h"
 #include <stddef.h>
+#include "lrucache.h"
 
 
 #define SHELL_MEM_LENGTH 1000
@@ -351,10 +352,6 @@ void loadPage(PCB* pcb, int pageNum){
 
 }
 
-int getLRUFrame(){
-	// get the least recently used frame
-	return 0;
-}
 char* getNextLine(PCB* pcb){
 
 

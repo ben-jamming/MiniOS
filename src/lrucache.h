@@ -7,10 +7,11 @@ typedef struct FrameNode{
 } FrameNode;
 
 FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next);
-void insertFrameNode(int frameNum);
+void insertFrame(int frameNum);
+void insertFrameNode(FrameNode* newNode);
 void createFrameTracker(int numOfFrames);
 void moveToFront(int frameNum);
-void remove(int frameNum);
+void removeFrame(int frameNum);
 int getLRUFrame();
 void freeCache();
 #endif
