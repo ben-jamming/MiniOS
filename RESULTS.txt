@@ -1,1109 +1,236 @@
 
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING2.txt and actual in ../testcases/assignment2/T_AGING2_result.txt:
-22,26c22,26
-< (null)
-< (null)
-< (null)
-< (null)
-< (null)
+difference between expected output of ../testcases/assignment3/T_tc10.txt and actual in ../testcases/assignment3/T_tc10_result.txt:
+11d10
+< 	echo P8L1
+12a12
+> echo P8L1
+14d13
+< 
+17a17,27
+> P8L7
+> P8L8
+> P8L9
+> Page fault! Victim page contents:
+> 
+> echo P8L4
+> echo P8L5
+> echo P8L6
+> 
+> End of victim page contents.
+> P8L10
+------------------------------------------------------------------------
+difference between expected output of ../testcases/assignment3/T_tc1.txt and actual in ../testcases/assignment3/T_tc1_result.txt:
+------------------------------------------------------------------------
+difference between expected output of ../testcases/assignment3/T_tc2.txt and actual in ../testcases/assignment3/T_tc2_result.txt:
+------------------------------------------------------------------------
+difference between expected output of ../testcases/assignment3/T_tc3.txt and actual in ../testcases/assignment3/T_tc3_result.txt:
+23d22
+< 	echo P9L4
+25c24,26
+< 	echo P9L5
 ---
-> f3 7 lines
-> f3 7 lines
-> f3 7 lines
-> f3 7 lines
-> f3 7 lines
+> echo P7L1
+> echo P7L2
+> echo P7L3
+27d27
+< 	echo P9L6
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING3.txt and actual in ../testcases/assignment2/T_AGING3_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result.txt:
-difference between expected output of ../testcases/assignment2/T_AGING4.txt and actual in ../testcases/assignment2/T_AGING4_result2.txt:\n
-8,9d7
-< file2
-< file2
-11a10,11
-> file2
-> file2
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result.txt:
-difference between expected output of ../testcases/assignment2/T_AGING.txt and actual in ../testcases/assignment2/T_AGING_result2.txt:\n
-6d5
-< P1L2
-8c7
-< OOP2L2OO
+difference between expected output of ../testcases/assignment3/T_tc4.txt and actual in ../testcases/assignment3/T_tc4_result.txt:
+20,21d19
+< PTenLineSixSet
+< P11L6
+23,25d20
+< 	echo P12L1
+< 
+< 	echo P12L2
+27c22,24
+< 	echo P12L3
 ---
-> P1L2
-11c10,11
-< OOOOP3L4OOOO
+> echo P10L1
+> set a PTenLineTwoSet
+>  print a
+31,33d27
+< 	echo P10L1
+< 
+< 	 print a
+35c29,31
+< 	echo P10L3
 ---
-> OOP2L2OO
-> OOP2L3OO
-15c15,17
-< OOP2L3OO
+> echo P11L1
+> set w PEightLineTwoSet
+>  print w
+39d34
+< 	echo P11L7
+41,43c36,38
+< 	echo P11L8
+< 
+< 	echo P11L9
 ---
-> OOOOP3L4OOOO
-> OOOOP3L5OOOO
-> OOOOP3L6OOOO
-20,21d21
-< OOOOP3L5OOOO
-< OOOOP3L6OOOO
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_background.txt and actual in ../testcases/assignment2/T_background_result.txt:
-3,21c3,6
-< P1L1
-< OOOOP3L1OOOO
-< OOOOP3L2OOOO
-< P1L2
-< OOP2L1OO
-< OOP2L2OO
-< P1L3
-< OOOOP3L3OOOO
-< OOOOP3L4OOOO
-< P1L4
-< P1L5
-< P1L6
-< OOP2L3OO
-< OOP2L4OO
-< OOP2L5OO
-< OOP2L6OO
-< OOP2L7OO
-< OOOOP3L5OOOO
-< OOOOP3L6OOOO
+> echo P12L1
+> echo P12L2
+> echo P12L3
+46,47c41,43
+< P10L7
+< P11L8
 ---
-> shell
-> shell
-> short_program
-> quit
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FCFS2.txt and actual in ../testcases/assignment2/T_FCFS2_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FCFS3.txt and actual in ../testcases/assignment2/T_FCFS3_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FCFS.txt and actual in ../testcases/assignment2/T_FCFS_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_FileNameTest.txt and actual in ../testcases/assignment2/T_FileNameTest_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_MT1.txt and actual in ../testcases/assignment2/T_MT1_result.txt:
-3c3,44
-< Bad command: Too many tokens
+> PTenLineSixSet
+> P11L6
+> P11L7
+51c47
+< P11L9
 ---
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-4a46,333
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-\ No newline at end of file
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_MT2.txt and actual in ../testcases/assignment2/T_MT2_result.txt:
-3d2
-< Bad command: Too many tokens
-4a4,213
-> $ X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-\ No newline at end of file
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_MT3.txt and actual in ../testcases/assignment2/T_MT3_result.txt:
-3,4c3,30
-< Bad command: Too many tokens
-<  Invalid policy: exec
+> P11L8
+53,55d48
+< 	echo P12L7
+< 
+< 	echo P12L8
+57c50,52
+< 	echo P12L9
 ---
-> $ ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-5a32,333
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-\ No newline at end of file
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR2.txt and actual in ../testcases/assignment2/T_RR2_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR30.txt and actual in ../testcases/assignment2/T_RR30_result.txt:
-3,26c3,94
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f1 5 lines
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f3 7 lines
-< f1 5 lines
-< f3 7 lines
-< f3 7 lines
-< f3 7 lines
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f1 5 lines
-< f1 5 lines
-< f2 3 lines
-< f3 7 lines
-< f3 7 lines
-< f1 5 lines
-< f3 7 lines
-< f3 7 lines
-< f3 7 lines
+> echo P10L3
+> echo $a
+> echo P10L5
+62d56
+< 	echo $a
+64,66c58,60
+< 	echo P10L5
+< 
+< 	set a PTenLineSixSet; echo $a
 ---
-> shell
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> X
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> YY
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> ZZZ
-> quit
+> echo P11L3
+> echo $w
+> echo P11L5
+68a63
+> P11L9
+74,75d68
+< 	echo P10L7
+< 	echo P11L8
+77c70,72
+< 	echo P11L9
+---
+> echo P12L4
+> echo P12L5
+> echo P12L6
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR3.txt and actual in ../testcases/assignment2/T_RR3_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc5.txt and actual in ../testcases/assignment3/T_tc5_result.txt:
+11d10
+< 	echo P8L4
+13,15c12,14
+< 	echo P8L5
+< 
+< 	echo P8L6
+---
+> echo P8L1
+> echo P8L2
+> echo P8L3
+17a17,18
+> P8L7
+> P8L8
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR4.txt and actual in ../testcases/assignment2/T_RR4_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc6.txt and actual in ../testcases/assignment3/T_tc6_result.txt:
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_RR.txt and actual in ../testcases/assignment2/T_RR_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc7.txt and actual in ../testcases/assignment3/T_tc7_result.txt:
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_SJF2.txt and actual in ../testcases/assignment2/T_SJF2_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc8.txt and actual in ../testcases/assignment3/T_tc8_result.txt:
+25d24
+< 	echo P7L4
+27,28c26,29
+< 	echo P7L5
+< 	none
+---
+> echo P7L1
+> echo P7L2
+> echo P7L3
+> 
 ------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_SJF3.txt and actual in ../testcases/assignment2/T_SJF3_result.txt:
-------------------------------------------------------------------------
-difference between expected output of ../testcases/assignment2/T_SJF.txt and actual in ../testcases/assignment2/T_SJF_result.txt:
+difference between expected output of ../testcases/assignment3/T_tc9.txt and actual in ../testcases/assignment3/T_tc9_result.txt:
+23,25d22
+< 	echo P10L4
+< 
+< 	echo P10L5
+27c24,26
+< 	echo P10L6
+---
+> echo P10L1
+> echo P10L2
+> echo P10L3
+31,33d29
+< 	echo P12L1
+< 
+< 	echo P12L2
+35c31,33
+< 	echo P12L3
+---
+> echo P11L1
+> echo P11L2
+> echo P11L3
+39d36
+< 	echo P10L7
+41,43c38,40
+< 	echo P10L8
+< 
+< 	echo P10L9
+---
+> echo P12L1
+> echo P12L2
+> echo P12L3
+46,47c43,44
+< P12L7
+< P12L8
+---
+> P10L7
+> P10L8
+52c49
+< P12L9
+---
+> P10L9
+54,56d50
+< 	echo P10L1
+< 
+< 	echo P10L2
+58c52,54
+< 	echo P10L3
+---
+> echo P10L4
+> echo P10L5
+> echo P10L6
+63,65d58
+< 	echo P11L1
+< 
+< 	echo P11L2
+67c60,62
+< 	echo P11L3
+---
+> echo P11L4
+> echo P11L5
+> echo P11L6
+72,74d66
+< 	echo P12L7
+< 
+< 	echo P12L8
+76c68,70
+< 	echo P12L9
+---
+> echo P12L4
+> echo P12L5
+> echo P12L6
+86,87d79
+< 	echo P10L10
+< 	echo P10L2
+89c81,83
+< 	echo P10L3
+---
+> echo P10L7
+> echo P10L8
+> echo P10L9
+94d87
+< 	echo P12L4
+96,98c89,91
+< 	echo P12L5
+< 
+< 	echo P12L6
+---
+> echo P11L7
+> echo P11L8
+> echo P11L9

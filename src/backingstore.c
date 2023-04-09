@@ -15,12 +15,7 @@
 int removeBackingStore(){
     const char *foldername = "backingstore";
     int errCode = 0;
-    if (rmdir(foldername) != 0) {
-        printf("Error deleting folder!\n");
-        errCode = 1;
-    } else {
-        printf("Folder deleted successfully.\n");
-    }
+    rmdir(foldername);
     return errCode;
 }
 
@@ -35,14 +30,7 @@ int initBackingStore() {
     if (stat(foldername, &st) != -1) {
         removeBackingStore();
     } 
-    // If folder doesn't exist, create it
-    if (mkdir(foldername, 0700) == -1) {
-        printf("Error creating folder!\n");
-        errCode = 1;
-    } else {
-        printf("Folder created successfully.\n");
-    }
-
+    mkdir(foldername, 0700);
     return errCode;
 }
 
