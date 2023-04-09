@@ -75,7 +75,7 @@ void remove(int frameNum) {
 
 int getLRUFrame() {
   //this returns the frame number of the tail - 1
-
+  return frame_tracker_t->prev->frameNum;
 }
 
 void freeCache() {
