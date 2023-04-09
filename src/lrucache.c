@@ -1,6 +1,8 @@
 
 #include <stdio.h>
 #include "lrucache.h"
+#include <stdlib.h>
+
 
 //dummy head and tail node
 FrameNode* frame_tracker_h = NULL; //head of lru list
@@ -9,16 +11,31 @@ FrameNode** frame_tracker_map; //array of the frame nodes, indexed by frame numb
 int num_of_frames;
 
 FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next);
-void insertFrameNode(int frameNum);
+void insertFrame(int frameNum);
+void insertFrameNode(FrameNode* newNode);
 void createFrameTracker(int numOfFrames);
 void moveToFront(int frameNum);
-void remove(int frameNum);
+void removeFrame(int frameNum);
 void freeCache();
 
-void insertFrameNode(int frameNum) {
+void insertFrame(int frameNum) {
   //adds inserts the frame node into the head
   //this should not create a new one, but use the map to put it at the head
   FrameNode* node = frame_tracker_map[frameNum];
+  FrameNode* firstNode = frame_tracker_h->next;
+  //set prev to head
+  node->prev = frame_tracker_h;
+  //set next to head.next
+  node->next = firstNode;
+  //set head.prev to node
+  firstNode->prev = node;
+  frame_tracker_h->next = node;
+}
+
+void insertFrameNode(FrameNode* newNode) {
+  //adds inserts the frame node into the head
+  //this should not create a new one, but use the map to put it at the head
+  FrameNode* node = newNode;
   FrameNode* firstNode = frame_tracker_h->next;
   //set prev to head
   node->prev = frame_tracker_h;
@@ -39,6 +56,8 @@ void createFrameTracker(int numOfFrames) {
   //this creates all the nodes for the frame list
   for (int i = 0; i < num_of_frames; i++) {
     frame_tracker_map[i] = createFrameNode(i, NULL, NULL); 
+    // Insert a new frame node
+    
     insertFrameNode(frame_tracker_map[i]);
   }
 }
@@ -52,12 +71,12 @@ FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next) {
 
 void moveToFront(int frameNum) {
   //this removes the frame from its current spot in the list
-  remove(frameNum);
+  removeFrame(frameNum);
   //then inserts it at teh front of the 
-  insertFrameNode(frameNum);
+  insertFrame(frameNum);
 }
 
-void remove(int frameNum) {
+void removeFrame(int frameNum) {
   //this removes the node from the list of nodes
 
   FrameNode* node = frame_tracker_map[frameNum];
@@ -80,7 +99,7 @@ int getLRUFrame() {
 
 void freeCache() {
   for (int i = 0; i < num_of_frames; i++ ) {
-    remove(i);
+    removeFrame(i);
     free(frame_tracker_map[i]);
   }
 }
