@@ -71,6 +71,6 @@ void remove(int frameNum) {
 }
 
 int getLRUFrame() {
-  //this returns the frame number of the tail - 1
-
+  //this returns the frame number of the head
+  return frame_tracker_t->prev->frameNum;
 }
