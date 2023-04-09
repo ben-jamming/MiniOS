@@ -157,15 +157,45 @@ bool execute_process(QueueNode *node, int quanta)
             // break loop
             break;
         }
+        
         // Check if there's more than one command in the line
         // Each command is seperated by a semicolon
         for (int j = 0; j < strlen(line); j++)
         {
             if (line[j] == ';')
             {
+                // If there is, split the line into two commands
+                // Execute the first command
+                // Then execute the second command
+                char *line1 = malloc(j + 1);
+                char *line2 = malloc(strlen(line) - j);
+                strncpy(line1, line, j);
+                strncpy(line2, line + j + 1, strlen(line) - j);
                 i++;
+                //printf("Executing command %d in line1 %s, a subset of %s", i, line1, line);
+                parseInput(line1);
+                
+                if (i < quanta)
+                {
+                    i++;
+                    //printf("Executing command %d in line2 %s, a subset of %s", i, line2, line);
+                    parseInput(line2);
+                    
+                    pcb->PC++;
+                    in_background = false;
+                    return false;
+
+                }
+                else{
+                    // TODO: replace line with line2 in shell memory
+                    replaceLineInShellMemory(pcb, line2);
+                    in_background = false;
+                    return false;
+                }
+            
             }
         }
+        //printf("Executing %s\n", line);
         parseInput(line);
         in_background = false;
 
@@ -173,6 +203,7 @@ bool execute_process(QueueNode *node, int quanta)
         // Increment the program counter
         pcb->PC++;
         i++;
+        //printf("Done executing %s\n", line);
     }
     return false;
 }

@@ -1,7 +1,7 @@
 #!/bin/bash
 cd src
 make clean
-make -B mysh framesize=500 varmemsize=100
+
 
 
 echo '' > ../RESULTS.txt
@@ -16,6 +16,18 @@ for file in ../testcases/assignment3/*; do
         base="${file%.*}"
         # Execute mysh script with file as input and write result of execution to out.txt
         echo ${file}
+
+        # Extract the third line of the file
+        line=$(sed -n '3p' "${base}_result.txt")
+
+        # Extract the values of X and Y using awk
+        frame_size=$(echo "$line" | awk -F' = ' '{print $2}' | awk -F';' '{print $1}')
+        variable_size=$(echo "$line" | awk -F' = ' '{print $3}' | awk -F';' '{print $1}')
+
+        # Print the values of X and Y
+        echo "File: $file, Frame Store Size: $frame_size, Variable Store Size: $variable_size"
+        make -B mysh framesize=$frame_size varmemsize=$variable_size
+
         timeout 10s ./mysh < ${file} > ../out.txt
         #Throw an error
         if [ $? -ne 0 ]; then

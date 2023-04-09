@@ -298,6 +298,20 @@ void loadLinesFromFile(FILE* file,
   } 
 }
 
+void replaceLineInShellMemory(PCB* pcb, char* line) {
+  //get the page number and line number from the pcb
+  int pageNum = pcb->PC / PAGE_SIZE;
+  int lineNum = pcb->PC % PAGE_SIZE;
+  // get the frame number from the page table
+  int frameNum = pcb->pageTable[pageNum];
+  int frameStart = frameNum * PAGE_SIZE;
+  int pageStart = pageNum * PAGE_SIZE;
+  int pageLine = lineNum % PAGE_SIZE;
+  int lineAddress = frameStart + pageLine;
+  //printf("Replacing line %s with %s", shellmemory[lineAddress].value, line);
+  shellmemory[lineAddress].value = strdup(line);
+}
+
 // Load a page from the backing store into the frame store
 //@param pcb: the PCB of the process
 //@param pageNum: the page number to load

@@ -22,4 +22,5 @@ int getRandomFrame();
 int getFreeFrame();
 void printEvictedFrame(int frameNum);
 void printFrame(int frameNum);
+void replaceLineInShellMemory(PCB *pcb, char* line);
 #endif

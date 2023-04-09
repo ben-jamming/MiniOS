@@ -6,7 +6,7 @@
 
 if [[ "$1" == "all" ]]; then
     rm -rf ../env/ && mkdir ../env
-    cp ../testcases/assignment3/P_* ../env
+    cp ./P_* ../env
     
     for i in `seq 1 1 10`
     do 
