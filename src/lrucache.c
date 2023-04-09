@@ -51,7 +51,9 @@ FrameNode* createFrameNode(int frameNum, FrameNode* prev, FrameNode* next) {
 
 void moveToFront(int frameNum) {
   //this removes the frame from its current spot in the list
-  //then inserts it at teh front of the list
+  remove(frameNum);
+  //then inserts it at teh front of the 
+  insertFrameNode(frameNum);
 }
 
 void remove(int frameNum) {
