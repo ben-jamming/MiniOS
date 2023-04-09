@@ -55,13 +55,22 @@ void moveToFront(int frameNum) {
 }
 
 void remove(int frameNum) {
-  //this removes the node from the list of nods
-  //if the node is the tail, then the tail is updated
-  //if this is the head, then the head is updated
+  //this removes the node from the list of nodes
 
+  FrameNode* node = frame_tracker_map[frameNum];
+  FrameNode* prevNode = node->prev;
+  FrameNode* nextNode = node->next;
+
+  //make neighbours point to eachother
+  prevNode->next = nextNode;
+  nextNode->prev = prevNode;
+
+  //reset pointers
+  node->next = NULL;
+  node->prev = NULL;
 }
 
 int getLRUFrame() {
-  //this returns the frame number of the head
+  //this returns the frame number of the tail - 1
 
 }
