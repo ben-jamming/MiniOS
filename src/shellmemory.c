@@ -5,7 +5,6 @@
 #include"pcb.h"
 #include <stddef.h>
 #include "lrucache.h"
-#include <stdio.h>
 
 #define SHELL_MEM_LENGTH 1000
 #define PAGE_SIZE 3
