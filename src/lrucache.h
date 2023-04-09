@@ -12,4 +12,5 @@ void createFrameTracker(int numOfFrames);
 void moveToFront(int frameNum);
 void remove(int frameNum);
 int getLRUFrame();
+void freeCache();
 #endif
