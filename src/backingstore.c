@@ -11,6 +11,7 @@
 #include "shell.h"
 #include "backingstore.h"
 #include <limits.h>
+#include <ctype.h>
 
 
 #define PATH_MAX 4096
@@ -97,6 +98,32 @@ void testWriteToBackstore(int pid, char *filename) {
     printf("Test passed: The backing store file matches the original file\n");
 }
 
+void split_on_semicolon(char* str, char** first, char** second) {
+    char* semicolon_ptr = strchr(str, ';');
+    if (semicolon_ptr == NULL) {
+        *first = strdup(str);
+        *second = NULL;
+    } else {
+        int first_len = semicolon_ptr - str;
+        *first = (char*)malloc(first_len + 1);
+        if (*first == NULL) {
+            fprintf(stderr, "Error: Out of memory\n");
+            exit(1);
+        }
+        strncpy(*first, str, first_len);
+        (*first)[first_len] = '\0';
+        
+        int second_len = strlen(str) - first_len - 1;
+        *second = (char*)malloc(second_len + 1);
+        if (*second == NULL) {
+            fprintf(stderr, "Error: Out of memory\n");
+            exit(1);
+        }
+        strncpy(*second, semicolon_ptr + 1, second_len);
+        (*second)[second_len] = '\0';
+    }
+}
+
 void writeToBackstore(int pid, char *filename) {
   // Open the file in the current directory
   char filepath[PATH_MAX];
@@ -122,27 +149,37 @@ void writeToBackstore(int pid, char *filename) {
 
   // Copy the contents of the current file to the new file
   char line[MAX_LINE_LENGTH];
-  while (fgets(line, MAX_LINE_LENGTH, file) != NULL) {
-    char *semicolon_ptr = strchr(line, ';');
-    if (semicolon_ptr != NULL) {
-      // Split the line on the semicolon and write both lines to the new file
-      *semicolon_ptr = '\0'; // Replace the semicolon with a null terminator
-      fprintf(new_file, "%s\n", line);
-      fprintf(new_file, "%s", semicolon_ptr + 1); // Move past the semicolon
-    } else {
-      // Write the entire line to the new file
+  char left[MAX_LINE_LENGTH];
+  char right[MAX_LINE_LENGTH];
+  while (fgets(line, MAX_LINE_LENGTH, file) != NULL) 
+  {
+    int hasSemicolon = 0;
+    
+    for (int j = 0; j < strlen(line); j++)
+    {
+      if (line[j] == ';')
+      {
+        hasSemicolon = 1;
+        break;
+      }
+    }
+    if (hasSemicolon == 1)
+    {
+    char* first;
+    char* second;
+    split_on_semicolon(line, &first, &second);
+    fprintf(new_file, "%s\n%s\n", first, second);
+    printf("%s\n%s\n", first, second);
+    free(first);
+    free(second);
+    }
+    else
+    {
       fprintf(new_file, "%s", line);
+      printf("%s\n", line);
     }
   }
-  //printf("Wrote file %s to backing store\n", new_filename);
   // Close the files
   fclose(file);
   fclose(new_file);
-
- //testWriteToBackstore(pid, filename);
 }
-
-
-
-
-

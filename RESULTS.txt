@@ -5,18 +5,55 @@ difference between expected output of ../testcases/assignment3/T_tc10.txt and ac
 difference between expected output of ../testcases/assignment3/T_tc1.txt and actual in ../testcases/assignment3/T_tc1_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc2.txt and actual in ../testcases/assignment3/T_tc2_result.txt:
-10a11,12
+8d7
+< Unknown Command
+11a11,12
 > c
 > c
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc3.txt and actual in ../testcases/assignment3/T_tc3_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc4.txt and actual in ../testcases/assignment3/T_tc4_result.txt:
-40a41
+9c9
+< Unknown Command
+---
+> P10L3
+11c11
+< Unknown Command
+---
+> P11L3
+14d13
+< P10L3
+16c15
+< P11L3
+---
+> P10L5
+17a17
+> P11L5
+41,42c41
+< P10L5
+< P11L5
+---
 > PTenLineSixSet
-44a46
+43a43
+> P11L7
+46c46,47
+< P11L7
+---
 > P10L7
-61a64
+> P11L8
+49d49
+< 	
+51a52
+> echo P10L5
+57d57
+< 	
+59a60
+> echo P11L5
+62c63,64
+< P11L8
+---
+> P11L9
 > P11L10
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc5.txt and actual in ../testcases/assignment3/T_tc5_result.txt:

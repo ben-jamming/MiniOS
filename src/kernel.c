@@ -126,7 +126,7 @@ bool execute_process(QueueNode *node, int quanta)
     
     char *line = NULL;
     PCB *pcb = node->pcb;
-    printf("Executing process %s: line %d of %d\n", pcb->fileName, pcb->PC, pcb->pageTableSize*3);
+    //printf("Executing process %s: line %d of %d\n", pcb->fileName, pcb->PC, pcb->pageTableSize*3);
     int i = 0;
     while (i < quanta)
     {
@@ -202,7 +202,7 @@ bool execute_process(QueueNode *node, int quanta)
         //     }
         // }
         //printf("Executing %s\n", line);
-        printf("    Executing command %d: %s\n", i, line);
+        //printf("    Executing command %d: %s\n", i, line);
         parseInput(line);
         in_background = false;
 
