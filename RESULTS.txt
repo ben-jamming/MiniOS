@@ -5,56 +5,56 @@ difference between expected output of ../testcases/assignment3/T_tc10.txt and ac
 difference between expected output of ../testcases/assignment3/T_tc1.txt and actual in ../testcases/assignment3/T_tc1_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc2.txt and actual in ../testcases/assignment3/T_tc2_result.txt:
+8d7
+< Unknown Command
+11a11,12
+> c
+> c
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc3.txt and actual in ../testcases/assignment3/T_tc3_result.txt:
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc4.txt and actual in ../testcases/assignment3/T_tc4_result.txt:
-20,21d19
-< PTenLineSixSet
-< P11L6
-24a23
-> set a PTenLineTwoSet
-26d24
-< 	echo P10L3
-31a30
-> set w PEightLineTwoSet
-33d31
-< 	echo P11L3
-42a41,42
+9c9
+< Unknown Command
+---
+> P10L3
+11c11
+< Unknown Command
+---
+> P11L3
+14d13
+< P10L3
+16c15
+< P11L3
+---
+> P10L5
+17a17
+> P11L5
+41,42c41
+< P10L5
+< P11L5
+---
 > PTenLineSixSet
-> P11L6
-44d43
-< P11L8
-48c47
-< P11L9
+43a43
+> P11L7
+46c46,47
+< P11L7
 ---
+> P10L7
 > P11L8
-51,53c50,52
-< 	echo P12L4
-< 	echo P12L5
-< 	echo P12L6
----
-> echo P10L3
-> echo $a
+49d49
+< 	
+51a52
 > echo P10L5
-59,61c58,60
-< 	echo $a
-< 	echo P10L5
-< 	set a PTenLineSixSet; echo $a
----
-> echo P11L3
-> echo $w
+57d57
+< 	
+59a60
 > echo P11L5
-63a63
-> P11L9
-70,72c70,72
-< 	echo $w
-< 	echo P11L5
-< 	echo P11L6
+62c63,64
+< P11L8
 ---
-> echo P12L4
-> echo P12L5
-> echo P12L6
+> P11L9
+> P11L10
 ------------------------------------------------------------------------
 difference between expected output of ../testcases/assignment3/T_tc5.txt and actual in ../testcases/assignment3/T_tc5_result.txt:
 ------------------------------------------------------------------------

@@ -314,7 +314,6 @@ void replaceLineInShellMemory(PCB* pcb, char* line) {
   int pageStart = pageNum * PAGE_SIZE;
   int pageLine = lineNum % PAGE_SIZE;
   int lineAddress = frameStart + pageLine;
-  //printf("Replacing line %s with %s", shellmemory[lineAddress].value, line);
   shellmemory[lineAddress].value = strdup(line);
 }
 
@@ -342,15 +341,15 @@ void loadPage(PCB* pcb, int pageNum){
       return;
     }
 
-    char* fileName = pcb->fileName;
-    FILE *file = fopen(pcb->fileName, "r");
+    char* filePath = pcb->fileName;
+    FILE *file = fopen(filePath, "r");
 
     if (file == NULL) {
       printf("Error: Could not open file:\n");
       return;
     }
-
-    loadLinesFromFile(file, fileName, frameNum, pageNum);
+    
+    loadLinesFromFile(file, filePath, frameNum, pageNum);
 
     fclose(file);
 
@@ -390,11 +389,9 @@ char* getNextLine(PCB* pcb){
 int getRandomFrame() {
   //get a random frame out of the set of frames
   int min = 0;
-  //TODO: this will haved to be changed to framestore/page size
   int max = FRAME_COUNT;
   
   int randFrame = rand() % (max - min + 1) + min;
-  // printf("randFrame:%d\n", randFrame);
   return randFrame;
 }
 
@@ -403,10 +400,6 @@ int getLeastRecentFrame() {
 }
 
 int getVictimFrame(){
-	// get the victim frame to evict
-  //TODO: add LRU policy
-  //for now we will return a random number 
-	// return getRandomFrame();
   return getLeastRecentFrame();
 }
 
@@ -437,4 +430,3 @@ void printFrame(int frameNum){
   }
   printf("\n");
 }
-
