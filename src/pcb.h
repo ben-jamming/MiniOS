@@ -24,6 +24,6 @@ typedef struct
 }PCB;
 
 int generatePID();
-PCB * makePCB(char* fileName, int fileSize, int pageSize);
+PCB * makePCB(char* fileName, int pageSize);
 void printPCB(PCB *pcb);
 #endif

@@ -55,8 +55,6 @@ int process_initialize(char *filename)
 {
     FILE *fp;
     int error_code = 0;
-    // int* start = (int*)malloc(sizeof(int));
-    // int* end = (int*)malloc(sizeof(int));
     fp = fopen(filename, "rt");
     if (fp == NULL)
     {
@@ -64,9 +62,7 @@ int process_initialize(char *filename)
         return error_code;
     }
     fclose(fp);
-    int file_size = count_lines(filename);
-    // error_code = load_file(fp, start, end, filename);
-    PCB *newPCB = makePCB(filename, file_size, PAGE_SIZE);
+    PCB *newPCB = makePCB(filename, PAGE_SIZE);
     QueueNode *node = malloc(sizeof(QueueNode));
 
     // Load the first two pages of the file into memory
@@ -80,28 +76,18 @@ int process_initialize(char *filename)
         }
     }
     // Check the pages were loaded
-    // printf("Page 0: %d, Page 1: %d", newPCB->pageTable[0], newPCB->pageTable[1]);
     node->pcb = newPCB;
     lock_queue();
     ready_queue_add_to_tail(node);
     unlock_queue();
     return error_code;
-
-    // error_code = load_file(fp, start, end, filename);
-    // if(error_code != 0){
-    //     fclose(fp);
-    //     return error_code;
-    // }
 }
 
 int shell_process_initialize()
 {
     // Note that "You can assume that the # option will only be used in batch mode."
     // So we know that the input is a file, we can directly load the file into ram
-    //  int* start = (int*)malloc(sizeof(int));
-    //  int* end = (int*)malloc(sizeof(int));
     int error_code = 0;
-    // error_code = load_file(stdin, start, end, "_SHELL");
     if (error_code != 0)
     {
         return error_code;
@@ -109,7 +95,7 @@ int shell_process_initialize()
     // TODO: fix shell
     char *shellFileName = NULL;
     int shellFileSize = 0;
-    PCB *newPCB = makePCB(shellFileName, shellFileSize, PAGE_SIZE);
+    PCB *newPCB = makePCB(shellFileName, PAGE_SIZE);
     newPCB->priority = true;
     QueueNode *node = malloc(sizeof(QueueNode));
     node->pcb = newPCB;
@@ -122,6 +108,8 @@ int shell_process_initialize()
 
 bool execute_process(QueueNode *node, int quanta)
 {
+    
+    
     char *line = NULL;
     PCB *pcb = node->pcb;
     int i = 0;
@@ -137,7 +125,6 @@ bool execute_process(QueueNode *node, int quanta)
         }
         if (pcb->PC >= pcb->fileSize)
         {
-            // parseInput(line);
             terminate_process(node);
             in_background = false;
             return true;
@@ -157,45 +144,7 @@ bool execute_process(QueueNode *node, int quanta)
             // break loop
             break;
         }
-        
-        // Check if there's more than one command in the line
-        // Each command is seperated by a semicolon
-        for (int j = 0; j < strlen(line); j++)
-        {
-            if (line[j] == ';')
-            {
-                // If there is, split the line into two commands
-                // Execute the first command
-                // Then execute the second command
-                char *line1 = malloc(j + 1);
-                char *line2 = malloc(strlen(line) - j);
-                strncpy(line1, line, j);
-                strncpy(line2, line + j + 1, strlen(line) - j);
-                i++;
-                //printf("Executing command %d in line1 %s, a subset of %s", i, line1, line);
-                parseInput(line1);
-                
-                if (i < quanta)
-                {
-                    i++;
-                    //printf("Executing command %d in line2 %s, a subset of %s", i, line2, line);
-                    parseInput(line2);
-                    
-                    pcb->PC++;
-                    in_background = false;
-                    return false;
 
-                }
-                else{
-                    // TODO: replace line with line2 in shell memory
-                    replaceLineInShellMemory(pcb, line2);
-                    in_background = false;
-                    return false;
-                }
-            
-            }
-        }
-        //printf("Executing %s\n", line);
         parseInput(line);
         in_background = false;
 
@@ -203,7 +152,6 @@ bool execute_process(QueueNode *node, int quanta)
         // Increment the program counter
         pcb->PC++;
         i++;
-        //printf("Done executing %s\n", line);
     }
     return false;
 }
